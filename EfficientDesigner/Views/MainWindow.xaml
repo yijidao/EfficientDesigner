@@ -1,0 +1,15 @@
+﻿<hc:Window x:Class="EfficientDesigner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EfficientDesigner"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:view="clr-namespace:EfficientDesigner.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        Style="{StaticResource WindowWin10}">
+    <Grid>
+        <view:DesignView />
+    </Grid>
+</hc:Window>
