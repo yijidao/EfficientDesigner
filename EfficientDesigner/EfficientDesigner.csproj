@@ -67,8 +67,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\IControl.cs" />
+    <Compile Include="Models\ButtonControl.cs" />
     <Compile Include="Models\ControlCategory.cs" />
-    <Compile Include="Models\ControlItem.cs" />
+    <Compile Include="Models\RectangleControl.cs" />
+    <Compile Include="Models\TextBoxControl.cs" />
     <Compile Include="ViewModels\DesignViewModel.cs" />
     <Compile Include="Views\DesignView.xaml.cs">
       <DependentUpon>DesignView.xaml</DependentUpon>

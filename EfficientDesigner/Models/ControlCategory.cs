@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EfficientDesigner.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,12 @@ namespace EfficientDesigner.Models
     {
         public string Title { get; set; }
 
-        public ControlItem[] Items { get; set; }
+        public IControl[] Items { get; set; }
 
         public static ControlCategory GetWPFCategories()
         {
             var result = new ControlCategory { Title = "WPF控件" };
-            result.Items = new Type[] { typeof(TextBlock), typeof(TextBox), typeof(Button), typeof(Ellipse), typeof(Rectangle) }
-                           .Select(x => new ControlItem { ItemType = x })
-                           .ToArray();
+            result.Items = new IControl[] { new ButtonControl(), new RectangleControl(), new TextBoxControl() };
             return result;
         }
 
