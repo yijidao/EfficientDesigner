@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:EfficientDesigner.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:ctl="clr-namespace:EfficientDesigner.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" >
@@ -50,8 +51,10 @@
         </Grid>
 
         <Canvas x:Name="DesignPanel" Grid.Column="1" AllowDrop="True" Drop="Canvas_Drop" Background="Transparent"
-                MouseLeftButtonDown="DesignPanel_MouseLeftButtonDown" MouseMove="DesignPanel_MouseMove" MouseLeftButtonUp="DesignPanel_MouseLeftButtonUp"/>
-        <hc:PropertyGrid Grid.Column="2" Width="150">
+                MouseLeftButtonDown="DesignPanel_MouseLeftButtonDown" MouseMove="DesignPanel_MouseMove" MouseLeftButtonUp="DesignPanel_MouseLeftButtonUp"
+                Loaded="DesignPanel_Loaded"
+                />
+        <hc:PropertyGrid x:Name="ControlPropertyGrid" Grid.Column="2" Width="300">
 
         </hc:PropertyGrid>
     </Grid>

@@ -1,4 +1,5 @@
-﻿using EfficientDesigner.Interfaces;
+﻿using EfficientDesigner.Controls;
+using EfficientDesigner.Interfaces;
 using EfficientDesigner.Models;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace EfficientDesigner.Views
         public DesignView()
         {
             InitializeComponent();
+
         }
 
         private void TreeView_MouseMove(object sender, MouseEventArgs e)
@@ -46,15 +48,19 @@ namespace EfficientDesigner.Views
 
                 if (element != null)
                 {
+
                     var p = e.GetPosition(DesignPanel);
                     Canvas.SetTop(element, p.Y);
                     Canvas.SetLeft(element, p.X);
 
-                    //var layer = AdornerLayer.GetAdornerLayer(element);
-                    //var layer = new AdornerLayer();
-                    //layer.Add(new ControlAdorner(element));
-
                     DesignPanel.Children.Add(element);
+
+                    var layout = AdornerLayer.GetAdornerLayer(element);
+                    if (layout != null)
+                    {
+                        layout.Add(new ControlAdorner(element));
+                    }
+
                     e.Effects = DragDropEffects.Copy;
                 }
             }
@@ -63,72 +69,83 @@ namespace EfficientDesigner.Views
 
         public bool IsDrag { get; set; }
 
-        public FrameworkElement SelectedElement { get; set; }
+        //public FrameworkElement SelectedElement { get; set; }
 
         public Point ClickPosition { get; set; }
 
         private void DesignPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var p = e.GetPosition(DesignPanel);
-            var hitResult = VisualTreeHelper.HitTest(DesignPanel, p);
-            if (hitResult.VisualHit != null)
-            {
-                if (DesignPanel.Children.Contains(hitResult.VisualHit as FrameworkElement))
-                {
-                    SelectedElement = hitResult.VisualHit as FrameworkElement;
-                    ClickPosition = e.GetPosition(SelectedElement);
-                    IsDrag = true;
-                }
-            }
-            else
-            {
-                SelectedElement = null;
-            }
+            //var p = e.GetPosition(DesignPanel);
+            //var hitResult = VisualTreeHelper.HitTest(DesignPanel, p);
+            //if (hitResult.VisualHit != null)
+            //{
+            //    if (DesignPanel.Children.Contains(hitResult.VisualHit as FrameworkElement))
+            //    {
+            //        SelectedElement = hitResult.VisualHit as FrameworkElement;
+            //        ClickPosition = e.GetPosition(SelectedElement);
+            //        IsDrag = true;
+            //    }
+            //}
+            //else
+            //{
+            //    SelectedElement = null;
+            //}
         }
 
         private void DesignPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            if (IsDrag && SelectedElement != null)
-            {
-                var p = e.GetPosition(DesignPanel);
-                var transform = SelectedElement.RenderTransform as TranslateTransform;
-                if (transform == null)
-                {
-                    transform = new TranslateTransform();
-                    SelectedElement.RenderTransform = transform;
-                }
-                transform.X = p.X - ClickPosition.X;
-                transform.Y = p.Y - ClickPosition.Y;
-            }
+            //if (IsDrag && SelectedElement != null)
+            //{
+            //    var p = e.GetPosition(DesignPanel);
+            //    var transform = SelectedElement.RenderTransform as TranslateTransform;
+            //    if (transform == null)
+            //    {
+            //        transform = new TranslateTransform();
+            //        SelectedElement.RenderTransform = transform;
+            //    }
+            //    transform.X = p.X - ClickPosition.X;
+            //    transform.Y = p.Y - ClickPosition.Y;
+            //}
         }
 
         private void DesignPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             IsDrag = false;
         }
-    }
 
-    public class ControlAdorner : Adorner
-    {
-        public ControlAdorner(UIElement adornedElement) : base(adornedElement)
+        private void DesignPanel_Selected(object sender, RoutedEventArgs e)
         {
+            if (SelectedElement is ControlAdorner oldElement)
+            {
+                oldElement.IsSelected = false;
+            }
+
+            if (e.Source is ControlAdorner  newElement)
+            {
+                newElement.IsSelected = true;
+                SelectedElement = newElement;
+            }
         }
 
-        protected override void OnRender(DrawingContext drawingContext)
+        private FrameworkElement _SelectedElement;
+
+        public FrameworkElement SelectedElement
         {
-            //base.OnRender(drawingContext);
-            var size = this.AdornedElement.DesiredSize;
-            var rect = new Rect(0, 0, size.Width, size.Height);
-            drawingContext.DrawRectangle(Brushes.Transparent, BorderPen, rect);
-            drawingContext.DrawRectangle(Brushes.White, BlockPen, new Rect(-2, -2, 2, 2));
-            drawingContext.DrawRectangle(Brushes.White, BlockPen, new Rect(size.Width, size.Height, 2, 2));
-            drawingContext.DrawRectangle(Brushes.White, BlockPen, new Rect(-2, size.Height, 2, 2));
-            drawingContext.DrawRectangle(Brushes.White, BlockPen, new Rect(size.Width, -2, 2, 2));
+            get { return _SelectedElement; }
+            set
+            {
+                _SelectedElement?.InvalidateVisual();
+                value?.InvalidateVisual();
+                _SelectedElement = value;
+                //ControlPropertyGrid.SelectedObject = value;
+            }
         }
 
-        public Pen BorderPen { get; set; } = new Pen(Brushes.Black, 0.5);
-
-        public Pen BlockPen { get; set; } = new Pen(Brushes.SkyBlue, 1);
+        private void DesignPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+            var layout = AdornerLayer.GetAdornerLayer(DesignPanel);
+            layout.AddHandler(ControlAdorner.SelectedEvent, new RoutedEventHandler(DesignPanel_Selected));
+        }
     }
 
 }
