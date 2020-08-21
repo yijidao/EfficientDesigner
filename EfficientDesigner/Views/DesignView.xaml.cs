@@ -58,7 +58,7 @@ namespace EfficientDesigner.Views
                     var layout = AdornerLayer.GetAdornerLayer(element);
                     if (layout != null)
                     {
-                        layout.Add(new ControlAdorner(element));
+                        layout.Add(new ControlAdorner(element, DesignPanel));
                     }
 
                     e.Effects = DragDropEffects.Copy;

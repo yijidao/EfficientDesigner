@@ -7,7 +7,9 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:view="clr-namespace:EfficientDesigner.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Top="100"
+        Left="100"
+        Title="MainWindow" Height="900" Width="1600"
         Style="{StaticResource WindowWin10}">
     <Grid>
         <view:DesignView />
