@@ -67,51 +67,7 @@ namespace EfficientDesigner.Views
             e.Handled = true;
         }
 
-        public bool IsDrag { get; set; }
 
-        //public FrameworkElement SelectedElement { get; set; }
-
-        public Point ClickPosition { get; set; }
-
-        private void DesignPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //var p = e.GetPosition(DesignPanel);
-            //var hitResult = VisualTreeHelper.HitTest(DesignPanel, p);
-            //if (hitResult.VisualHit != null)
-            //{
-            //    if (DesignPanel.Children.Contains(hitResult.VisualHit as FrameworkElement))
-            //    {
-            //        SelectedElement = hitResult.VisualHit as FrameworkElement;
-            //        ClickPosition = e.GetPosition(SelectedElement);
-            //        IsDrag = true;
-            //    }
-            //}
-            //else
-            //{
-            //    SelectedElement = null;
-            //}
-        }
-
-        private void DesignPanel_MouseMove(object sender, MouseEventArgs e)
-        {
-            //if (IsDrag && SelectedElement != null)
-            //{
-            //    var p = e.GetPosition(DesignPanel);
-            //    var transform = SelectedElement.RenderTransform as TranslateTransform;
-            //    if (transform == null)
-            //    {
-            //        transform = new TranslateTransform();
-            //        SelectedElement.RenderTransform = transform;
-            //    }
-            //    transform.X = p.X - ClickPosition.X;
-            //    transform.Y = p.Y - ClickPosition.Y;
-            //}
-        }
-
-        private void DesignPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            IsDrag = false;
-        }
 
         private void DesignPanel_Selected(object sender, RoutedEventArgs e)
         {
@@ -120,7 +76,7 @@ namespace EfficientDesigner.Views
                 oldElement.IsSelected = false;
             }
 
-            if (e.Source is ControlAdorner  newElement)
+            if (e.Source is ControlAdorner newElement)
             {
                 newElement.IsSelected = true;
                 SelectedElement = newElement;
@@ -145,7 +101,18 @@ namespace EfficientDesigner.Views
         {
             var layout = AdornerLayer.GetAdornerLayer(DesignPanel);
             layout.AddHandler(ControlAdorner.SelectedEvent, new RoutedEventHandler(DesignPanel_Selected));
+            //Keyboard.Focus(DesignPanel);
         }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.Back || e.Key == Key.Delete) && SelectedElement != null && SelectedElement is Adorner adorner)
+            {
+                DesignPanel.Children.Remove(adorner.AdornedElement);
+                SelectedElement = null;
+            }
+        }
+
     }
 
 }

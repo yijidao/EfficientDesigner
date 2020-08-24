@@ -10,7 +10,8 @@
              xmlns:ctl="clr-namespace:EfficientDesigner.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" >
+             d:DesignHeight="450" d:DesignWidth="800"
+             KeyDown="UserControl_KeyDown" >
     <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
@@ -29,12 +30,12 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Grid MinWidth="200">
+        <Grid MinWidth="200" >
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TreeView x:Name="ToolBoxView" ItemsSource="{Binding ControlCategories}" MouseMove="TreeView_MouseMove">
+            <TreeView  Margin="5" x:Name="ToolBoxView" ItemsSource="{Binding ControlCategories}" MouseMove="TreeView_MouseMove">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Items}">
                         <TextBlock Text="{Binding Title}" />
@@ -46,16 +47,16 @@
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
-            <TreeView Grid.Row="1" MinHeight="200">
+            <TreeView Margin="5" Grid.Row="1" MinHeight="200">
             </TreeView>
+            <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="Gray" Height="2" Width="200" />
         </Grid>
-
         <Canvas x:Name="DesignPanel" Grid.Column="1" AllowDrop="True" Drop="Canvas_Drop" Background="Transparent"
-                MouseLeftButtonDown="DesignPanel_MouseLeftButtonDown" MouseMove="DesignPanel_MouseMove" MouseLeftButtonUp="DesignPanel_MouseLeftButtonUp"
-                Loaded="DesignPanel_Loaded"
-                />
-        <hc:PropertyGrid x:Name="ControlPropertyGrid" Grid.Column="2" Width="300">
+                Loaded="DesignPanel_Loaded" />
+        <GridSplitter Grid.Column="1"   Background="Gray" Height="100" Width="2" HorizontalAlignment="Left" />
+        <hc:PropertyGrid Margin="5" x:Name="ControlPropertyGrid" Grid.Column="2" >
 
         </hc:PropertyGrid>
+        <GridSplitter Grid.Column="2"   Background="Gray" Height="100" Width="2" HorizontalAlignment="Left" />
     </Grid>
 </UserControl>
