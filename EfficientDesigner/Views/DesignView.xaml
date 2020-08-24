@@ -52,7 +52,9 @@
             <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="Gray" Height="2" Width="200" />
         </Grid>
         <Canvas x:Name="DesignPanel" Grid.Column="1" AllowDrop="True" Drop="Canvas_Drop" Background="Transparent"
-                Loaded="DesignPanel_Loaded" />
+                Loaded="DesignPanel_Loaded" >
+
+        </Canvas>
         <GridSplitter Grid.Column="1"   Background="Gray" Height="100" Width="2" HorizontalAlignment="Left" />
         <hc:PropertyGrid Margin="5" x:Name="ControlPropertyGrid" Grid.Column="2" >
 

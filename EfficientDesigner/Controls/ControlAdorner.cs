@@ -168,10 +168,31 @@ namespace EfficientDesigner.Controls
             remove { RemoveHandler(SelectedEvent, value); }
         }
 
-        void RaiseSelectedEvent()
+        public void RaiseSelectedEvent()
         {
             RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent, this);
             RaiseEvent(newEventArgs);
+        }
+
+        public static readonly RoutedEvent MoveEvent = EventManager.RegisterRoutedEvent(
+    "Move", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ControlAdorner));
+
+        // Provide CLR accessors for the event
+        public event RoutedEventHandler Move
+        {
+            add { AddHandler(MoveEvent, value); }
+            remove { RemoveHandler(MoveEvent, value); }
+        }
+
+        /// <summary>
+        /// 移动时触发的事件，用于在画板中更新垂直线和水平线
+        /// </summary>
+        /// <param name="point1">canvas.left和canvans.top</param>
+        /// <param name="point2">(canvas.left + width/2) 和 (canvas.top + height/2)</param>
+        public void RaiseMoveEvent(Point point1, Point point2)
+        {
+            var args = new RoutedEventArgs(MoveEvent, new Point[] { point1, point2 });
+            RaiseEvent(args);
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -179,7 +200,6 @@ namespace EfficientDesigner.Controls
             //base.OnRender(drawingContext);
             if (IsSelected)
             {
-
                 MousePoint = Mouse.GetPosition(AdornedElement);
 
                 LeftBottom.Visibility = Visibility.Visible;
@@ -196,7 +216,6 @@ namespace EfficientDesigner.Controls
                 RightTop.Visibility = Visibility.Collapsed;
                 drawingContext.DrawRectangle(Brushes.Transparent, null, new Rect(-1, -1, AdornedElement.DesiredSize.Width + 1, AdornedElement.DesiredSize.Height + 1));
             }
-
         }
 
         public static Pen BorderPen { get; set; } = new Pen(Brushes.DeepSkyBlue, 1);
@@ -276,6 +295,8 @@ namespace EfficientDesigner.Controls
 
                 Canvas.SetTop(AdornedElement, y);
                 Canvas.SetLeft(AdornedElement, x);
+
+                RaiseMoveEvent(new Point(x, y), new Point(x + ChildElement.Width/ 2, y + ChildElement.Height / 2));
             }
         }
 
