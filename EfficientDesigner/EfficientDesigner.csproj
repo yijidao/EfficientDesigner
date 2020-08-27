@@ -55,6 +55,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Themes\generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Styles\PropertyPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DesignView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -68,6 +80,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\ControlAdorner.cs" />
+    <Compile Include="Controls\ControlBase.cs" />
+    <Compile Include="Controls\PropertyItem.cs" />
+    <Compile Include="Controls\PropertyPanel.cs" />
+    <Compile Include="Converters\Converter.cs" />
     <Compile Include="Interfaces\IControl.cs" />
     <Compile Include="Controls\ButtonControl.cs" />
     <Compile Include="Models\ControlCategory.cs" />
@@ -122,5 +138,6 @@
       <Name>HandyControl_Net_GE45</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

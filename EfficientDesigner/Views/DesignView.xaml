@@ -6,6 +6,7 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:local="clr-namespace:EfficientDesigner.Views"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:controls="clr-namespace:EfficientDesigner.Controls"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:ctl="clr-namespace:EfficientDesigner.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -49,16 +50,32 @@
             </TreeView>
             <TreeView Margin="5" Grid.Row="1" MinHeight="200">
             </TreeView>
-            <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="Gray" Height="2" Width="200" />
+            <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="LightGray" Height="2" Width="100" />
         </Grid>
-        <Canvas x:Name="DesignPanel" Grid.Column="1" AllowDrop="True" Drop="Canvas_Drop" Background="Transparent"
+        <Border Margin="0,5" Grid.Column="1" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
+            <Canvas x:Name="DesignPanel"  AllowDrop="True" Drop="Canvas_Drop" Background="Transparent" 
                 Loaded="DesignPanel_Loaded" >
 
-        </Canvas>
-        <GridSplitter Grid.Column="1"   Background="Gray" Height="100" Width="2" HorizontalAlignment="Left" />
-        <hc:PropertyGrid Margin="5" x:Name="ControlPropertyGrid" Grid.Column="2" >
+            </Canvas>
+        </Border>
+        <GridSplitter Grid.Column="1" Margin="-3,0,0,0" Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
+        <!--<Button Background="{x:Null}" BorderBrush="{x:Null}"  />-->
+        <!--<hc:PropertyGrid Visibility="Collapsed" Margin="5" x:Name="ControlPropertyGrid" Grid.Column="2" >
 
-        </hc:PropertyGrid>
-        <GridSplitter Grid.Column="2"   Background="Gray" Height="100" Width="2" HorizontalAlignment="Left" />
+        </hc:PropertyGrid>-->
+
+        <!--<GroupBox Grid.Column="2" Header="GroupBox" Style="{StaticResource GroupBoxOriginal}" hc:TitleElement.TitlePlacement="Left">
+            <StackPanel>
+                <TextBlock >666</TextBlock>
+                <TextBlock >666</TextBlock>
+                <TextBlock >666</TextBlock>
+                <TextBlock >666</TextBlock>
+                <TextBlock >666</TextBlock>
+            </StackPanel>
+        </GroupBox>-->
+
+        <controls:PropertyPanel Grid.Column="2"  x:Name="PropertyPanel1" Margin="5" Padding="5" Width="350" />
+
+        <GridSplitter Visibility="Collapsed" Grid.Column="2"   Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
     </Grid>
 </UserControl>

@@ -1,0 +1,54 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:EfficientDesigner.Themes.Styles"
+                    xmlns:ctl="clr-namespace:EfficientDesigner.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type ctl:PropertyPanel}" BasedOn="{StaticResource BaseStyle}">
+        <!--<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrush}}"></Setter>-->
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ctl:PropertyPanel">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <ScrollViewer>
+                                <ItemsControl x:Name="PART_ItemsControl" Focusable="False">
+                                    <ItemsControl.ItemsPanel>       
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemContainerStyle>
+                                        <Style TargetType="ctl:PropertyItem" >
+                                            <Setter Property="Focusable" Value="False" />
+                                            <!--<Setter Property="Margin" Value="0,0,0,6" />-->
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ctl:PropertyItem">
+                                                        <DockPanel>
+                                                            <TextBlock Text="{TemplateBinding DisplayName}" Focusable="False" DockPanel.Dock="Left" Width="{Binding Path=(ctl:PropertyItem.DisplayNameWidth), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                            <ContentPresenter MinWidth="120"  ContentSource="EditorElement" DockPanel.Dock="Right"/>
+                                                        </DockPanel>
+
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ItemsControl.ItemContainerStyle>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -72,15 +72,13 @@ namespace EfficientDesigner.Views
 
         private void DesignPanel_Selected(object sender, RoutedEventArgs e)
         {
-            if (SelectedElement is ControlAdorner oldElement)
-            {
-                oldElement.IsSelected = false;
-            }
+            if (SelectedAdorner != null)
+                SelectedAdorner.IsSelected = false;
 
             if (e.Source is ControlAdorner newElement)
             {
                 newElement.IsSelected = true;
-                SelectedElement = newElement;
+                SelectedAdorner = newElement;
             }
         }
 
@@ -107,7 +105,7 @@ namespace EfficientDesigner.Views
             CanvasTopText.Text = ps[0].Y.ToString("0.##");
             CanvasLeftText.Text = ps[0].X.ToString("0.##");
 
-            if(ps[0].Y < 30)
+            if (ps[0].Y < 30)
             {
                 CanvasTopText.Visibility = Visibility.Collapsed;
             }
@@ -116,7 +114,7 @@ namespace EfficientDesigner.Views
                 CanvasTopText.Visibility = Visibility.Visible;
             }
 
-            if(ps[0].X < 30)
+            if (ps[0].X < 30)
             {
                 CanvasLeftText.Visibility = Visibility.Collapsed;
             }
@@ -127,19 +125,21 @@ namespace EfficientDesigner.Views
 
         }
 
-        private FrameworkElement _SelectedElement;
+        private ControlAdorner _SelectedAdorner;
 
-        public FrameworkElement SelectedElement
+        private ControlAdorner SelectedAdorner
         {
-            get { return _SelectedElement; }
+            get { return _SelectedAdorner; }
             set
             {
-                _SelectedElement?.InvalidateVisual();
+                _SelectedAdorner?.InvalidateVisual();
                 value?.InvalidateVisual();
-                _SelectedElement = value;
+                _SelectedAdorner = value;
                 //ControlPropertyGrid.SelectedObject = value;
+                PropertyPanel1.SelectedElement = value?.AdornedElement as FrameworkElement;
             }
         }
+
 
 
         public Line VerticalLine { get; set; } = new Line { Stroke = Brushes.Gray, StrokeThickness = 1, Y1 = 0 };
@@ -172,10 +172,10 @@ namespace EfficientDesigner.Views
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((e.Key == Key.Back || e.Key == Key.Delete) && SelectedElement != null && SelectedElement is Adorner adorner)
+            if ((e.Key == Key.Back || e.Key == Key.Delete) && SelectedAdorner != null )
             {
-                DesignPanel.Children.Remove(adorner.AdornedElement);
-                SelectedElement = null;
+                DesignPanel.Children.Remove(SelectedAdorner.AdornedElement);
+                SelectedAdorner = null;
             }
         }
 

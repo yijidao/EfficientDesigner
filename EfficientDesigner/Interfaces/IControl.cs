@@ -12,5 +12,7 @@ namespace EfficientDesigner.Interfaces
         string Title { get; }
 
         FrameworkElement GetElement();
+
+        
     }
 }
