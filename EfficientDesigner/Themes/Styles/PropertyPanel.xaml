@@ -37,7 +37,6 @@
                                                             <TextBlock Text="{TemplateBinding DisplayName}" Focusable="False" DockPanel.Dock="Left" Width="{Binding Path=(ctl:PropertyItem.DisplayNameWidth), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                             <ContentPresenter MinWidth="120"  ContentSource="EditorElement" DockPanel.Dock="Right"/>
                                                         </DockPanel>
-
                                                     </ControlTemplate>
                                                 </Setter.Value>
                                             </Setter>

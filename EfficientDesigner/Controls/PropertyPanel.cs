@@ -62,6 +62,11 @@ namespace EfficientDesigner.Controls
         private PropertyItem GetPropertyItem(FieldInfo fieldInfo)
         {
             var dp = fieldInfo.GetValue(SelectedElement) as DependencyProperty;
+            var textBox = new TextBox();
+            var binding = new Binding(nameof(TextBox.Text));
+            binding.Source = textBox;
+            binding.Mode = BindingMode.OneWayToSource;
+            BindingOperations.SetBinding(SelectedElement, dp, binding);
             return new PropertyItem { DisplayName = dp.Name, EditorElement = new TextBox() };
         }
 
@@ -85,7 +90,6 @@ namespace EfficientDesigner.Controls
 
             ElementItemsControl = GetTemplateChild(ElementItemsControlName) as ItemsControl;
             UpdateItems(SelectedElement);
-
         }
 
         private ItemsControl ElementItemsControl { get; set; }

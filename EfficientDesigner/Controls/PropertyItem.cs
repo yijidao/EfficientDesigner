@@ -29,9 +29,6 @@ namespace EfficientDesigner.Controls
         public static readonly DependencyProperty EditorElementProperty =
             DependencyProperty.Register("EditorElement", typeof(FrameworkElement), typeof(PropertyItem), new PropertyMetadata(default(string)));
 
-
-
-
         public static double GetDisplayNameWidth(DependencyObject obj)
         {
             return (double)obj.GetValue(DisplayNameWidthProperty);
