@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandyControl_Net_GE45", "..
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HandyControl_Shared", "..\HandyControl\src\Shared\HandyControl_Shared\HandyControl_Shared.shproj", "{AAC11083-FACA-405D-9197-5C1212D65656}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientDesigner_Control", "EfficientDesigner_Control\EfficientDesigner_Control.csproj", "{9A54DC73-515E-484C-9EBE-0FE6AE886904}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\HandyControl\src\Shared\HandyControl_Shared\HandyControl_Shared.projitems*{aac11083-faca-405d-9197-5c1212d65656}*SharedItemsImports = 13
@@ -27,6 +29,10 @@ Global
 		{B3805B72-C86C-459C-8A43-D24C6521E295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3805B72-C86C-459C-8A43-D24C6521E295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3805B72-C86C-459C-8A43-D24C6521E295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A54DC73-515E-484C-9EBE-0FE6AE886904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A54DC73-515E-484C-9EBE-0FE6AE886904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A54DC73-515E-484C-9EBE-0FE6AE886904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A54DC73-515E-484C-9EBE-0FE6AE886904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

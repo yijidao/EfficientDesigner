@@ -1,4 +1,5 @@
-﻿using EfficientDesigner.Controls;
+﻿using CommonServiceLocator;
+using EfficientDesigner.Controls;
 using EfficientDesigner.Interfaces;
 using EfficientDesigner.Models;
 using HandyControl.Tools;
@@ -135,6 +136,7 @@ namespace EfficientDesigner.Views
                 _SelectedAdorner?.InvalidateVisual();
                 value?.InvalidateVisual();
                 _SelectedAdorner = value;
+
                 //ControlPropertyGrid.SelectedObject = value;
                 PropertyPanel1.SelectedElement = value?.AdornedElement as FrameworkElement;
             }
