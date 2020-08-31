@@ -180,7 +180,5 @@ namespace EfficientDesigner.Views
                 SelectedAdorner = null;
             }
         }
-
     }
-
 }
