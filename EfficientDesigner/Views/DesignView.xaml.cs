@@ -1,7 +1,7 @@
 ﻿using CommonServiceLocator;
-using EfficientDesigner.Controls;
-using EfficientDesigner.Interfaces;
 using EfficientDesigner.Models;
+using EfficientDesigner_Control.Controls;
+using EfficientDesigner_Control.Interfaces;
 using HandyControl.Tools;
 using System;
 using System.Collections.Generic;

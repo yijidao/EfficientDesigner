@@ -13,7 +13,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Threading;
 
-namespace EfficientDesigner.Controls
+namespace EfficientDesigner_Control.Controls
 {
     public class PropertyPanel : Control
     {
@@ -45,7 +45,6 @@ namespace EfficientDesigner.Controls
         private void UpdateItems(UIElement selectedElement)
         {
             if (selectedElement == null || ElementItemsControl == null) return;
-
 
             var watch = Stopwatch.StartNew();
 

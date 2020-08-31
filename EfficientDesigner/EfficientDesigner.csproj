@@ -55,18 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Themes\generic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Styles\PropertyPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Styles\Styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\DesignView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -79,16 +67,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\ControlAdorner.cs" />
-    <Compile Include="Controls\ControlBase.cs" />
-    <Compile Include="Controls\PropertyItem.cs" />
-    <Compile Include="Controls\PropertyPanel.cs" />
-    <Compile Include="Converters\Converter.cs" />
-    <Compile Include="Interfaces\IControl.cs" />
-    <Compile Include="Controls\ButtonControl.cs" />
     <Compile Include="Models\ControlCategory.cs" />
-    <Compile Include="Controls\RectangleControl.cs" />
-    <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="ViewModels\DesignViewModel.cs" />
     <Compile Include="Views\DesignView.xaml.cs">
       <DependentUpon>DesignView.xaml</DependentUpon>
@@ -136,6 +115,10 @@
     <ProjectReference Include="..\..\HandyControl\src\Net_GE45\HandyControl_Net_GE45\HandyControl_Net_GE45.csproj">
       <Project>{b3805b72-c86c-459c-8a43-d24c6521e295}</Project>
       <Name>HandyControl_Net_GE45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EfficientDesigner_Control\EfficientDesigner_Control.csproj">
+      <Project>{9a54dc73-515e-484c-9ebe-0fe6ae886904}</Project>
+      <Name>EfficientDesigner_Control</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace EfficientDesigner.Controls
+namespace EfficientDesigner_Control.Controls
 {
     public class PropertyItem : Control
     {

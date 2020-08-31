@@ -31,26 +31,51 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ButtonControl.cs" />
+    <Compile Include="Controls\ControlAdorner.cs" />
+    <Compile Include="Controls\ControlBase.cs" />
+    <Compile Include="Controls\PropertyItem.cs" />
+    <Compile Include="Controls\PropertyPanel.cs" />
+    <Compile Include="Controls\RectangleControl.cs" />
+    <Compile Include="Controls\TextBoxControl.cs" />
+    <Compile Include="Converters\Converter.cs" />
+    <Compile Include="Interfaces\IControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="Converters\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Models\" />
     <Folder Include="ServiceImplements\" />
     <Folder Include="Services\" />
-    <Folder Include="Themes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Styles\PropertyPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\HandyControl\src\Net_GE45\HandyControl_Net_GE45\HandyControl_Net_GE45.csproj">
+      <Project>{b3805b72-c86c-459c-8a43-d24c6521e295}</Project>
+      <Name>HandyControl_Net_GE45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

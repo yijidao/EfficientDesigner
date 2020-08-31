@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace EfficientDesigner.Converters
+namespace EfficientDesigner_Control.Converters
 {
     public class CollapsedWhenFalse : IValueConverter
     {

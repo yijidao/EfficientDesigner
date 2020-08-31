@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace EfficientDesigner.Interfaces
+namespace EfficientDesigner_Control.Interfaces
 {
     public interface IControl
     {
