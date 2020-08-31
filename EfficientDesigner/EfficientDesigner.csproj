@@ -58,6 +58,10 @@
     <Compile Include="Views\RibbonView.xaml.cs">
       <DependentUpon>RibbonView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DesignCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DesignView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
