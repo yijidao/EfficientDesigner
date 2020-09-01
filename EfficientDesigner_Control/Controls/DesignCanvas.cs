@@ -3,6 +3,7 @@ using EfficientDesigner_Control.Interfaces;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,9 +34,26 @@ namespace EfficientDesigner_Control.Controls
             set { SetValue(SaveCommandProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// 保存画布内容中的子元素
+        /// </summary>
         public static readonly DependencyProperty SaveCommandProperty =
             DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
+
+
+
+
+        public ICommand LoadCommand
+        {
+            get { return (ICommand)GetValue(LoadCommandProperty); }
+            set { SetValue(LoadCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// 加载子元素到画布中
+        /// </summary>
+        public static readonly DependencyProperty LoadCommandProperty =
+            DependencyProperty.Register("LoadCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
 
         public DesignCanvas()
@@ -43,6 +61,7 @@ namespace EfficientDesigner_Control.Controls
             AllowDrop = true;
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignCanvas), new FrameworkPropertyMetadata(typeof(DesignCanvas)));
             SaveCommand = new DelegateCommand(Save);
+            LoadCommand = new DelegateCommand(Load);
         }
 
         public bool AddedHandler { get; set; }
@@ -67,25 +86,31 @@ namespace EfficientDesigner_Control.Controls
                 var control = e.Data.GetData("control") as IControl;
                 var element = control?.GetElement();
 
-                if (element != null)
-                {
+                var p = e.GetPosition(DesignPanel);
+                Canvas.SetTop(element, p.Y);
+                Canvas.SetLeft(element, p.X);
 
-                    var p = e.GetPosition(DesignPanel);
-                    Canvas.SetTop(element, p.Y);
-                    Canvas.SetLeft(element, p.X);
-
-                    DesignPanel.Children.Add(element);
-
-                    var layout = AdornerLayer.GetAdornerLayer(element);
-                    if (layout != null)
-                    {
-                        layout.Add(new ControlAdorner(element, DesignPanel));
-                    }
-
-                    e.Effects = DragDropEffects.Copy;
-                }
+                AddChild(element);
+                e.Effects = DragDropEffects.Copy;
             }
             e.Handled = true;
+        }
+
+        /// <summary>
+        /// 增加子元素到画布中
+        /// </summary>
+        /// <param name="child"></param>
+        private void AddChild(UIElement child)
+        {
+            if (child == null) return;
+
+            DesignPanel.Children.Add(child);
+
+            var layout = AdornerLayer.GetAdornerLayer(child);
+            if (layout != null)
+            {
+                layout.Add(new ControlAdorner(child, DesignPanel));
+            }
         }
 
         public Canvas DesignPanel { get; set; }
@@ -165,6 +190,7 @@ namespace EfficientDesigner_Control.Controls
             Canvas.SetTop(LeftText, ps[1].Y - 10);
             Canvas.SetLeft(LeftText, ps[0].X / 2);
 
+
             TopText.Text = ps[0].Y.ToString("0.##");
             LeftText.Text = ps[0].X.ToString("0.##");
 
@@ -196,13 +222,39 @@ namespace EfficientDesigner_Control.Controls
 
         public void Save()
         {
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "(*.ed)|*.ed";
-            if (dialog.ShowDialog() == true)
+            if (String.IsNullOrWhiteSpace(FileName))
             {
-                File.WriteAllText(dialog.FileName, XamlWriter.Save(DesignPanel));
+                var dialog = new SaveFileDialog();
+                dialog.Filter = "(*.ed)|*.ed";
+                if (dialog.ShowDialog() == true)
+                {
+                    SaveChild(dialog.FileName);
+                    FileName = dialog.FileName;
+                }
+            }
+            else
+            {
+                SaveChild(FileName);
             }
         }
+
+        private void SaveChild(string fileName)
+        {
+            DesignPanel.Children.Remove(HLine);
+            DesignPanel.Children.Remove(VLine);
+            DesignPanel.Children.Remove(TopText);
+            DesignPanel.Children.Remove(LeftText);
+
+            File.WriteAllText(fileName, XamlWriter.Save(DesignPanel));
+
+            DesignPanel.Children.Add(HLine);
+            DesignPanel.Children.Add(VLine);
+            DesignPanel.Children.Add(TopText);
+            DesignPanel.Children.Add(LeftText);
+        }
+
+
+        private string FileName { get; set; }
 
         public void Load()
         {
@@ -210,7 +262,28 @@ namespace EfficientDesigner_Control.Controls
             dialog.Filter = "(*.ed)|*.ed";
             if (dialog.ShowDialog() == true)
             {
-                XamlReader.Load(dialog.OpenFile());
+                var canvas = XamlReader.Load(dialog.OpenFile()) as Canvas;
+                if (canvas == null) return;
+                SelectedAdorner = null;
+                DesignPanel.Children.Clear();
+
+                DesignPanel.Children.Add(HLine);
+                DesignPanel.Children.Add(VLine);
+                DesignPanel.Children.Add(TopText);
+                DesignPanel.Children.Add(LeftText);
+
+                while (canvas.Children.Count > 0)
+                {
+                    var child = canvas.Children[0];
+                    canvas.Children.Remove(child);
+                    AddChild(child);
+                }
+
+                //foreach (UIElement child in canvas.Children)
+                //{
+                //    AddChild(child);
+                //}
+                FileName = dialog.FileName;
             }
         }
     }
