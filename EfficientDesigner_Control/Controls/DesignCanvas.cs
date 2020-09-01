@@ -1,4 +1,5 @@
-﻿using EfficientDesigner_Control.Interfaces;
+﻿using EfficientDesigner_Control.Commands;
+using EfficientDesigner_Control.Interfaces;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -17,17 +19,30 @@ namespace EfficientDesigner_Control.Controls
 {
     public class DesignCanvas : Control
     {
-
         private const string CanvasName = "PART_Canvas";
         private const string VLineName = "PART_VerticalLine";
         private const string HLineName = "PART_HorizontalLine";
         private const string TopTextName = "PART_TopText";
         private const string LeftTextName = "PART_LeftText";
 
+
+
+        public ICommand SaveCommand
+        {
+            get { return (ICommand)GetValue(SaveCommandProperty); }
+            set { SetValue(SaveCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SaveCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SaveCommandProperty =
+            DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
+
+
         public DesignCanvas()
         {
             AllowDrop = true;
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignCanvas), new FrameworkPropertyMetadata(typeof(DesignCanvas)));
+            SaveCommand = new DelegateCommand(Save);
         }
 
         public bool AddedHandler { get; set; }
@@ -38,7 +53,7 @@ namespace EfficientDesigner_Control.Controls
 
             if (!AddedHandler)
             {
-                AddedHandler = true; 
+                AddedHandler = true;
                 var layout = AdornerLayer.GetAdornerLayer(this);
                 layout.AddHandler(ControlAdorner.SelectedEvent, new RoutedEventHandler(OnDesignPanelSelected));
                 layout.AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChilrenMove));
@@ -182,6 +197,7 @@ namespace EfficientDesigner_Control.Controls
         public void Save()
         {
             var dialog = new SaveFileDialog();
+            dialog.Filter = "(*.ed)|*.ed";
             if (dialog.ShowDialog() == true)
             {
                 File.WriteAllText(dialog.FileName, XamlWriter.Save(DesignPanel));
@@ -190,8 +206,12 @@ namespace EfficientDesigner_Control.Controls
 
         public void Load()
         {
-            var dialog =  new OpenFileDialog();
-            dialog.ShowDialog();
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "(*.ed)|*.ed";
+            if (dialog.ShowDialog() == true)
+            {
+                XamlReader.Load(dialog.OpenFile());
+            }
         }
     }
 }

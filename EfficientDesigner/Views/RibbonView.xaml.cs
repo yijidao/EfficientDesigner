@@ -23,7 +23,19 @@ namespace EfficientDesigner.Views
         public RibbonView()
         {
             InitializeComponent();
-
         }
+
+
+
+        public ICommand SaveCommand
+        {
+            get { return (ICommand)GetValue(SaveCommandProperty); }
+            set { SetValue(SaveCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty SaveCommandProperty =
+            DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
+
+
     }
 }
