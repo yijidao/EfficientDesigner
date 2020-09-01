@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace EfficientDesigner_Control.Controls
@@ -17,7 +18,7 @@ namespace EfficientDesigner_Control.Controls
     public class DesignCanvas : Control
     {
 
-        private const string CanvasName = "CanvasPanel";
+        private const string CanvasName = "PART_Canvas";
         private const string VLineName = "PART_VerticalLine";
         private const string HLineName = "PART_HorizontalLine";
         private const string TopTextName = "PART_TopText";
@@ -27,84 +28,26 @@ namespace EfficientDesigner_Control.Controls
         {
             AllowDrop = true;
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignCanvas), new FrameworkPropertyMetadata(typeof(DesignCanvas)));
-
-            DesignPanelSelectedHandler = new RoutedEventHandler(OnDesignPanelSelected);
-            DesignPanelChildrenMoveHandler = new RoutedEventHandler(DesignPanel_ChilrenMove);
         }
 
-        //private Canvas DesignPanel { get; set; }
+        public bool AddedHandler { get; set; }
 
-        private Canvas _DesignPanel;
-
-        public Canvas DesignPanel
+        protected override void OnRender(DrawingContext drawingContext)
         {
-            get { return _DesignPanel; }
-            set
+            base.OnRender(drawingContext);
+
+            if (!AddedHandler)
             {
-
-                if (_DesignPanel != null)
-                {
-                    _DesignPanel.Drop -= OnDesignPanelDrop;
-                    _DesignPanel.RemoveHandler(ControlAdorner.SelectedEvent, DesignPanelSelectedHandler);
-                    _DesignPanel.RemoveHandler(ControlAdorner.MoveEvent, DesignPanelChildrenMoveHandler);
-                }
-
-                _DesignPanel = value;
-
-                if (_DesignPanel != null)
-                {
-                    _DesignPanel.Drop += OnDesignPanelDrop;
-                    _DesignPanel.AddHandler(ControlAdorner.SelectedEvent, DesignPanelSelectedHandler);
-                    _DesignPanel.AddHandler(ControlAdorner.MoveEvent, DesignPanelChildrenMoveHandler);
-                    _DesignPanel.Children.Add(HLine);
-                    _DesignPanel.Children.Add(VLine);
-                    _DesignPanel.Children.Add(TopText);
-                    _DesignPanel.Children.Add(LeftText);
-                }
+                AddedHandler = true; 
+                var layout = AdornerLayer.GetAdornerLayer(this);
+                layout.AddHandler(ControlAdorner.SelectedEvent, new RoutedEventHandler(OnDesignPanelSelected));
+                layout.AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChilrenMove));
             }
         }
 
-
-        private Line HLine { get; set; }
-        private Line VLine { get; set; }
-        private TextBlock TopText { get; set; }
-        private TextBlock LeftText { get; set; }
-
-        private ControlAdorner _SelectedAdorner;
-
-        private ControlAdorner SelectedAdorner
+        protected override void OnDrop(DragEventArgs e)
         {
-            get { return _SelectedAdorner; }
-            set
-            {
-                _SelectedAdorner?.InvalidateVisual();
-                value?.InvalidateVisual();
-                _SelectedAdorner = value;
-
-                //ControlPropertyGrid.SelectedObject = value;
-                //PropertyPanel1.SelectedElement = value?.AdornedElement as FrameworkElement;
-            }
-        }
-
-        private RoutedEventHandler DesignPanelSelectedHandler { get; set; }
-
-        private RoutedEventHandler DesignPanelChildrenMoveHandler { get; set; }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            HLine = GetTemplateChild(HLineName) as Line;
-            VLine = GetTemplateChild(VLineName) as Line;
-            TopText = GetTemplateChild(TopTextName) as TextBlock;
-            LeftText = GetTemplateChild(LeftTextName) as TextBlock;
-
-            DesignPanel = GetTemplateChild(CanvasName) as Canvas;
-        }
-
-        private void OnDesignPanelDrop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent("control"))
+            if (e.Data.GetDataPresent("control") && DesignPanel != null)
             {
                 var control = e.Data.GetData("control") as IControl;
                 var element = control?.GetElement();
@@ -129,6 +72,51 @@ namespace EfficientDesigner_Control.Controls
             }
             e.Handled = true;
         }
+
+        public Canvas DesignPanel { get; set; }
+        private Line HLine { get; set; }
+        private Line VLine { get; set; }
+        private TextBlock TopText { get; set; }
+        private TextBlock LeftText { get; set; }
+
+        private ControlAdorner _SelectedAdorner;
+
+        private ControlAdorner SelectedAdorner
+        {
+            get { return _SelectedAdorner; }
+            set
+            {
+                _SelectedAdorner?.InvalidateVisual();
+                value?.InvalidateVisual();
+                _SelectedAdorner = value;
+                SelectedElement = value?.AdornedElement;
+            }
+        }
+
+        public UIElement SelectedElement
+        {
+            get { return (UIElement)GetValue(SelectedElementProperty); }
+            set { SetValue(SelectedElementProperty, value); }
+        }
+
+        /// <summary>
+        /// 选中的元素，提供给属性面板使用。
+        /// </summary>
+        public static readonly DependencyProperty SelectedElementProperty =
+            DependencyProperty.Register("SelectedElement", typeof(UIElement), typeof(DesignCanvas), new PropertyMetadata(null));
+
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            HLine = GetTemplateChild(HLineName) as Line;
+            VLine = GetTemplateChild(VLineName) as Line;
+            TopText = GetTemplateChild(TopTextName) as TextBlock;
+            LeftText = GetTemplateChild(LeftTextName) as TextBlock;
+            DesignPanel = GetTemplateChild(CanvasName) as Canvas;
+        }
+
 
         private void OnDesignPanelSelected(object sender, RoutedEventArgs e)
         {
@@ -186,6 +174,7 @@ namespace EfficientDesigner_Control.Controls
 
         public void RemoveChild()
         {
+            if (SelectedAdorner == null) return;
             DesignPanel.Children.Remove(SelectedAdorner.AdornedElement);
             SelectedAdorner = null;
         }

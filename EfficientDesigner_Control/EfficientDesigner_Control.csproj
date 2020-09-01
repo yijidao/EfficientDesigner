@@ -64,6 +64,10 @@
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\Styles\DesignCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Styles\PropertyPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

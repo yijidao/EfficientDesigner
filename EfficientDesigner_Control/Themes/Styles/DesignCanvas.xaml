@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:EfficientDesigner_Control.Themes.Styles"
+                    xmlns:ctl="clr-namespace:EfficientDesigner_Control.Controls">
+    <Style TargetType="ctl:DesignCanvas">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ctl:DesignCanvas">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Canvas AllowDrop="True" x:Name="PART_Canvas" Margin="{TemplateBinding Padding}">
+                            <Line x:Name="PART_VerticalLine" Stroke="Gray" StrokeThickness="1" Y1="0"/>
+                            <Line x:Name="PART_HorizontalLine" Stroke="Gray" StrokeThickness="1" X1="0" />
+                            <TextBlock x:Name="PART_TopText" Background="White" />
+                            <TextBlock x:Name="PART_LeftText" Background="White" />
+                        </Canvas>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

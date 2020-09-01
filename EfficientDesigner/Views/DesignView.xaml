@@ -11,7 +11,8 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             KeyDown="UserControl_KeyDown" >
+             KeyDown="UserControl_KeyDown"
+             >
     <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
@@ -51,14 +52,12 @@
             </TreeView>
             <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="LightGray" Height="2" Width="100" />
         </Grid>
-        <Border Margin="0,5" Grid.Column="1" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}">
-            <Canvas x:Name="DesignPanel"  AllowDrop="True" Drop="Canvas_Drop" Background="Transparent" 
-                Loaded="DesignPanel_Loaded" >
-            </Canvas>
-        </Border>
-        <GridSplitter Grid.Column="1" Margin="-3,0,0,0" Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
-        <controls:PropertyPanel Grid.Column="2"  x:Name="PropertyPanel1" Margin="5" Padding="5" Width="350" />
 
-        <GridSplitter Visibility="Collapsed" Grid.Column="2"   Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
+        <controls:DesignCanvas Grid.Column="1" Margin="5" x:Name="DesignPanel" />
+
+        <GridSplitter Grid.Column="1" Margin="-3,0,0,0" Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
+            <controls:PropertyPanel SelectedElement="{Binding ElementName=DesignPanel, Path=SelectedElement}" Grid.Column="2"  x:Name="PropertyPanel1" Margin="5" Padding="5" Width="350" />
+
+            <GridSplitter Visibility="Collapsed" Grid.Column="2"   Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
     </Grid>
 </UserControl>
