@@ -51,6 +51,7 @@
     <Compile Include="Controls\ControlAdorner.cs" />
     <Compile Include="Controls\ControlBase.cs" />
     <Compile Include="Controls\DesignCanvas.cs" />
+    <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Controls\PropertyItem.cs" />
     <Compile Include="Controls\PropertyPanel.cs" />
     <Compile Include="Controls\RectangleControl.cs" />
@@ -65,7 +66,15 @@
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\Icon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Styles\DesignCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Styles\ImageButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -83,6 +92,9 @@
       <Project>{b3805b72-c86c-459c-8a43-d24c6521e295}</Project>
       <Name>HandyControl_Net_GE45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Icon.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

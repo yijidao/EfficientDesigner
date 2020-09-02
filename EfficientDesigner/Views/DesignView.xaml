@@ -39,6 +39,7 @@
         <local:RibbonView Grid.ColumnSpan="3" SaveCommand="{Binding ElementName=DesignPanel, Path=SaveCommand}" LoadCommand="{Binding ElementName=DesignPanel,Path=LoadCommand}"/>
 
         <Grid MinWidth="200" Grid.Row="1" >
+            
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />

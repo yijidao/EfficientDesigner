@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:EfficientDesigner_Control.Themes.Styles"
+                    xmlns:ctl="clr-namespace:EfficientDesigner_Control.Controls">
+    <Style TargetType="ctl:ImageButton">
+        
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ctl:ImageButton">
+                    <Border>
+                        <StackPanel Margin="{TemplateBinding Padding}" HorizontalAlignment="Center">
+                            <Image x:Name="PART_Image" Height="32" Width="32"/>
+                            <TextBlock x:Name="PART_TextBlock" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

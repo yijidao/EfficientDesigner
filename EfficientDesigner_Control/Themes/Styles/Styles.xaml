@@ -4,5 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/PropertyPanel.xaml" />
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/DesignCanvas.xaml" />
+        <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/ImageButton.xaml" />
+        <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Icon.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

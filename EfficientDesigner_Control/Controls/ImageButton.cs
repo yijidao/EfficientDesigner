@@ -83,6 +83,7 @@ namespace EfficientDesigner_Control.Controls
             var image = GetTemplateChild(ImageName) as Image;
             if(image != null)
             {
+                //var resources = new ResourceDictionary { Source = new Uri("/EfficientDesigner_Control;component/Themes/Icon.xaml", UriKind.Absolute) };
                 image.Source = GetSource(ButtonType);
             }
         }
@@ -101,12 +102,17 @@ namespace EfficientDesigner_Control.Controls
             {
                 case ButtonType.保存:
                 case ButtonType.另存为:
-                    return FindResource("Save") as DrawingImage;
+                    return Application.Current.Resources["Save"] as DrawingImage;
+                    //return FindResource("Save") as DrawingImage;
                 case ButtonType.打开:
-                    return FindResource("Open") as DrawingImage;
+                    return Application.Current.Resources["Open"] as DrawingImage;
+
+                //return FindResource("Open") as DrawingImage;
                 case ButtonType.查询:
                 default:
-                    return FindResource("Query") as DrawingImage;
+                    return Application.Current.Resources["Query"] as DrawingImage;
+
+                    //return FindResource("Query") as DrawingImage;
             }
         }
 
