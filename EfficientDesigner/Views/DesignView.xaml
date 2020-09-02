@@ -55,13 +55,11 @@
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
-            <TreeView Margin="5" Grid.Row="1" MinHeight="200">
+            <TreeView Margin="5" Grid.Row="1" MinHeight="200" >
             </TreeView>
             <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="LightGray" Height="2" Width="100" />
         </Grid>
-
         <controls:DesignCanvas Grid.Row="1" Grid.Column="1" Margin="0,5" x:Name="DesignPanel" />
-
         <GridSplitter Grid.Row="1" Grid.Column="1" Margin="-3,0,0,0" Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
         <controls:PropertyPanel Grid.Row="1" SelectedElement="{Binding ElementName=DesignPanel, Path=SelectedElement}" Grid.Column="2"  x:Name="PropertyPanel1" Margin="5" Padding="5" Width="350" />
 

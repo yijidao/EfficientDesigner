@@ -26,8 +26,6 @@ namespace EfficientDesigner_Control.Controls
         private const string TopTextName = "PART_TopText";
         private const string LeftTextName = "PART_LeftText";
 
-
-
         public ICommand SaveCommand
         {
             get { return (ICommand)GetValue(SaveCommandProperty); }
@@ -39,8 +37,6 @@ namespace EfficientDesigner_Control.Controls
         /// </summary>
         public static readonly DependencyProperty SaveCommandProperty =
             DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
-
-
 
 
         public ICommand LoadCommand
@@ -190,7 +186,6 @@ namespace EfficientDesigner_Control.Controls
             Canvas.SetTop(LeftText, ps[1].Y - 10);
             Canvas.SetLeft(LeftText, ps[0].X / 2);
 
-
             TopText.Text = ps[0].Y.ToString("0.##");
             LeftText.Text = ps[0].X.ToString("0.##");
 
@@ -204,7 +199,7 @@ namespace EfficientDesigner_Control.Controls
             }
 
             if (ps[0].X < 30)
-            {
+            {      
                 LeftText.Visibility = Visibility.Collapsed;
             }
             else
