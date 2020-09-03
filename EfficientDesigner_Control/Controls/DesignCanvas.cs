@@ -51,6 +51,15 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty LoadCommandProperty =
             DependencyProperty.Register("LoadCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
+        public ICommand SaveAsCommand
+        {
+            get { return (ICommand)GetValue(SaveAsCommandProperty); }
+            set { SetValue(SaveAsCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty SaveAsCommandProperty =
+            DependencyProperty.Register("SaveAsCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
+
 
         public DesignCanvas()
         {
@@ -58,6 +67,7 @@ namespace EfficientDesigner_Control.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignCanvas), new FrameworkPropertyMetadata(typeof(DesignCanvas)));
             SaveCommand = new DelegateCommand(Save);
             LoadCommand = new DelegateCommand(Load);
+            SaveAsCommand = new DelegateCommand(SaveAs);
         }
 
         public bool AddedHandler { get; set; }
@@ -230,6 +240,17 @@ namespace EfficientDesigner_Control.Controls
             else
             {
                 SaveChild(FileName);
+            }
+        }
+
+        public void SaveAs()
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "(*.ed)|*.ed";
+            if (dialog.ShowDialog() == true)
+            {
+                SaveChild(dialog.FileName);
+                FileName = dialog.FileName;
             }
         }
 

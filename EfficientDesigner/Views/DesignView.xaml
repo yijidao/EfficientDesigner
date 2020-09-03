@@ -36,7 +36,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <local:RibbonView Grid.ColumnSpan="3" SaveCommand="{Binding ElementName=DesignPanel, Path=SaveCommand}" OpenCommand="{Binding ElementName=DesignPanel,Path=LoadCommand}"/>
+        <local:RibbonView Grid.ColumnSpan="3" SaveCommand="{Binding ElementName=DesignPanel, Path=SaveCommand}" SaveAsCommand="{Binding ElementName=DesignPanel, Path=SaveAsCommand}" OpenCommand="{Binding ElementName=DesignPanel,Path=LoadCommand}"/>
 
         <Grid MinWidth="200" Grid.Row="1" >
             
