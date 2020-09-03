@@ -11,8 +11,10 @@
              Background="{DynamicResource RegionBrush}"
              Margin="5,5,5,0">
     <StackPanel Orientation="Horizontal" Margin="5">
-        <Button DockPanel.Dock="Left" Content="加载" Command="{Binding ElementName=RibbonView1, Path=LoadCommand}" />
-        <Button DockPanel.Dock="Left" Content="保存" Command="{Binding ElementName=RibbonView1, Path=SaveCommand}" />
-        <ctl:ImageButton ButtonType="打开" />
+        <!--<Button DockPanel.Dock="Left" Content="加载" Command="{Binding ElementName=RibbonView1, Path=LoadCommand}" />-->
+        <!--<Button DockPanel.Dock="Left" Content="保存" Command="{Binding ElementName=RibbonView1, Path=SaveCommand}" />-->
+        <ctl:ImageButton ButtonType="打开" Command="{Binding ElementName=RibbonView1, Path=OpenCommand}" />
+        <ctl:ImageButton Margin="5,0,0,0" ButtonType="保存" Command="{Binding ElementName=RibbonView1, Path=SaveCommand}" />
+        <ctl:ImageButton Margin="5,0,0,0" ButtonType="另存为" Command="{Binding ElementName=RibbonView1, Path=SaveAsCommand}" />
     </StackPanel>
 </UserControl>

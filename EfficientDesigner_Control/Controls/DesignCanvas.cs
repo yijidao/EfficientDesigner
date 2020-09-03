@@ -199,7 +199,7 @@ namespace EfficientDesigner_Control.Controls
             }
 
             if (ps[0].X < 30)
-            {      
+            {
                 LeftText.Visibility = Visibility.Collapsed;
             }
             else

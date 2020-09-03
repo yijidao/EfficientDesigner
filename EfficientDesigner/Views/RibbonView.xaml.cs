@@ -25,8 +25,6 @@ namespace EfficientDesigner.Views
             InitializeComponent();
         }
 
-
-
         public ICommand SaveCommand
         {
             get { return (ICommand)GetValue(SaveCommandProperty); }
@@ -36,14 +34,28 @@ namespace EfficientDesigner.Views
         public static readonly DependencyProperty SaveCommandProperty =
             DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
 
-        public ICommand LoadCommand
+
+
+        public ICommand OpenCommand
         {
-            get { return (ICommand)GetValue(LoadCommandProperty); }
-            set { SetValue(LoadCommandProperty, value); }
+            get { return (ICommand)GetValue(OpenCommandProperty); }
+            set { SetValue(OpenCommandProperty, value); }
         }
 
-        public static readonly DependencyProperty LoadCommandProperty =
-            DependencyProperty.Register("LoadCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
+        public static readonly DependencyProperty OpenCommandProperty =
+            DependencyProperty.Register("OpenCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
+
+
+
+
+        public ICommand SaveAsCommand
+        {
+            get { return (ICommand)GetValue(SaveAsCommandProperty); }
+            set { SetValue(SaveAsCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty SaveAsCommandProperty =
+            DependencyProperty.Register("SaveAsCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
 
 
     }
