@@ -37,9 +37,8 @@
         </Grid.RowDefinitions>
 
         <local:RibbonView Grid.ColumnSpan="3" SaveCommand="{Binding ElementName=DesignPanel, Path=SaveCommand}" SaveAsCommand="{Binding ElementName=DesignPanel, Path=SaveAsCommand}" OpenCommand="{Binding ElementName=DesignPanel,Path=LoadCommand}"/>
-
-        <Grid MinWidth="200" Grid.Row="1" >
-            
+ 
+         <Grid MinWidth="200" Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
@@ -64,6 +63,6 @@
         <GridSplitter Grid.Row="1" Grid.Column="1" Margin="-3,0,0,0" Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
         <controls:PropertyPanel Grid.Row="1" SelectedElement="{Binding ElementName=DesignPanel, Path=SelectedElement}" Grid.Column="2"  x:Name="PropertyPanel1" Margin="5" Padding="5" Width="350" />
 
-        <GridSplitter Grid.Row="1" Visibility="Collapsed" Grid.Column="2"   Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
+        <GridSplitter Grid.Row="1" Grid.Column="2"   Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
     </Grid>
 </UserControl>

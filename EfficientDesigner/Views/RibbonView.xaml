@@ -8,8 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="RibbonView1"
-             Background="{DynamicResource RegionBrush}"
-             Margin="5,5,5,0">
+             Background="{DynamicResource RegionBrush}">
     <StackPanel Orientation="Horizontal" Margin="5">
         <!--<Button DockPanel.Dock="Left" Content="加载" Command="{Binding ElementName=RibbonView1, Path=LoadCommand}" />-->
         <!--<Button DockPanel.Dock="Left" Content="保存" Command="{Binding ElementName=RibbonView1, Path=SaveCommand}" />-->
