@@ -46,4 +46,40 @@
             </GeometryDrawing>
         </DrawingImage.Drawing>
     </DrawingImage>
+
+    <DrawingImage x:Key="Preview">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{StaticResource IconBrush}">
+                <GeometryDrawing.Geometry>
+                    <CombinedGeometry>
+                        <CombinedGeometry.Geometry1>
+                            <PathGeometry Figures="M977.824 454.016C826.432 280.288 672.512 192 516.128 192c-156.384 0-310.304 88.288-461.696 262.016a112 112 0 0 0-1.632 145.248c138.24 165.984 293.088 250.24 463.328 250.24s325.088-84.256 463.328-250.24a112 112 0 0 0-1.632-145.248z m-47.552 104.32c-126.848 152.32-264.48 227.2-414.144 227.2s-287.296-74.88-414.144-227.2a48 48 0 0 1 0.704-62.24C243.008 335.072 380.8 256 516.128 256s273.152 79.072 413.44 240.064c15.488 17.792 15.776 44.16 0.704 62.272z" />
+                        </CombinedGeometry.Geometry1>
+                        <CombinedGeometry.Geometry2>
+                            <PathGeometry Figures="M512 288a224 224 0 1 0 0 448 224 224 0 0 0 0-448z m-64 224a64 64 0 1 1 0.032-128.032A64 64 0 0 1 448 512z" />
+                        </CombinedGeometry.Geometry2>
+                    </CombinedGeometry>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="Cancel">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{StaticResource IconBrush}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M995.648 459.296C684.448 281.568 406.08 318.656 171.232 567.904L32 416v384h352l-160.736-175.328c211.168-227.072 452.192-259.776 734.304-98.688a38.4 38.4 0 0 0 38.08-66.688z" />
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Reset">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{StaticResource IconBrush}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M860.992 558.912C627.904 317.536 352.384 283.648 44.8 459.296a38.4 38.4 0 1 0 38.08 66.688c278.432-159.008 516.896-129.408 726.08 89.696L640 800h352V416l-131.008 142.912z" />
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 </ResourceDictionary>

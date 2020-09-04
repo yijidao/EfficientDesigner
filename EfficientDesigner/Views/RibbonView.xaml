@@ -9,11 +9,24 @@
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="RibbonView1"
              Background="{DynamicResource RegionBrush}">
-    <StackPanel Orientation="Horizontal" Margin="5">
-        <!--<Button DockPanel.Dock="Left" Content="加载" Command="{Binding ElementName=RibbonView1, Path=LoadCommand}" />-->
-        <!--<Button DockPanel.Dock="Left" Content="保存" Command="{Binding ElementName=RibbonView1, Path=SaveCommand}" />-->
-        <ctl:ImageButton ButtonType="打开" Command="{Binding ElementName=RibbonView1, Path=OpenCommand}" />
-        <ctl:ImageButton Margin="5,0,0,0" ButtonType="保存" Command="{Binding ElementName=RibbonView1, Path=SaveCommand}" />
-        <ctl:ImageButton Margin="5,0,0,0" ButtonType="另存为" Command="{Binding ElementName=RibbonView1, Path=SaveAsCommand}" />
-    </StackPanel>
+    <DockPanel Margin="5" LastChildFill="False" SnapsToDevicePixels="True">
+        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" >
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                <ctl:ImageButton ButtonType="打开" Command="{Binding ElementName=RibbonView1, Path=OpenCommand}" />
+                <ctl:ImageButton Margin="5,0,0,0" ButtonType="保存" Command="{Binding ElementName=RibbonView1, Path=SaveCommand}" />
+                <ctl:ImageButton Margin="5,0,0,0" ButtonType="另存" Command="{Binding ElementName=RibbonView1, Path=SaveAsCommand}" />
+            </StackPanel>
+        </Border>
+        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" Margin="5,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                <ctl:ImageButton ButtonType="撤销" />
+                <ctl:ImageButton Margin="5,0,0,0" ButtonType="重做" />
+            </StackPanel>
+        </Border>
+        <Border DockPanel.Dock="Right" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" >
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                <ctl:ImageButton DockPanel.Dock="Right" ButtonType="预览" />
+            </StackPanel>
+        </Border>
+    </DockPanel>
 </UserControl>

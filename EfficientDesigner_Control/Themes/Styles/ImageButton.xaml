@@ -9,7 +9,7 @@
 
     <Style TargetType="ctl:ImageButton" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="Focusable" Value="True" />
-        <Setter Property="Padding" Value="10,2" />
+        <Setter Property="Padding" Value="8,4" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{StaticResource SecondaryTextBrush}" />
@@ -19,7 +19,7 @@
                 <ControlTemplate TargetType="ctl:ImageButton">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource DefaultCornerRadius}">
                         <StackPanel Margin="{TemplateBinding Padding}" Background="Transparent">
-                            <Image x:Name="PART_Image" Height="28" Width="28" HorizontalAlignment="Center"/>
+                            <Image x:Name="PART_Image" Height="20" Width="20" HorizontalAlignment="Center"/>
                             <TextBlock x:Name="PART_TextBlock" Margin="0,2,0,0" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>

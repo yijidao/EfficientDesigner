@@ -57,7 +57,7 @@ namespace EfficientDesigner_Control.Controls
             set { SetValue(SaveAsCommandProperty, value); }
         }
 
-        public static readonly DependencyProperty SaveAsCommandProperty =
+        public  static readonly DependencyProperty SaveAsCommandProperty =
             DependencyProperty.Register("SaveAsCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
 

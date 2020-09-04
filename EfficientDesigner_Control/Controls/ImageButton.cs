@@ -68,7 +68,7 @@ namespace EfficientDesigner_Control.Controls
             CanExecuteChangedEventManager.RemoveHandler(command, OnCanExecuteChanged);
         }
 
-        private void OnCanExecuteChanged(object sender,EventArgs e)
+        private void OnCanExecuteChanged(object sender, EventArgs e)
         {
             UpdateCanExecute();
         }
@@ -156,10 +156,16 @@ namespace EfficientDesigner_Control.Controls
             switch (type)
             {
                 case ButtonType.保存:
-                case ButtonType.另存为:
+                case ButtonType.另存:
                     return Application.Current.Resources["Save"] as DrawingImage;
                 case ButtonType.打开:
                     return Application.Current.Resources["Open"] as DrawingImage;
+                case ButtonType.预览:
+                    return Application.Current.Resources["Preview"] as DrawingImage;
+                case ButtonType.撤销:
+                    return Application.Current.Resources["Cancel"] as DrawingImage;
+                case ButtonType.重做:
+                    return Application.Current.Resources["Reset"] as DrawingImage;
                 case ButtonType.查询:
                 default:
                     return Application.Current.Resources["Query"] as DrawingImage;
@@ -194,7 +200,10 @@ namespace EfficientDesigner_Control.Controls
     {
         查询 = 0,
         保存,
-        另存为,
+        另存,
         打开,
+        预览,
+        撤销,
+        重做,
     }
 }
