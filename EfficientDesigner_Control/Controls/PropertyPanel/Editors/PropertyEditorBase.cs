@@ -15,7 +15,7 @@ namespace EfficientDesigner_Control.Controls.Editors
 
         public virtual void SetBinding(PropertyItem propertyItem, DependencyObject element) =>
             BindingOperations.SetBinding(element, GetDependencyProperty(),
-                new Binding($"{propertyItem.Name}")
+                new Binding($"{propertyItem.PropertyName}")
                 {
                     Source = propertyItem.Value,
                     Mode = GetBindingMode(propertyItem),

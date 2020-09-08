@@ -58,7 +58,7 @@ namespace EfficientDesigner_Control.Controls.Editors
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var v = (double)value;
+            var v = System.Convert.ToDouble(value);
             if (v < Min) return Min;
             else if (v > Max) return Max;
             else return v;

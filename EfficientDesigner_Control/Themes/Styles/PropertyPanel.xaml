@@ -14,6 +14,7 @@
         <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="10,10,0,10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ctl:PropertyPanel">
@@ -35,7 +36,7 @@
                                                     <ControlTemplate TargetType="ctl:PropertyItem">
                                                         <DockPanel>
                                                             <TextBlock Text="{TemplateBinding DisplayName}" Focusable="False" DockPanel.Dock="Left" Width="{Binding Path=(ctl:PropertyItem.DisplayNameWidth), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                                            <ContentPresenter MinWidth="120"  ContentSource="EditorElement" DockPanel.Dock="Right"/>
+                                                            <ContentPresenter MinWidth="120"  ContentSource="EditorElement" DockPanel.Dock="Right" Margin="0,0,10,0"/>
                                                         </DockPanel>
                                                     </ControlTemplate>
                                                 </Setter.Value>
