@@ -49,7 +49,6 @@ namespace EfficientDesigner_Control.Controls
             var propertyDescriptors = TypeDescriptor.GetProperties(element.GetType()).OfType<PropertyDescriptor>().Where(x => x.IsBrowsable);
 
             var items = GetPropertyItems(propertyDescriptors);
-            //var items = GetDependencyProperties(selectedElement.GetType())/*.Take(40)*/.Select(f => GetPropertyItem(f)).OrderBy(pi => pi.DisplayName);
 
             Debug.WriteLine(watch.ElapsedMilliseconds);
             watch.Restart();
@@ -57,17 +56,25 @@ namespace EfficientDesigner_Control.Controls
             Debug.WriteLine(watch.ElapsedMilliseconds);
         }
 
+        public PropertyResolver Resolver { get; } = new PropertyResolver();
+
         public IEnumerable<PropertyItem> GetPropertyItems(IEnumerable<PropertyDescriptor> propertyDescriptors)
         {
             foreach (var descriptor in propertyDescriptors)
             {
                 var item = new PropertyItem
                 {
-                    DisplayName = descriptor.DisplayName,
-                    Description = descriptor.Description,
-                    Category = descriptor.Category,
-                    PropertyTypeName = descriptor.PropertyType.Name,
+                    Category = Resolver.ResolveCategory(descriptor),
+                    DisplayName = Resolver.ResolveDisplayName(descriptor),
+                    Description = Resolver.ResolveDescription(descriptor),
+                    IsReadOnly = Resolver.ResolveIsReadOnly(descriptor),
+                    DefaultValue = Resolver.ResolveDefaultValue(descriptor),
+                    Editor = Resolver.ResolveEditor(descriptor),
+                    Value = SelectedElement,
+                    PropertyName = descriptor.Name,
+                    PropertyType = descriptor.PropertyType,
                 };
+                item.InitEditorElement();
                 yield return item;
             }
         }

@@ -57,6 +57,7 @@
     <Compile Include="Controls\PropertyPanel\Editors\HorizontalAlignmentPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\ImagePropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\NumberPropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\PlainTextPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\PropertyEditorBase.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\ReadOnlyTextPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\SwitchPropertyEditor.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Controls\PropertyPanel\PropertyItem.cs" />
     <Compile Include="Controls\PropertyPanel\PropertyPanel.cs" />
+    <Compile Include="Controls\PropertyPanel\PropertyResolver.cs" />
     <Compile Include="Controls\RectangleControl.cs" />
     <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="Converters\Converter.cs" />

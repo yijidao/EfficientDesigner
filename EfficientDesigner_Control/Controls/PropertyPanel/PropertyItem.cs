@@ -62,7 +62,66 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty DescriptionProperty =
             DependencyProperty.Register("Description", typeof(string), typeof(PropertyItem), new PropertyMetadata(default));
 
-        public string PropertyTypeName { get; set; }
+        public bool IsReadOnly
+        {
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            set { SetValue(IsReadOnlyProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsReadOnlyProperty =
+            DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(PropertyItem), new PropertyMetadata(false));
+
+
+
+        public object DefaultValue
+        {
+            get { return (object)GetValue(DefaultValueProperty); }
+            set { SetValue(DefaultValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty DefaultValueProperty =
+            DependencyProperty.Register("DefaultValue", typeof(object), typeof(PropertyItem), new PropertyMetadata(null));
+
+
+
+        public object Value
+        {
+            get { return (object)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof(object), typeof(PropertyItem), new PropertyMetadata(null));
+
+
+
+        public string PropertyName
+        {
+            get { return (string)GetValue(PropertyNameProperty); }
+            set { SetValue(PropertyNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty PropertyNameProperty =
+            DependencyProperty.Register("PropertyName", typeof(string), typeof(PropertyItem), new PropertyMetadata(default));
+
+
+
+        public Type PropertyType
+        {
+            get { return (Type)GetValue(PropertyTypeProperty); }
+            set { SetValue(PropertyTypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty PropertyTypeProperty =
+            DependencyProperty.Register("PropertyType", typeof(Type), typeof(PropertyItem), new PropertyMetadata(null));
+
+
+        public void InitEditorElement()
+        {
+            if (Editor == null) return;
+            EditorElement = Editor.CreateElement(this);
+            Editor.SetBinding(this, EditorElement);
+        }
 
         public PropertyEditorBase Editor { get; set; }
     }

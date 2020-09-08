@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandyControl.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,12 @@ namespace EfficientDesigner_Control.Controls.Editors
 {
     public class HorizontalAlignmentPropertyEditor : PropertyEditorBase
     {
-        public override FrameworkElement CreateElement(PropertyItem propertyItem)
+        public override FrameworkElement CreateElement(PropertyItem propertyItem) => new ComboBox
         {
-            throw new NotImplementedException();
-        }
+            ItemsSource = Enum.GetValues(typeof(HorizontalAlignment)),
+            IsEnabled = !propertyItem.IsReadOnly
+        };
+
+        public override DependencyProperty GetDependencyProperty() => ComboBox.SelectedItemProperty;
     }
 }

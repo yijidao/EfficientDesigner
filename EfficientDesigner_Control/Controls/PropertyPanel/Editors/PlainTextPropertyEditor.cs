@@ -1,4 +1,5 @@
-﻿using EfficientDesigner_Control.Converters;
+﻿using EfficientDesigner_Control.Controls.Editors;
+using EfficientDesigner_Control.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace EfficientDesigner_Control.Controls.Editors
+namespace EfficientDesigner_Control.Controls
 {
-    public class ReadOnlyTextPropertyEditor : PropertyEditorBase
+    public class PlainTextPropertyEditor : PropertyEditorBase
     {
         public override FrameworkElement CreateElement(PropertyItem propertyItem) => new TextBox
         {
-            IsReadOnly = true
+            IsEnabled = !propertyItem.IsReadOnly
         };
 
         public override DependencyProperty GetDependencyProperty() => TextBox.TextProperty;
 
-        public override IValueConverter GetConverter(PropertyItem propertyItem) => Object2String.Instance;
+        
     }
 }

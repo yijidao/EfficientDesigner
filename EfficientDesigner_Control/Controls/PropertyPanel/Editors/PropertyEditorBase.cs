@@ -10,12 +10,29 @@ using System.Windows.Data;
 namespace EfficientDesigner_Control.Controls.Editors
 {
     public abstract class PropertyEditorBase : DependencyObject
-
     {
-        public virtual void SetBinding(PropertyItem propertyItem, DependencyObject dp)
-        { }
-
         public abstract FrameworkElement CreateElement(PropertyItem propertyItem);
+
+        public virtual void SetBinding(PropertyItem propertyItem, DependencyObject element) =>
+            BindingOperations.SetBinding(element, GetDependencyProperty(),
+                new Binding($"{propertyItem.Name}")
+                {
+                    Source = propertyItem.Value,
+                    Mode = GetBindingMode(propertyItem),
+                    UpdateSourceTrigger = GetUpdateSourceTrigger(propertyItem),
+                    Converter = GetConverter(propertyItem),
+                    StringFormat = GetFormat(propertyItem)
+                });
+
+        public abstract DependencyProperty GetDependencyProperty();
+
+        public virtual BindingMode GetBindingMode(PropertyItem propertyItem) => propertyItem.IsReadOnly ? BindingMode.OneWay : BindingMode.TwoWay;
+
+        public virtual UpdateSourceTrigger GetUpdateSourceTrigger(PropertyItem propertyItem) => UpdateSourceTrigger.PropertyChanged;
+
+        public virtual IValueConverter GetConverter(PropertyItem propertyItem) => null;
+
+        public virtual string GetFormat(PropertyItem propertyItem) => default(string);
 
     }
 }

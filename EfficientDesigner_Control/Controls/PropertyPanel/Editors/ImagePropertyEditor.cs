@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandyControl.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,14 @@ namespace EfficientDesigner_Control.Controls.Editors
 {
     public class ImagePropertyEditor : PropertyEditorBase
     {
-        public override FrameworkElement CreateElement(PropertyItem propertyItem)
+        public override FrameworkElement CreateElement(PropertyItem propertyItem) => new TextBox
         {
-            throw new NotImplementedException();
+
+        };
+
+        public override DependencyProperty GetDependencyProperty()
+        {
+            return TextBox.TextProperty;
         }
     }
 }
