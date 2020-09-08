@@ -12,7 +12,8 @@ namespace EfficientDesigner_Control.Controls.Editors
     {
         public override FrameworkElement CreateElement(PropertyItem propertyItem) => new CheckBox
         {
-            IsEnabled = !propertyItem.IsReadOnly
+            IsEnabled = !propertyItem.IsReadOnly,
+            HorizontalAlignment = HorizontalAlignment.Left
         };
 
         public override DependencyProperty GetDependencyProperty() => CheckBox.IsCheckedProperty;

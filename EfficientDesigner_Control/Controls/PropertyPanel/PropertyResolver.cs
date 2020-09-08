@@ -1,4 +1,5 @@
 ﻿using EfficientDesigner_Control.Controls.Editors;
+using EfficientDesigner_Control.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,7 +49,10 @@ namespace EfficientDesigner_Control.Controls
                 EditorTypeCode.VerticalAlignment => new VerticalAlignmentPropertyEditor(),
                 EditorTypeCode.ImageSource => new ImagePropertyEditor(),
                 _ => new ReadOnlyTextPropertyEditor()
-            } : (PropertyEditorBase)new ReadOnlyTextPropertyEditor();
+            }
+            : descriptor.PropertyType.IsSubclassOf(typeof(Enum))
+                ? (PropertyEditorBase)new EnumPropertyEditor()
+                : (PropertyEditorBase)new ReadOnlyTextPropertyEditor();
 
         private static readonly Dictionary<Type, EditorTypeCode> TypeCodeDic = new Dictionary<Type, EditorTypeCode>
         {
