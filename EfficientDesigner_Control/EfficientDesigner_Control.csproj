@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -47,13 +49,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\DelegateCommand.cs" />
-    <Compile Include="Controls\ButtonControl.cs" />
-    <Compile Include="Controls\ControlAdorner.cs" />
+    <Compile Include="Controls\Button\ButtonControl.cs" />
+    <Compile Include="Controls\DesignCanvas\ControlAdorner.cs" />
     <Compile Include="Controls\ControlBase.cs" />
-    <Compile Include="Controls\DesignCanvas.cs" />
+    <Compile Include="Controls\DesignCanvas\DesignCanvas.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\DateTimePropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\HorizontalAlignmentPropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\ImagePropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\NumberPropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\PropertyEditorBase.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\ReadOnlyTextPropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\SwitchPropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\VerticalAlignmentPropertyEditor.cs" />
     <Compile Include="Controls\ImageButton.cs" />
-    <Compile Include="Controls\PropertyItem.cs" />
-    <Compile Include="Controls\PropertyPanel.cs" />
+    <Compile Include="Controls\PropertyPanel\PropertyItem.cs" />
+    <Compile Include="Controls\PropertyPanel\PropertyPanel.cs" />
     <Compile Include="Controls\RectangleControl.cs" />
     <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="Converters\Converter.cs" />

@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Markup.Localizer;
 using System.Windows.Threading;
 
 namespace EfficientDesigner_Control.Controls
@@ -24,15 +25,12 @@ namespace EfficientDesigner_Control.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyPanel), new FrameworkPropertyMetadata(typeof(PropertyPanel)));
         }
 
-
-
         public UIElement SelectedElement
         {
             get { return (UIElement)GetValue(SelectedElementProperty); }
             set { SetValue(SelectedElementProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedElement.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedElementProperty =
             DependencyProperty.Register("SelectedElement", typeof(UIElement), typeof(PropertyPanel), new PropertyMetadata(null, (dp, e) =>
             {
@@ -42,42 +40,36 @@ namespace EfficientDesigner_Control.Controls
 
 
 
-        private void UpdateItems(UIElement selectedElement)
+        private void UpdateItems(UIElement element)
         {
-            if (selectedElement == null || ElementItemsControl == null) return;
+            if (element == null || ElementItemsControl == null) return;
 
             var watch = Stopwatch.StartNew();
 
-            var items = GetDependencyProperties(selectedElement.GetType())/*.Take(40)*/.Select(f => GetPropertyItem(f)).OrderBy(pi => pi.DisplayName);
+            var propertyDescriptors = TypeDescriptor.GetProperties(element.GetType()).OfType<PropertyDescriptor>().Where(x => x.IsBrowsable);
+
+            var items = GetPropertyItems(propertyDescriptors);
+            //var items = GetDependencyProperties(selectedElement.GetType())/*.Take(40)*/.Select(f => GetPropertyItem(f)).OrderBy(pi => pi.DisplayName);
 
             Debug.WriteLine(watch.ElapsedMilliseconds);
-            watch.Restart(); 
+            watch.Restart();
             ElementItemsControl.ItemsSource = items;
             Debug.WriteLine(watch.ElapsedMilliseconds);
         }
 
-        private PropertyItem GetPropertyItem(FieldInfo fieldInfo)
+        public IEnumerable<PropertyItem> GetPropertyItems(IEnumerable<PropertyDescriptor> propertyDescriptors)
         {
-            var dp = fieldInfo.GetValue(SelectedElement) as DependencyProperty;
-
-            var textBox = new TextBox();
-            textBox.Text = SelectedElement.GetValue(dp)?.ToString();
-
-            return new PropertyItem { DisplayName = dp.Name, EditorElement = textBox };
-        }
-
-        /// <summary>
-        /// 获取自身和父类所有的依赖属性
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private IEnumerable<FieldInfo> GetDependencyProperties(Type type)
-        {
-            var ps = type.GetFields(BindingFlags.Public | BindingFlags.Static)
-                         .Where(f => f.FieldType == typeof(DependencyProperty));
-            if (type.BaseType != null)
-                ps = ps.Union(GetDependencyProperties(type.BaseType));
-            return ps;
+            foreach (var descriptor in propertyDescriptors)
+            {
+                var item = new PropertyItem
+                {
+                    DisplayName = descriptor.DisplayName,
+                    Description = descriptor.Description,
+                    Category = descriptor.Category,
+                    PropertyTypeName = descriptor.PropertyType.Name,
+                };
+                yield return item;
+            }
         }
 
         public override void OnApplyTemplate()
