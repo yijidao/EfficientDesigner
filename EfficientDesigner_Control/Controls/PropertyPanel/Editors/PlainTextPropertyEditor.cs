@@ -1,5 +1,4 @@
-﻿using EfficientDesigner_Control.Controls.Editors;
-using EfficientDesigner_Control.Converters;
+﻿using EfficientDesigner_Control.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
