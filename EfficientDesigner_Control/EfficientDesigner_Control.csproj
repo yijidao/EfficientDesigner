@@ -63,6 +63,7 @@
     <Compile Include="Controls\PropertyPanel\Editors\PropertyEditorBase.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\ReadOnlyTextPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\SwitchPropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\ThicknessPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\VerticalAlignmentPropertyEditor.cs" />
     <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Controls\PropertyPanel\PropertyItem.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Controls\PropertyPanel\PropertyResolver.cs" />
     <Compile Include="Controls\RectangleControl.cs" />
     <Compile Include="Controls\TextBoxControl.cs" />
+    <Compile Include="Controls\ThicknessGrid.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="Interfaces\IControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

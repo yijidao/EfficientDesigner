@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace EfficientDesigner_Control.Controls.Editors
+namespace EfficientDesigner_Control.Controls
 {
     public abstract class PropertyEditorBase : DependencyObject
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -52,8 +53,6 @@ namespace EfficientDesigner_Control.Converters
             {
                 return value;
             }
-
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

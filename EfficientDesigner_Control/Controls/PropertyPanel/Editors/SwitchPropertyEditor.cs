@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace EfficientDesigner_Control.Controls.Editors
+namespace EfficientDesigner_Control.Controls
 {
     public class SwitchPropertyEditor : PropertyEditorBase
     {

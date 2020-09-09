@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using static EfficientDesigner_Control.Controls.PropertyResolver;
 
-namespace EfficientDesigner_Control.Controls.Editors
+namespace EfficientDesigner_Control.Controls
 {
     public class NumberPropertyEditor : PropertyEditorBase
     {

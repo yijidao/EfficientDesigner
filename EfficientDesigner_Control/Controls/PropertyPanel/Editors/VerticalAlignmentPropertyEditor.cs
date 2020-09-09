@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace EfficientDesigner_Control.Controls.Editors
+namespace EfficientDesigner_Control.Controls
 {
     public class VerticalAlignmentPropertyEditor : PropertyEditorBase
     {
