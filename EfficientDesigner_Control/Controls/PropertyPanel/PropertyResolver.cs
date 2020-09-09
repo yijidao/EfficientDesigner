@@ -45,15 +45,45 @@ namespace EfficientDesigner_Control.Controls
                 EditorTypeCode.DoubleNumber => new NumberPropertyEditor(double.MinValue, double.MaxValue),
                 EditorTypeCode.Switch => new SwitchPropertyEditor(),
                 EditorTypeCode.DateTime => new DateTimePropertyEditor(),
-                EditorTypeCode.HorizontalAlignment => new HorizontalAlignmentPropertyEditor(),
-                EditorTypeCode.VerticalAlignment => new VerticalAlignmentPropertyEditor(),
+                //EditorTypeCode.HorizontalAlignment => new HorizontalAlignmentPropertyEditor(),
+                //EditorTypeCode.VerticalAlignment => new VerticalAlignmentPropertyEditor(),
                 EditorTypeCode.ImageSource => new ImagePropertyEditor(),
+                EditorTypeCode.Brush => new BrushPropertyEditor(),
                 _ => new ReadOnlyTextPropertyEditor()
             }
             : descriptor.PropertyType.IsSubclassOf(typeof(Enum))
                 ? (PropertyEditorBase)new EnumPropertyEditor()
                 : (PropertyEditorBase)new ReadOnlyTextPropertyEditor();
 
+        //        public PropertyEditorBase ResolveEditor(PropertyDescriptor descriptor)
+        //        {
+        //            if (TypeCodeDic.TryGetValue(descriptor.PropertyType, out var code))
+        //            {
+        //                code switch
+        //                {
+        //                    EditorTypeCode.PlainText => new PlainTextPropertyEditor(),
+        //                    EditorTypeCode.SByteNumber => new NumberPropertyEditor(sbyte.MinValue, sbyte.MaxValue),
+        //                    EditorTypeCode.ByteNumber => new NumberPropertyEditor(byte.MinValue, byte.MaxValue),
+        //                    EditorTypeCode.Int16Number => new NumberPropertyEditor(short.MinValue, short.MaxValue),
+        //                    EditorTypeCode.UInt16Number => new NumberPropertyEditor(ushort.MinValue, ushort.MaxValue),
+        //                    EditorTypeCode.Int32Number => new NumberPropertyEditor(int.MinValue, int.MaxValue),
+        //                    EditorTypeCode.UInt32Number => new NumberPropertyEditor(uint.MinValue, uint.MaxValue),
+        //                    EditorTypeCode.Int64Number => new NumberPropertyEditor(long.MinValue, long.MaxValue),
+        //                    EditorTypeCode.UInt64Number => new NumberPropertyEditor(ulong.MinValue, ulong.MaxValue),
+        //                    EditorTypeCode.SingleNumber => new NumberPropertyEditor(float.MinValue, float.MaxValue),
+        //                    EditorTypeCode.DoubleNumber => new NumberPropertyEditor(double.MinValue, double.MaxValue),
+        //                    EditorTypeCode.Switch => new SwitchPropertyEditor(),
+        //                    EditorTypeCode.DateTime => new DateTimePropertyEditor(),
+        //                    EditorTypeCode.HorizontalAlignment => new HorizontalAlignmentPropertyEditor(),
+        //                    EditorTypeCode.VerticalAlignment => new VerticalAlignmentPropertyEditor(),
+        //                    EditorTypeCode.ImageSource => new ImagePropertyEditor(),
+        //                    _ => new ReadOnlyTextPropertyEditor()
+        //                }
+        //            }
+        //: descriptor.PropertyType.IsSubclassOf(typeof(Enum))
+        //? (PropertyEditorBase)new EnumPropertyEditor()
+        // : (PropertyEditorBase)new ReadOnlyTextPropertyEditor();
+        //        }
         private static readonly Dictionary<Type, EditorTypeCode> TypeCodeDic = new Dictionary<Type, EditorTypeCode>
         {
             [typeof(string)] = EditorTypeCode.PlainText,
@@ -69,9 +99,10 @@ namespace EfficientDesigner_Control.Controls
             [typeof(double)] = EditorTypeCode.DoubleNumber,
             [typeof(bool)] = EditorTypeCode.Switch,
             [typeof(DateTime)] = EditorTypeCode.DateTime,
-            [typeof(HorizontalAlignment)] = EditorTypeCode.HorizontalAlignment,
-            [typeof(VerticalAlignment)] = EditorTypeCode.VerticalAlignment,
-            [typeof(ImageSource)] = EditorTypeCode.ImageSource
+            //[typeof(HorizontalAlignment)] = EditorTypeCode.HorizontalAlignment,
+            //[typeof(VerticalAlignment)] = EditorTypeCode.VerticalAlignment,
+            [typeof(ImageSource)] = EditorTypeCode.ImageSource,
+            [typeof(Brush)] = EditorTypeCode.Brush,
         };
 
         private enum EditorTypeCode
@@ -89,9 +120,10 @@ namespace EfficientDesigner_Control.Controls
             DoubleNumber,
             Switch,
             DateTime,
-            HorizontalAlignment,
-            VerticalAlignment,
-            ImageSource
+            //HorizontalAlignment,
+            //VerticalAlignment,
+            ImageSource,
+            Brush
         }
     }
 }

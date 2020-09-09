@@ -53,6 +53,7 @@
     <Compile Include="Controls\DesignCanvas\ControlAdorner.cs" />
     <Compile Include="Controls\ControlBase.cs" />
     <Compile Include="Controls\DesignCanvas\DesignCanvas.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\BrushPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\DateTimePropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\EnumPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\HorizontalAlignmentPropertyEditor.cs" />

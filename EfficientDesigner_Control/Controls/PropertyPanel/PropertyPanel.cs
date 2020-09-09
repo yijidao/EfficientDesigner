@@ -50,6 +50,15 @@ namespace EfficientDesigner_Control.Controls
 
             var items = GetPropertyItems(propertyDescriptors);
 
+            //foreach (var k in items.GroupBy(x => x.PropertyType).Select(g => g.Key.Name))
+            //{
+            //    Debug.WriteLine(k);
+            //}
+            //foreach ()
+            //{
+
+            //}
+
             Debug.WriteLine(watch.ElapsedMilliseconds);
             watch.Restart();
             ElementItemsControl.ItemsSource = items;
@@ -62,6 +71,9 @@ namespace EfficientDesigner_Control.Controls
         {
             foreach (var descriptor in propertyDescriptors)
             {
+
+                if (Resolver.ResolveIsReadOnly(descriptor)) continue;
+
                 var item = new PropertyItem
                 {
                     Category = Resolver.ResolveCategory(descriptor),
@@ -75,6 +87,7 @@ namespace EfficientDesigner_Control.Controls
                     PropertyType = descriptor.PropertyType,
                 };
                 item.InitEditorElement();
+                Debug.WriteLine($"{item.PropertyName}   {item.PropertyType}");
                 yield return item;
             }
         }
