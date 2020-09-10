@@ -58,6 +58,7 @@
     <Compile Include="Controls\PropertyPanel\Editors\DateTimePropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\EnumPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\FontFamilyPropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\FontStretchPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\HorizontalAlignmentPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\ImagePropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\NumberPropertyEditor.cs" />
