@@ -49,6 +49,7 @@ namespace EfficientDesigner_Control.Controls
                 EditorTypeCode.ImageSource => new ImagePropertyEditor(),
                 EditorTypeCode.Brush => new BrushPropertyEditor(),
                 EditorTypeCode.Thickness => new ThicknessPropertyEditor(),
+                EditorTypeCode.FontFamily => new FontFamilyPropertyEditor(),
                 _ => new ReadOnlyTextPropertyEditor()
             }
             : descriptor.PropertyType.IsSubclassOf(typeof(Enum))
@@ -74,6 +75,7 @@ namespace EfficientDesigner_Control.Controls
             [typeof(ImageSource)] = EditorTypeCode.ImageSource,
             [typeof(Brush)] = EditorTypeCode.Brush,
             [typeof(Thickness)] = EditorTypeCode.Thickness,
+            [typeof(FontFamily)] = EditorTypeCode.FontFamily,
         };
 
         private enum EditorTypeCode
@@ -96,6 +98,7 @@ namespace EfficientDesigner_Control.Controls
             ImageSource,
             Brush,
             Thickness,
+            FontFamily,
         }
     }
 }

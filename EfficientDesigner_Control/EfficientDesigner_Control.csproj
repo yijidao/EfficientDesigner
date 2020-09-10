@@ -38,6 +38,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,6 +57,7 @@
     <Compile Include="Controls\PropertyPanel\Editors\BrushPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\DateTimePropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\EnumPropertyEditor.cs" />
+    <Compile Include="Controls\PropertyPanel\Editors\FontFamilyPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\HorizontalAlignmentPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\ImagePropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\NumberPropertyEditor.cs" />
