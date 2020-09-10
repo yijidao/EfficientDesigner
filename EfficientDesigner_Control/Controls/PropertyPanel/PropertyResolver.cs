@@ -52,6 +52,7 @@ namespace EfficientDesigner_Control.Controls
                 EditorTypeCode.FontFamily => new FontFamilyPropertyEditor(),
                 EditorTypeCode.FontStretch => new FontStretchPropertyEditor(),
                 EditorTypeCode.FontWeight => new FontWeightPropertyEditor(),
+                EditorTypeCode.FontStyle => new FontStylePropertyEditor(),
                 _ => new ReadOnlyTextPropertyEditor()
             }
             : descriptor.PropertyType.IsSubclassOf(typeof(Enum))
@@ -80,6 +81,7 @@ namespace EfficientDesigner_Control.Controls
             [typeof(FontFamily)] = EditorTypeCode.FontFamily,
             [typeof(FontStretch)] = EditorTypeCode.FontStretch,
             [typeof(FontWeight)] = EditorTypeCode.FontWeight,
+            [typeof(FontStyle)] = EditorTypeCode.FontStyle,
         };
 
         private enum EditorTypeCode
@@ -104,7 +106,8 @@ namespace EfficientDesigner_Control.Controls
             Thickness,
             FontFamily,
             FontStretch,
-            FontWeight
+            FontWeight,
+            FontStyle
         }
     }
 }
