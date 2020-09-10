@@ -17,7 +17,5 @@ namespace EfficientDesigner_Control.Controls
         public override DependencyProperty GetDependencyProperty() => TextBox.TextProperty;
 
         public override IValueConverter GetConverter(PropertyItem propertyItem) => Converters.String2Brush.Instance;
-
-        public override UpdateSourceTrigger GetUpdateSourceTrigger(PropertyItem propertyItem) => UpdateSourceTrigger.LostFocus;
     }
 }

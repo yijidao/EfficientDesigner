@@ -50,19 +50,10 @@ namespace EfficientDesigner_Control.Controls
 
             var items = GetPropertyItems(propertyDescriptors);
 
-            //foreach (var k in items.GroupBy(x => x.PropertyType).Select(g => g.Key.Name))
-            //{
-            //    Debug.WriteLine(k);
-            //}
-            //foreach ()
-            //{
-
-            //}
-
-            Debug.WriteLine(watch.ElapsedMilliseconds);
-            watch.Restart();
+            //Debug.WriteLine(watch.ElapsedMilliseconds);
+            //watch.Restart();
             ElementItemsControl.ItemsSource = items;
-            Debug.WriteLine(watch.ElapsedMilliseconds);
+            //Debug.WriteLine(watch.ElapsedMilliseconds);
         }
 
         public PropertyResolver Resolver { get; } = new PropertyResolver();
@@ -71,8 +62,9 @@ namespace EfficientDesigner_Control.Controls
         {
             foreach (var descriptor in propertyDescriptors)
             {
-
+                // 只读和目前不支持的属性不显示
                 if (Resolver.ResolveIsReadOnly(descriptor)) continue;
+                if (!PropertyResolver.TypeCodeDic.TryGetValue(descriptor.PropertyType, out var code)) continue;
 
                 var item = new PropertyItem
                 {
@@ -87,7 +79,7 @@ namespace EfficientDesigner_Control.Controls
                     PropertyType = descriptor.PropertyType,
                 };
                 item.InitEditorElement();
-                Debug.WriteLine($"{item.PropertyName}   {item.PropertyType}");
+                //Debug.WriteLine($"{item.PropertyName}   {item.PropertyType}");
                 yield return item;
             }
         }

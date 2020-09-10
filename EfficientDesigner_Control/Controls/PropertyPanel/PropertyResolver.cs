@@ -12,10 +12,6 @@ namespace EfficientDesigner_Control.Controls
 {
     public class PropertyResolver
     {
-
-
-
-
         public string ResolveCategory(PropertyDescriptor descriptor) => descriptor.Attributes.OfType<CategoryAttribute>().FirstOrDefault()?.Category ?? default(string);
 
         public string ResolveDisplayName(PropertyDescriptor descriptor) => string.IsNullOrWhiteSpace(descriptor.DisplayName) ? descriptor.Name : descriptor.DisplayName;
@@ -58,7 +54,7 @@ namespace EfficientDesigner_Control.Controls
             : descriptor.PropertyType.IsSubclassOf(typeof(Enum))
                 ? (PropertyEditorBase)new EnumPropertyEditor()
                 : (PropertyEditorBase)new ReadOnlyTextPropertyEditor();
-        private static readonly Dictionary<Type, EditorTypeCode> TypeCodeDic = new Dictionary<Type, EditorTypeCode>
+        public static readonly Dictionary<Type, EditorTypeCode> TypeCodeDic = new Dictionary<Type, EditorTypeCode>
         {
             [typeof(string)] = EditorTypeCode.PlainText,
             [typeof(sbyte)] = EditorTypeCode.SByteNumber,
@@ -84,7 +80,7 @@ namespace EfficientDesigner_Control.Controls
             [typeof(FontStyle)] = EditorTypeCode.FontStyle,
         };
 
-        private enum EditorTypeCode
+        public enum EditorTypeCode
         {
             PlainText,
             SByteNumber,
