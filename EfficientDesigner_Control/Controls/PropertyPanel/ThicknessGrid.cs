@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,7 +18,7 @@ namespace EfficientDesigner_Control.Controls
         private const string TopName = "PART_Top";
         private const string BottomName = "PART_Bottom";
 
-        public ThicknessGrid()
+        static  ThicknessGrid()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ThicknessGrid), new FrameworkPropertyMetadata(typeof(ThicknessGrid)));
         }
@@ -28,7 +29,7 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(Thickness), typeof(ThicknessGrid), new PropertyMetadata(null,
+            DependencyProperty.Register("Value", typeof(Thickness), typeof(ThicknessGrid), new PropertyMetadata(new Thickness(),
                 (dp, e) =>
                 {
                     var ctl = (ThicknessGrid)dp;
@@ -59,15 +60,20 @@ namespace EfficientDesigner_Control.Controls
             Top = GetTemplateChild(TopName) as TextBox ?? throw new ArgumentException();
             Bottom = GetTemplateChild(BottomName) as TextBox ?? throw new ArgumentException();
 
-            Left.PreviewTextInput += PreviewTextInputHandle;
-            Right.PreviewTextInput += PreviewTextInputHandle;
-            Top.PreviewTextInput += PreviewTextInputHandle;
-            Bottom.PreviewTextInput += PreviewTextInputHandle;
+            //Left.PreviewTextInput += PreviewTextInputHandle;
+            //Right.PreviewTextInput += PreviewTextInputHandle;
+            //Top.PreviewTextInput += PreviewTextInputHandle;
+            //Bottom.PreviewTextInput += PreviewTextInputHandle;
 
-            DataObject.AddPastingHandler(Left, TextBoxPasting);
-            DataObject.AddPastingHandler(Right, TextBoxPasting);
-            DataObject.AddPastingHandler(Top, TextBoxPasting);
-            DataObject.AddPastingHandler(Bottom, TextBoxPasting);
+            //DataObject.AddPastingHandler(Left, TextBoxPasting);
+            //DataObject.AddPastingHandler(Right, TextBoxPasting);
+            //DataObject.AddPastingHandler(Top, TextBoxPasting);
+            //DataObject.AddPastingHandler(Bottom, TextBoxPasting);
+
+            Left.Text = Value.Left.ToString();
+            Right.Text = Value.Right.ToString();
+            Top.Text = Value.Top.ToString();
+            Bottom.Text = Value.Bottom.ToString();
 
             Left.TextChanged += (sender, e) =>
             {
@@ -75,6 +81,8 @@ namespace EfficientDesigner_Control.Controls
 
                 if (double.TryParse(Left.Text, out var d))
                     Value = new Thickness { Left = d, Bottom = Value.Bottom, Right = Value.Right, Top = Value.Top };
+                else
+                    throw new ArgumentException();
             };
 
             Right.TextChanged += (sender, e) =>
@@ -102,38 +110,40 @@ namespace EfficientDesigner_Control.Controls
             };
         }
 
-        private bool IsTextAllowed(string text) => double.TryParse(text, out var d);
+        //private static readonly Regex _regex = new Regex("[^0-9.-]+");
 
-        /// <summary>
-        /// 输入检测
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void PreviewTextInputHandle(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !IsTextAllowed(e.Text);
-        }
+        //private bool IsTextAllowed(string text) => !_regex.IsMatch(text);
 
-        /// <summary>
-        /// 粘贴检测
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
-        {
-            if (e.DataObject.GetDataPresent(typeof(String)))
-            {
-                var text = (String)e.DataObject.GetData(typeof(String));
-                if (!IsTextAllowed(text))
-                {
-                    e.CancelCommand();
-                }
-            }
-            else
-            {
-                e.CancelCommand();
-            }
+        ///// <summary>
+        ///// 输入检测
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //public void PreviewTextInputHandle(object sender, TextCompositionEventArgs e)
+        //{
+        //    e.Handled = !IsTextAllowed(e.Text);
+        //}
 
-        }
+        ///// <summary>
+        ///// 粘贴检测
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
+        //{
+        //    if (e.DataObject.GetDataPresent(typeof(String)))
+        //    {
+        //        var text = (String)e.DataObject.GetData(typeof(String));
+        //        if (!IsTextAllowed(text))
+        //        {
+        //            e.CancelCommand();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        e.CancelCommand();
+        //    }
+
+        //}
     }
 }

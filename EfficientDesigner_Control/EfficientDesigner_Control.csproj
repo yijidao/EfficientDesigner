@@ -71,7 +71,7 @@
     <Compile Include="Controls\PropertyPanel\PropertyResolver.cs" />
     <Compile Include="Controls\RectangleControl.cs" />
     <Compile Include="Controls\TextBoxControl.cs" />
-    <Compile Include="Controls\ThicknessGrid.cs" />
+    <Compile Include="Controls\PropertyPanel\ThicknessGrid.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="Interfaces\IControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +101,10 @@
     <Page Include="Themes\Styles\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\ThicknessGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

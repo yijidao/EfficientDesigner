@@ -82,4 +82,40 @@
             </GeometryDrawing>
         </DrawingImage.Drawing>
     </DrawingImage>
+    <DrawingImage x:Key="Arrow_Top">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{StaticResource IconBrush}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M554.666667 268.8v601.6h-85.333334V268.8L337.066667 401.066667 277.333333 341.333333 512 106.666667 746.666667 341.333333l-59.733334 59.733334L554.666667 268.8z"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Arrow_Bottom">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{StaticResource IconBrush}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M554.666667 712.533333V106.666667h-85.333334v601.6l-132.266666-132.266667L277.333333 640l234.666667 234.666667 234.666667-234.666667-59.733334-59.733333-132.266666 132.266666z"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Arrow_Left">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{StaticResource IconBrush}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M290.133333 448H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Arrow_Right">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{StaticResource IconBrush}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry Figures="M729.6 448H128v85.333333h601.6L597.333333 665.6l59.733334 59.733333 234.666666-234.666666L661.333333 256l-59.733333 59.733333 128 132.266667z"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 </ResourceDictionary>
