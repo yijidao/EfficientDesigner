@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -26,46 +22,46 @@ namespace EfficientDesigner_Control.Controls
             OwnPanel = ownPanel;
             LeftTop.DragDelta += (sender, e) =>
             {
-                double hor = e.HorizontalChange;
-                double vert = e.VerticalChange;
+                var hor = e.HorizontalChange;
+                var ver = e.VerticalChange;
                 if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 {
-                    if (DragStarted) IsHorizontalDrag = Math.Abs(hor) > Math.Abs(vert);
-                    if (IsHorizontalDrag) vert = hor; else hor = vert;
+                    if (DragStarted) IsHorizontalDrag = Math.Abs(hor) > Math.Abs(ver);
+                    if (IsHorizontalDrag) ver = hor; else hor = ver;
                 }
                 ResizeX(hor);
-                ResizeY(vert);
+                ResizeY(ver);
                 DragStarted = false;
                 e.Handled = true;
             };
 
             RightTop.DragDelta += (sender, e) =>
             {
-                double hor = e.HorizontalChange;
-                double vert = e.VerticalChange;
-                System.Diagnostics.Debug.WriteLine(hor + "," + vert + "," + (Math.Abs(hor) > Math.Abs(vert)) + "," + ChildElement.Height + "," + ChildElement.Width + "," + DragStarted + "," + IsHorizontalDrag);
+                var hor = e.HorizontalChange;
+                var ver = e.VerticalChange;
+                Debug.WriteLine(hor + "," + ver + "," + (Math.Abs(hor) > Math.Abs(ver)) + "," + ChildElement.Height + "," + ChildElement.Width + "," + DragStarted + "," + IsHorizontalDrag);
                 if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 {
-                    if (DragStarted) IsHorizontalDrag = Math.Abs(hor) > Math.Abs(vert);
-                    if (IsHorizontalDrag) vert = -hor; else hor = -vert;
+                    if (DragStarted) IsHorizontalDrag = Math.Abs(hor) > Math.Abs(ver);
+                    if (IsHorizontalDrag) ver = -hor; else hor = -ver;
                 }
                 ResizeWidth(hor);
-                ResizeY(vert);
+                ResizeY(ver);
                 DragStarted = false;
                 e.Handled = true;
             };
             LeftBottom.DragDelta += (sender, e) =>
             {
                 double hor = e.HorizontalChange;
-                double vert = e.VerticalChange;
-                System.Diagnostics.Debug.WriteLine(hor + "," + vert + "," + (Math.Abs(hor) > Math.Abs(vert)) + "," + ChildElement.Height + "," + ChildElement.Width + "," + DragStarted + "," + IsHorizontalDrag);
+                double ver = e.VerticalChange;
+                Debug.WriteLine(hor + "," + ver + "," + (Math.Abs(hor) > Math.Abs(ver)) + "," + ChildElement.Height + "," + ChildElement.Width + "," + DragStarted + "," + IsHorizontalDrag);
                 if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 {
-                    if (DragStarted) IsHorizontalDrag = Math.Abs(hor) > Math.Abs(vert);
-                    if (IsHorizontalDrag) vert = -hor; else hor = -vert;
+                    if (DragStarted) IsHorizontalDrag = Math.Abs(hor) > Math.Abs(ver);
+                    if (IsHorizontalDrag) ver = -hor; else hor = -ver;
                 }
                 ResizeX(hor);
-                ResizeHeight(vert);
+                ResizeHeight(ver);
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -86,66 +82,26 @@ namespace EfficientDesigner_Control.Controls
 
         }
 
-        private Thumb _LeftTop;
+        private Thumb _leftTop;
 
-        public Thumb LeftTop
-        {
-            get
-            {
-                if (_LeftTop == null)
-                {
-                    _LeftTop = GetThumb();
-                }
-                return _LeftTop;
-            }
-        }
+        public Thumb LeftTop => _leftTop ??= GetThumb();
 
-        private Thumb _LeftBottom;
+        private Thumb _leftBottom;
 
-        public Thumb LeftBottom
-        {
-            get
-            {
-                if (_LeftBottom == null)
-                {
-                    _LeftBottom = GetThumb();
-                }
-                return _LeftBottom;
-            }
-        }
+        public Thumb LeftBottom => _leftBottom ??= GetThumb();
 
-        private Thumb _RightTop;
+        private Thumb _rightTop;
 
-        public Thumb RightTop
-        {
-            get
-            {
-                if (_RightTop == null)
-                {
-                    _RightTop = GetThumb();
-                }
-                return _RightTop;
-            }
-        }
+        public Thumb RightTop => _rightTop ??= GetThumb();
 
-        private Thumb _RightBottom;
+        private Thumb _rightBottom;
 
-        public Thumb RightBottom
-        {
-            get
-            {
-                if (_RightBottom == null)
-                {
-                    _RightBottom = GetThumb();
-                }
-                return _RightBottom;
-            }
-        }
+        public Thumb RightBottom => _rightBottom ??= GetThumb();
 
         private Thumb GetThumb()
         {
             var thumb = new Thumb { Width = 10, Height = 10, Background = Brushes.Black };
-            thumb.DragStarted += (object sender, DragStartedEventArgs e) => DragStarted = true;
+            thumb.DragStarted += (sender, e) => DragStarted = true;
             VisualChilderns.Add(thumb);
             return thumb;
         }
@@ -164,13 +120,13 @@ namespace EfficientDesigner_Control.Controls
         // Provide CLR accessors for the event
         public event RoutedEventHandler Selected
         {
-            add { AddHandler(SelectedEvent, value); }
-            remove { RemoveHandler(SelectedEvent, value); }
+            add => AddHandler(SelectedEvent, value);
+            remove => RemoveHandler(SelectedEvent, value);
         }
 
         public void RaiseSelectedEvent()
         {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(SelectedEvent, this);
+            var newEventArgs = new RoutedEventArgs(SelectedEvent, this);
             RaiseEvent(newEventArgs);
         }
 
@@ -180,18 +136,18 @@ namespace EfficientDesigner_Control.Controls
         // Provide CLR accessors for the event
         public event RoutedEventHandler Move
         {
-            add { AddHandler(MoveEvent, value); }
-            remove { RemoveHandler(MoveEvent, value); }
+            add => AddHandler(MoveEvent, value);
+            remove => RemoveHandler(MoveEvent, value);
         }
 
         /// <summary>
         /// 移动时触发的事件，用于在画板中更新垂直线和水平线
         /// </summary>
-        /// <param name="point1">canvas.left和canvans.top</param>
+        /// <param name="point1">canvas.left和canvas.top</param>
         /// <param name="point2">(canvas.left + width/2) 和 (canvas.top + height/2)</param>
         public void RaiseMoveEvent(Point point1, Point point2)
         {
-            var args = new RoutedEventArgs(MoveEvent, new Point[] { point1, point2 });
+            var args = new RoutedEventArgs(MoveEvent, new[] { point1, point2 });
             RaiseEvent(args);
         }
 
