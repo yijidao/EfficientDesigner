@@ -15,7 +15,7 @@ namespace EfficientDesigner_Control.Controls
 
         public virtual void SetBinding(PropertyItem propertyItem, DependencyObject element) =>
             BindingOperations.SetBinding(element, GetDependencyProperty(),
-                new Binding($"{propertyItem.PropertyName}")
+                new Binding($"{(string.IsNullOrWhiteSpace(propertyItem.PropertyName) ? propertyItem.AttachPropertyName : propertyItem.PropertyName)}")
                 {
                     Source = propertyItem.Value,
                     Mode = GetBindingMode(propertyItem),

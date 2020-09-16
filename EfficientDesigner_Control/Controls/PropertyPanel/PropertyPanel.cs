@@ -38,8 +38,11 @@ namespace EfficientDesigner_Control.Controls
 
             var propertyDescriptors = TypeDescriptor.GetProperties(element.GetType()).OfType<PropertyDescriptor>().Where(x => x.IsBrowsable);
 
-            var items = GetPropertyItems(propertyDescriptors).OrderBy(x => x.DisplayName);
-
+            var items = GetPropertyItems(propertyDescriptors).ToList();
+            items.Add(GetZIndex(element));
+            items.Add(GetCanvasLeft(element));
+            items.Add(GetCanvasTop(element));
+            items = items.OrderBy(x => x.DisplayName).ToList();
             //Debug.WriteLine(watch.ElapsedMilliseconds);
             //watch.Restart();
             ElementItemsControl.ItemsSource = items;
@@ -72,6 +75,60 @@ namespace EfficientDesigner_Control.Controls
                 //Debug.WriteLine($"{item.PropertyName}   {item.PropertyType}");
                 yield return item;
             }
+        }
+
+        private PropertyItem GetZIndex(UIElement element)
+        {
+            var item = new PropertyItem
+            {
+                Category = nameof(Panel),
+                DisplayName = "Panel.ZIndex",
+                Description = "Panel.ZIndex",
+                IsReadOnly = false,
+                DefaultValue = Panel.GetZIndex(element),
+                Editor = new NumberPropertyEditor(int.MinValue, int.MaxValue),
+                Value = SelectedElement,
+                AttachPropertyName = "(Panel.ZIndex)",
+                PropertyType = typeof(int)
+            };
+            item.InitEditorElement();
+            return item;
+        }
+
+        private PropertyItem GetCanvasTop(UIElement element)
+        {
+            var item = new PropertyItem
+            {
+                Category = nameof(Canvas),
+                DisplayName = "Canvas.Top",
+                Description = "Canvas.Top",
+                IsReadOnly = false,
+                DefaultValue = Canvas.GetTop(element),
+                Editor = new NumberPropertyEditor(double.MinValue, double.MaxValue),
+                Value = SelectedElement,
+                AttachPropertyName = "(Canvas.Top)",
+                PropertyType = typeof(double),
+            };
+            item.InitEditorElement();
+            return item;
+        }
+
+        private PropertyItem GetCanvasLeft(UIElement element)
+        {
+            var item =  new PropertyItem
+            {
+                Category = nameof(Canvas),
+                DisplayName = "Canvas.Left",
+                Description = "Canvas.Left",
+                IsReadOnly = false,
+                DefaultValue = Canvas.GetLeft(element),
+                Editor = new NumberPropertyEditor(double.MinValue, double.MaxValue),
+                Value = SelectedElement,
+                AttachPropertyName = "(Canvas.Left)",
+                PropertyType = typeof(double),
+            };
+            item.InitEditorElement();
+            return item;
         }
 
         public override void OnApplyTemplate()

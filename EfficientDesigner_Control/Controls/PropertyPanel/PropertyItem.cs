@@ -102,8 +102,18 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty PropertyNameProperty =
-            DependencyProperty.Register("PropertyName", typeof(string), typeof(PropertyItem), new PropertyMetadata(default));
+            DependencyProperty.Register("PropertyName", typeof(string), typeof(PropertyItem), new PropertyMetadata(string.Empty));
 
+
+
+        public string AttachPropertyName
+        {
+            get { return (string)GetValue(AttachPropertyNameProperty); }
+            set { SetValue(AttachPropertyNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty AttachPropertyNameProperty =
+            DependencyProperty.Register("AttachPropertyName", typeof(string), typeof(PropertyItem), new PropertyMetadata(string.Empty));
 
 
         public Type PropertyType

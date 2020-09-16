@@ -19,7 +19,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>-->
     <hc:Interaction.Triggers>
-        <hc:RoutedEventTrigger RoutedEvent="Loaded">
+        <hc:RoutedEventTrigger RoutedEvent="UserControl.Loaded">
             <hc:EventToCommand Command="{Binding LoadedCommand}" />
         </hc:RoutedEventTrigger>
     </hc:Interaction.Triggers>
