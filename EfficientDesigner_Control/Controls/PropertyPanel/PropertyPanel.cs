@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Markup.Localizer;
-using System.Windows.Threading;
 
 namespace EfficientDesigner_Control.Controls
 {
@@ -44,7 +34,7 @@ namespace EfficientDesigner_Control.Controls
         {
             if (element == null || ElementItemsControl == null) return;
 
-            var watch = Stopwatch.StartNew();
+            //var watch = Stopwatch.StartNew();
 
             var propertyDescriptors = TypeDescriptor.GetProperties(element.GetType()).OfType<PropertyDescriptor>().Where(x => x.IsBrowsable);
 
@@ -64,7 +54,7 @@ namespace EfficientDesigner_Control.Controls
             {
                 // 只读和目前不支持的属性不显示
                 if (Resolver.ResolveIsReadOnly(descriptor)) continue;
-                if ((!PropertyResolver.TypeCodeDic.TryGetValue(descriptor.PropertyType, out var code)) && !Resolver.IsContentProperty(descriptor)) continue;
+                if ((!PropertyResolver.TypeCodeDic.TryGetValue(descriptor.PropertyType, out _)) && !Resolver.IsContentProperty(descriptor)) continue;
 
                 var item = new PropertyItem
                 {
