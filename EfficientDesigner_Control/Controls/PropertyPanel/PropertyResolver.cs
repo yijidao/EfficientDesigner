@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace EfficientDesigner_Control.Controls
@@ -21,6 +22,15 @@ namespace EfficientDesigner_Control.Controls
         public bool ResolveIsBrowsable(PropertyDescriptor descriptor) => descriptor.IsBrowsable;
 
         public bool ResolveIsReadOnly(PropertyDescriptor descriptor) => descriptor.IsReadOnly;
+
+        /// <summary>
+        /// 属性是不是 ContentControl.Content
+        /// </summary>
+        /// <param name="descriptor"></param>
+        /// <returns></returns>
+        public bool IsContentProperty(PropertyDescriptor descriptor) =>
+            descriptor.ComponentType == typeof(ContentControl) &&
+            descriptor.Name == nameof(ContentControl.Content);
 
         public object ResolveDefaultValue(PropertyDescriptor descriptor) => descriptor.Attributes.OfType<DefaultValueAttribute>().FirstOrDefault()?.Value;
 
@@ -53,7 +63,9 @@ namespace EfficientDesigner_Control.Controls
             }
             : descriptor.PropertyType.IsSubclassOf(typeof(Enum))
                 ? (PropertyEditorBase)new EnumPropertyEditor()
-                : (PropertyEditorBase)new ReadOnlyTextPropertyEditor();
+                : IsContentProperty(descriptor)
+                    ? new PlainTextPropertyEditor()
+                    : (PropertyEditorBase)new ReadOnlyTextPropertyEditor();
         public static readonly Dictionary<Type, EditorTypeCode> TypeCodeDic = new Dictionary<Type, EditorTypeCode>
         {
             [typeof(string)] = EditorTypeCode.PlainText,
@@ -103,7 +115,7 @@ namespace EfficientDesigner_Control.Controls
             FontFamily,
             FontStretch,
             FontWeight,
-            FontStyle
+            FontStyle,
         }
     }
 }

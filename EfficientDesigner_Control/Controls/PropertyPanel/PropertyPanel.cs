@@ -48,7 +48,7 @@ namespace EfficientDesigner_Control.Controls
 
             var propertyDescriptors = TypeDescriptor.GetProperties(element.GetType()).OfType<PropertyDescriptor>().Where(x => x.IsBrowsable);
 
-            var items = GetPropertyItems(propertyDescriptors);
+            var items = GetPropertyItems(propertyDescriptors).OrderBy(x => x.DisplayName);
 
             //Debug.WriteLine(watch.ElapsedMilliseconds);
             //watch.Restart();
@@ -64,7 +64,7 @@ namespace EfficientDesigner_Control.Controls
             {
                 // 只读和目前不支持的属性不显示
                 if (Resolver.ResolveIsReadOnly(descriptor)) continue;
-                if (!PropertyResolver.TypeCodeDic.TryGetValue(descriptor.PropertyType, out var code)) continue;
+                if ((!PropertyResolver.TypeCodeDic.TryGetValue(descriptor.PropertyType, out var code)) && !Resolver.IsContentProperty(descriptor)) continue;
 
                 var item = new PropertyItem
                 {
