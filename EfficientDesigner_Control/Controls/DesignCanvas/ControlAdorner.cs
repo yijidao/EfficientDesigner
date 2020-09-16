@@ -31,6 +31,7 @@ namespace EfficientDesigner_Control.Controls
                 }
                 ResizeX(hor);
                 ResizeY(ver);
+                RaiseMoveEvent();
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -47,6 +48,7 @@ namespace EfficientDesigner_Control.Controls
                 }
                 ResizeWidth(hor);
                 ResizeY(ver);
+                RaiseMoveEvent();
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -62,6 +64,7 @@ namespace EfficientDesigner_Control.Controls
                 }
                 ResizeX(hor);
                 ResizeHeight(ver);
+                RaiseMoveEvent();
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -76,6 +79,7 @@ namespace EfficientDesigner_Control.Controls
                 }
                 ResizeWidth(hor);
                 ResizeHeight(vert);
+                RaiseMoveEvent();
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -143,11 +147,9 @@ namespace EfficientDesigner_Control.Controls
         /// <summary>
         /// 移动时触发的事件，用于在画板中更新垂直线和水平线
         /// </summary>
-        /// <param name="point1">canvas.left和canvas.top</param>
-        /// <param name="point2">(canvas.left + width/2) 和 (canvas.top + height/2)</param>
-        public void RaiseMoveEvent(Point point1, Point point2)
+        public void RaiseMoveEvent()
         {
-            var args = new RoutedEventArgs(MoveEvent, new[] { point1, point2 });
+            var args = new RoutedEventArgs(MoveEvent, AdornedElement);
             RaiseEvent(args);
         }
 
@@ -252,7 +254,7 @@ namespace EfficientDesigner_Control.Controls
                 Canvas.SetTop(AdornedElement, y);
                 Canvas.SetLeft(AdornedElement, x);
 
-                RaiseMoveEvent(new Point(x, y), new Point(x + ChildElement.Width/ 2, y + ChildElement.Height / 2));
+                RaiseMoveEvent();
             }
         }
 

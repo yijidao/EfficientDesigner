@@ -57,7 +57,7 @@ namespace EfficientDesigner_Control.Controls
             set { SetValue(SaveAsCommandProperty, value); }
         }
 
-        public  static readonly DependencyProperty SaveAsCommandProperty =
+        public static readonly DependencyProperty SaveAsCommandProperty =
             DependencyProperty.Register("SaveAsCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
 
@@ -80,6 +80,7 @@ namespace EfficientDesigner_Control.Controls
             {
                 AddedHandler = true;
                 var layout = AdornerLayer.GetAdornerLayer(this);
+                if (layout == null) return;
                 layout.AddHandler(ControlAdorner.SelectedEvent, new RoutedEventHandler(OnDesignPanelSelected));
                 layout.AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChilrenMove));
             }
@@ -125,16 +126,16 @@ namespace EfficientDesigner_Control.Controls
         private TextBlock TopText { get; set; }
         private TextBlock LeftText { get; set; }
 
-        private ControlAdorner _SelectedAdorner;
+        private ControlAdorner _selectedAdorner;
 
         private ControlAdorner SelectedAdorner
         {
-            get { return _SelectedAdorner; }
+            get => _selectedAdorner;
             set
             {
-                _SelectedAdorner?.InvalidateVisual();
+                _selectedAdorner?.InvalidateVisual();
                 value?.InvalidateVisual();
-                _SelectedAdorner = value;
+                _selectedAdorner = value;
                 SelectedElement = value?.AdornedElement;
             }
         }
@@ -178,44 +179,31 @@ namespace EfficientDesigner_Control.Controls
 
         private void DesignPanel_ChilrenMove(object sender, RoutedEventArgs e)
         {
-            var ps = (Point[])(e.OriginalSource);
+            var element = e.OriginalSource as FrameworkElement;
+            if (element == null) return;
 
-            if (double.IsNaN(ps[0].X) || double.IsNaN(ps[0].Y) || double.IsNaN(ps[1].X) || double.IsNaN(ps[1].Y)) return;
+            var top = Canvas.GetTop(element);
+            var left = Canvas.GetLeft(element);
 
-            VLine.X1 = ps[1].X;
-            VLine.X2 = ps[1].X;
-            VLine.Y2 = ps[1].Y;
+            HLine.Y1 = HLine.Y2 = top + element.Height / 2;
+            HLine.X2 = left + element.Width / 2;
 
-            HLine.Y1 = ps[1].Y;
-            HLine.X2 = ps[1].X;
-            HLine.Y2 = ps[1].Y;
+            VLine.X1 = VLine.X2 = left + element.Width / 2;
+            VLine.Y2 = top + element.Height / 2;
 
-            Canvas.SetTop(TopText, ps[0].Y / 2);
-            Canvas.SetLeft(TopText, ps[1].X - 10);
+            Canvas.SetTop(TopText, top / 2);
+            Canvas.SetLeft(TopText, VLine.X2 - 10);
 
-            Canvas.SetTop(LeftText, ps[1].Y - 10);
-            Canvas.SetLeft(LeftText, ps[0].X / 2);
+            Canvas.SetTop(LeftText, HLine.Y2 - 10);
+            Canvas.SetLeft(LeftText, left / 2);
 
-            TopText.Text = ps[0].Y.ToString("0.##");
-            LeftText.Text = ps[0].X.ToString("0.##");
 
-            if (ps[0].Y < 30)
-            {
-                TopText.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                TopText.Visibility = Visibility.Visible;
-            }
+            TopText.Text = top.ToString("0.##");
+            LeftText.Text = left.ToString("0.##");
 
-            if (ps[0].X < 30)
-            {
-                LeftText.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                LeftText.Visibility = Visibility.Visible;
-            }
+            TopText.Visibility = top < 30 ? Visibility.Collapsed : Visibility.Visible;
+
+            LeftText.Visibility = left < 30 ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public void RemoveChild()
