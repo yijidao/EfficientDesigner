@@ -84,7 +84,7 @@ namespace EfficientDesigner_Control.Controls
                 var layout = AdornerLayer.GetAdornerLayer(this);
                 if (layout == null) return;
                 layout.AddHandler(ControlAdorner.SelectedEvent, new RoutedEventHandler(OnDesignPanelSelected));
-                layout.AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChilrenMove));
+                layout.AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChildrenMove));
             }
         }
 
@@ -233,7 +233,7 @@ namespace EfficientDesigner_Control.Controls
             }
         }
 
-        private void DesignPanel_ChilrenMove(object sender, RoutedEventArgs e)
+        private void DesignPanel_ChildrenMove(object sender, RoutedEventArgs e)
         {
             var element = e.OriginalSource as FrameworkElement;
             if (element == null) return;
