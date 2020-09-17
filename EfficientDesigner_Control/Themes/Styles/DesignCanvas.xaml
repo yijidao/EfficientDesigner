@@ -14,6 +14,7 @@
                         <Canvas AllowDrop="True" x:Name="PART_Canvas" Margin="{TemplateBinding Padding}">
                             <Line x:Name="PART_VerticalLine" Stroke="Gray" StrokeThickness="1" Y1="0"/>
                             <Line x:Name="PART_HorizontalLine" Stroke="Gray" StrokeThickness="1" X1="0" />
+                            <Rectangle x:Name="PART_SelectedBound" Stroke="CornflowerBlue" StrokeThickness="1" StrokeDashArray="4 2" ></Rectangle>
                             <TextBlock x:Name="PART_TopText" Background="White" />
                             <TextBlock x:Name="PART_LeftText" Background="White" />
                         </Canvas>

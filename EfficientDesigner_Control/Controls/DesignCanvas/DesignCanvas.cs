@@ -25,6 +25,8 @@ namespace EfficientDesigner_Control.Controls
         private const string HLineName = "PART_HorizontalLine";
         private const string TopTextName = "PART_TopText";
         private const string LeftTextName = "PART_LeftText";
+        private const string SelectedBoundName = "PART_SelectedBound";
+
 
         public ICommand SaveCommand
         {
@@ -92,6 +94,12 @@ namespace EfficientDesigner_Control.Controls
             {
                 var control = e.Data.GetData("control") as IControl;
                 var element = control?.GetElement();
+                if (element == null)
+                {
+                    e.Effects = DragDropEffects.None;
+                    e.Handled = true;
+                    return;
+                }
 
                 var p = e.GetPosition(DesignPanel);
                 Canvas.SetTop(element, p.Y);
@@ -99,8 +107,8 @@ namespace EfficientDesigner_Control.Controls
 
                 AddChild(element);
                 e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
             }
-            e.Handled = true;
         }
 
         /// <summary>
@@ -152,6 +160,8 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty SelectedElementProperty =
             DependencyProperty.Register("SelectedElement", typeof(UIElement), typeof(DesignCanvas), new PropertyMetadata(null));
 
+        public Rectangle SelectedBound { get; private set; }
+
 
         public override void OnApplyTemplate()
         {
@@ -162,6 +172,7 @@ namespace EfficientDesigner_Control.Controls
             TopText = GetTemplateChild(TopTextName) as TextBlock;
             LeftText = GetTemplateChild(LeftTextName) as TextBlock;
             DesignPanel = GetTemplateChild(CanvasName) as Canvas;
+            SelectedBound = GetTemplateChild(SelectedBoundName) as Rectangle;
         }
 
 
@@ -290,5 +301,41 @@ namespace EfficientDesigner_Control.Controls
                 FileName = dialog.FileName;
             }
         }
+
+        private Point ClickPoint { get; set; }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            ClickPoint = e.GetPosition(this);
+            Canvas.SetTop(SelectedBound, e.GetPosition(this).Y);
+            Canvas.SetLeft(SelectedBound, e.GetPosition(this).X);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.LeftButton == MouseButtonState.Pressed)
+            {
+                SelectedBound.Visibility = Visibility.Visible;
+
+                var p1 = e.GetPosition(this);
+
+                SelectedBound.Width = Math.Abs(ClickPoint.X - p1.X);
+                SelectedBound.Height = Math.Abs(ClickPoint.Y - p1.Y);
+
+                if (p1.X < ClickPoint.X)
+                {
+                    Canvas.SetLeft(SelectedBound, ClickPoint.X - Math.Abs(ClickPoint.X - p1.X));
+                }
+
+                if (p1.Y < ClickPoint.Y)
+                {
+                    Canvas.SetTop(SelectedBound, ClickPoint.Y - Math.Abs(p1.Y - ClickPoint.Y));
+                }
+            }
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e) => SelectedBound.Visibility = Visibility.Collapsed;
+
+        protected override void OnMouseLeave(MouseEventArgs e) => SelectedBound.Visibility = Visibility.Collapsed;
     }
 }
