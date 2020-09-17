@@ -135,6 +135,7 @@ namespace EfficientDesigner_Control.Controls
         private TextBlock LeftText { get; set; }
 
         private ControlAdorner _selectedAdorner;
+        private IEnumerable<ControlAdorner> _selectedAdorners;
 
         private ControlAdorner SelectedAdorner
         {
@@ -146,6 +147,41 @@ namespace EfficientDesigner_Control.Controls
                 _selectedAdorner = value;
                 SelectedElement = value?.AdornedElement;
             }
+        }
+
+        private IEnumerable<ControlAdorner> SelectedAdorners
+        {
+            get => _selectedAdorners;
+            set
+            {
+                if (_selectedAdorners != null)
+                {
+                    foreach (var adorner in _selectedAdorners)
+                    {
+                        adorner?.InvalidateVisual();
+                    }
+                }
+
+                if (value != null)
+                {
+                    foreach (var adorner in value)
+                    {
+                        adorner?.InvalidateVisual();
+                    }
+                }
+
+                _selectedAdorners = value;
+                SelectedElements = value?.Select(x => x.AdornedElement);
+            }
+        }
+
+        public static readonly DependencyProperty SelectedElementsProperty = DependencyProperty.Register(
+            "SelectedElements", typeof(IEnumerable<UIElement>), typeof(DesignCanvas), new PropertyMetadata(default(IEnumerable<UIElement>)));
+
+        public IEnumerable<UIElement> SelectedElements
+        {
+            get { return (IEnumerable<UIElement>)GetValue(SelectedElementsProperty); }
+            set { SetValue(SelectedElementsProperty, value); }
         }
 
         public UIElement SelectedElement
@@ -178,6 +214,15 @@ namespace EfficientDesigner_Control.Controls
 
         private void OnDesignPanelSelected(object sender, RoutedEventArgs e)
         {
+            if (SelectedAdorners != null)
+            {
+                foreach (var adorner in SelectedAdorners)
+                {
+                    adorner.IsSelected = false;
+                }
+                SelectedAdorners = null;
+            }
+
             if (SelectedAdorner != null)
                 SelectedAdorner.IsSelected = false;
 
@@ -306,18 +351,21 @@ namespace EfficientDesigner_Control.Controls
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            ClickPoint = e.GetPosition(this);
+            ClickPoint = e.GetPosition(DesignPanel);
             Canvas.SetTop(SelectedBound, e.GetPosition(this).Y);
             Canvas.SetLeft(SelectedBound, e.GetPosition(this).X);
         }
+
+        private bool DoSelectMultiple { get; set; }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.LeftButton == MouseButtonState.Pressed)
             {
+                DoSelectMultiple = true;
                 SelectedBound.Visibility = Visibility.Visible;
 
-                var p1 = e.GetPosition(this);
+                var p1 = e.GetPosition(DesignPanel);
 
                 SelectedBound.Width = Math.Abs(ClickPoint.X - p1.X);
                 SelectedBound.Height = Math.Abs(ClickPoint.Y - p1.Y);
@@ -334,8 +382,77 @@ namespace EfficientDesigner_Control.Controls
             }
         }
 
-        protected override void OnMouseUp(MouseButtonEventArgs e) => SelectedBound.Visibility = Visibility.Collapsed;
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            if (DoSelectMultiple)
+            {
+                if (SelectedAdorner != null)
+                {
+                    SelectedAdorner.IsSelected = false;
+                    SelectedAdorner = null;
+                }
+
+                var x = Canvas.GetLeft(SelectedBound);
+                var y = Canvas.GetTop(SelectedBound);
+
+                if (SelectedAdorners != null)
+                {
+                    foreach (var adorner in SelectedAdorners)
+                    {
+                        adorner.IsSelected = false;
+                    }
+                }
+
+                var adorners = GetAdorners(new Point(x, y), new Point(x + SelectedBound.Width, y + SelectedBound.Height));
+
+                foreach (var adorner in adorners)
+                {
+                    adorner.IsSelected = true;
+                }
+
+                SelectedAdorners = adorners;
+
+                SelectedBound.Visibility = Visibility.Collapsed;
+                SelectedBound.Width = 0;
+                SelectedBound.Height = 0;
+                DoSelectMultiple = false;
+            }
+        }
 
         protected override void OnMouseLeave(MouseEventArgs e) => SelectedBound.Visibility = Visibility.Collapsed;
+
+        /// <summary>
+        /// 返回矩形内的所有ControlAdorner
+        /// </summary>
+        /// <param name="p1">矩形的起始点</param>
+        /// <param name="p2">矩形的结束点</param>
+        /// <returns></returns>
+        private IEnumerable<ControlAdorner> GetAdorners(Point p1, Point p2)
+        {
+            foreach (FrameworkElement element in DesignPanel.Children)
+            {
+                if (Canvas.GetTop(element) >= p2.Y) continue;
+                if (Canvas.GetLeft(element) >= p2.X) continue;
+                if (Canvas.GetTop(element) + element.Height <= p1.Y) continue;
+                if (Canvas.GetLeft(element) + element.Width <= p1.X) continue;
+
+                var d = AdornerLayer.GetAdornerLayer(this)?.GetAdorners(element)?.OfType<ControlAdorner>().FirstOrDefault();
+                if (d == null) continue;
+                //d.IsSelected = true;
+                yield return d;
+            }
+        }
+
+
+
+        //private void UnSelectedAdorners()
+        //{
+
+        //}
+
+        //private void SelectedAdorners()
+        //{
+
+        //}
     }
 }

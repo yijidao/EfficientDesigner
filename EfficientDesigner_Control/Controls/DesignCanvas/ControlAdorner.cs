@@ -185,7 +185,11 @@ namespace EfficientDesigner_Control.Controls
             e.Handled = true;
         }
 
-        public bool IsSelected { get; set; }
+        public bool IsSelected
+        {
+            get;
+            set;
+        }
 
         private FrameworkElement ChildElement => AdornedElement as FrameworkElement;
 
