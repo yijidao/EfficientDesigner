@@ -405,9 +405,12 @@ namespace EfficientDesigner_Control.Controls
 
                 var adorners = GetAdorners(new Point(x, y), new Point(x + SelectedBound.Width, y + SelectedBound.Height));
 
-                foreach (var adorner in adorners)
+                if (adorners != null)
                 {
-                    adorner.IsSelected = true;
+                    foreach (var adorner in adorners)
+                    {
+                        adorner.IsSelected = true;
+                    }
                 }
 
                 SelectedAdorners = adorners;
@@ -438,21 +441,8 @@ namespace EfficientDesigner_Control.Controls
 
                 var d = AdornerLayer.GetAdornerLayer(this)?.GetAdorners(element)?.OfType<ControlAdorner>().FirstOrDefault();
                 if (d == null) continue;
-                //d.IsSelected = true;
                 yield return d;
             }
         }
-
-
-
-        //private void UnSelectedAdorners()
-        //{
-
-        //}
-
-        //private void SelectedAdorners()
-        //{
-
-        //}
     }
 }
