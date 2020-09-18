@@ -18,7 +18,7 @@ namespace EfficientDesigner_Control.Controls
 
         public ControlAdorner(UIElement adornedElement, Panel ownPanel) : base(adornedElement)
         {
-            VisualChilderns = new VisualCollection(this);
+            VisualChildren = new VisualCollection(this);
             OwnPanel = ownPanel;
             LeftTop.DragDelta += (sender, e) =>
             {
@@ -31,7 +31,7 @@ namespace EfficientDesigner_Control.Controls
                 }
                 ResizeX(hor);
                 ResizeY(ver);
-                RaiseMoveEvent();
+                RaiseEvent(new RoutedEventArgs(DecoratorSizeChangedEvent, this));
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -48,7 +48,7 @@ namespace EfficientDesigner_Control.Controls
                 }
                 ResizeWidth(hor);
                 ResizeY(ver);
-                RaiseMoveEvent();
+                RaiseEvent(new RoutedEventArgs(DecoratorSizeChangedEvent, this));
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -64,7 +64,7 @@ namespace EfficientDesigner_Control.Controls
                 }
                 ResizeX(hor);
                 ResizeHeight(ver);
-                RaiseMoveEvent();
+                RaiseEvent(new RoutedEventArgs(DecoratorSizeChangedEvent, this));
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -79,7 +79,7 @@ namespace EfficientDesigner_Control.Controls
                 }
                 ResizeWidth(hor);
                 ResizeHeight(vert);
-                RaiseMoveEvent();
+                RaiseEvent(new RoutedEventArgs(DecoratorSizeChangedEvent, this));
                 DragStarted = false;
                 e.Handled = true;
             };
@@ -106,7 +106,7 @@ namespace EfficientDesigner_Control.Controls
         {
             var thumb = new Thumb { Width = 10, Height = 10, Background = Brushes.Black };
             thumb.DragStarted += (sender, e) => DragStarted = true;
-            VisualChilderns.Add(thumb);
+            VisualChildren.Add(thumb);
             return thumb;
         }
 
@@ -118,30 +118,23 @@ namespace EfficientDesigner_Control.Controls
 
         private Point TransformOrigin { get; set; } = new Point(0, 0);
 
-        public static readonly RoutedEvent SelectedEvent = EventManager.RegisterRoutedEvent(
-    "Selected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ControlAdorner));
-
-        // Provide CLR accessors for the event
-        public event RoutedEventHandler Selected
-        {
-            add => AddHandler(SelectedEvent, value);
-            remove => RemoveHandler(SelectedEvent, value);
-        }
-
-        public void RaiseSelectedEvent()
-        {
-            var newEventArgs = new RoutedEventArgs(SelectedEvent, this);
-            RaiseEvent(newEventArgs);
-        }
-
         public static readonly RoutedEvent MoveEvent = EventManager.RegisterRoutedEvent(
     "Move", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ControlAdorner));
 
-        // Provide CLR accessors for the event
         public event RoutedEventHandler Move
         {
             add => AddHandler(MoveEvent, value);
             remove => RemoveHandler(MoveEvent, value);
+        }
+
+        public static readonly RoutedEvent DecoratorSizeChangedEvent =
+            EventManager.RegisterRoutedEvent("DecoratorSizeChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+                typeof(ControlAdorner));
+
+        public event RoutedEventHandler DecoratorSizeChanged
+        {
+            add => AddHandler(DecoratorSizeChangedEvent, value);
+            remove => RemoveHandler(DecoratorSizeChangedEvent, value);
         }
 
         /// <summary>
@@ -158,8 +151,6 @@ namespace EfficientDesigner_Control.Controls
             //base.OnRender(drawingContext);
             if (IsSelected)
             {
-                MousePoint = Mouse.GetPosition(AdornedElement);
-
                 LeftBottom.Visibility = Visibility.Visible;
                 LeftTop.Visibility = Visibility.Visible;
                 RightBottom.Visibility = Visibility.Visible;
@@ -172,18 +163,11 @@ namespace EfficientDesigner_Control.Controls
                 LeftTop.Visibility = Visibility.Collapsed;
                 RightBottom.Visibility = Visibility.Collapsed;
                 RightTop.Visibility = Visibility.Collapsed;
-                drawingContext.DrawRectangle(Brushes.Transparent, null, new Rect(-1, -1, AdornedElement.DesiredSize.Width + 1, AdornedElement.DesiredSize.Height + 1));
+                //drawingContext.DrawRectangle(Brushes.Transparent, null, new Rect(-1, -1, AdornedElement.DesiredSize.Width + 1, AdornedElement.DesiredSize.Height + 1));
             }
         }
 
         public static Pen BorderPen { get; set; } = new Pen(Brushes.DeepSkyBlue, 1);
-
-
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            RaiseSelectedEvent();
-            e.Handled = true;
-        }
 
         public bool IsSelected
         {
@@ -228,36 +212,24 @@ namespace EfficientDesigner_Control.Controls
             base.ArrangeOverride(finalSize);
             double desireWidth = AdornedElement.DesiredSize.Width;
             double desireHeight = AdornedElement.DesiredSize.Height;
-            double adornerWidth = this.DesiredSize.Width;
-            double adornerHeight = this.DesiredSize.Height;
-            LeftTop.Arrange(new Rect(-adornerWidth / 2 - 2, -adornerHeight / 2 - 2, adornerWidth, adornerHeight));
-            RightTop.Arrange(new Rect(desireWidth - adornerWidth / 2 + 2, -adornerHeight / 2 - 2, adornerWidth, adornerHeight));
-            LeftBottom.Arrange(new Rect(-adornerWidth / 2 - 2, desireHeight - adornerHeight / 2 + 2, adornerWidth, adornerHeight));
-            RightBottom.Arrange(new Rect(desireWidth - adornerWidth / 2 + 2, desireHeight - adornerHeight / 2 + 2, adornerWidth, adornerHeight));
+            double decoratorWidth = this.DesiredSize.Width;
+            double decoratorHeight = this.DesiredSize.Height;
+            LeftTop.Arrange(new Rect(-decoratorWidth / 2 - 2, -decoratorHeight / 2 - 2, decoratorWidth, decoratorHeight));
+            RightTop.Arrange(new Rect(desireWidth - decoratorWidth / 2 + 2, -decoratorHeight / 2 - 2, decoratorWidth, decoratorHeight));
+            LeftBottom.Arrange(new Rect(-decoratorWidth / 2 - 2, desireHeight - decoratorHeight / 2 + 2, decoratorWidth, decoratorHeight));
+            RightBottom.Arrange(new Rect(desireWidth - decoratorWidth / 2 + 2, desireHeight - decoratorHeight / 2 + 2, decoratorWidth, decoratorHeight));
             return finalSize;
         }
 
-        private VisualCollection VisualChilderns { get; set; }
+        private VisualCollection VisualChildren { get; set; }
 
-        protected override int VisualChildrenCount => VisualChilderns.Count;
-        protected override Visual GetVisualChild(int index) => VisualChilderns[index];
+        protected override int VisualChildrenCount => VisualChildren.Count;
+        protected override Visual GetVisualChild(int index) => VisualChildren[index];
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (!(e.OriginalSource is Thumb) && e.LeftButton == MouseButtonState.Pressed)
             {
-                //var p = e.GetPosition(AdornedElement);
-                //var vector = p - MousePoint;
-
-                //var x = Canvas.GetLeft(AdornedElement) + vector.X;
-                //var y = Canvas.GetTop(AdornedElement) + vector.Y;
-
-                //x = Math.Max(0, Math.Min(x, OwnPanel.ActualWidth - this.ActualWidth));
-                //y = Math.Max(0, Math.Min(y, OwnPanel.ActualHeight - this.ActualHeight));
-
-                //Canvas.SetTop(AdornedElement, y);
-                //Canvas.SetLeft(AdornedElement, x);
-
                 RaiseMoveEvent();
             }
         }
@@ -266,6 +238,9 @@ namespace EfficientDesigner_Control.Controls
 
         public Point MousePoint { get; private set; }
 
-
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            MousePoint = Mouse.GetPosition(AdornedElement);
+        }
     }
-}
+    }

@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:EfficientDesigner_Control.Themes.Styles"
                     xmlns:ctl="clr-namespace:EfficientDesigner_Control.Controls">
     <Style TargetType="ctl:DesignCanvas">
-        <Setter Property="Focusable" Value="False"/>
+        <!--<Setter Property="Focusable" Value="False"/>-->
         <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
