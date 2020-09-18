@@ -149,7 +149,7 @@ namespace EfficientDesigner_Control.Controls
         /// </summary>
         public void RaiseMoveEvent()
         {
-            var args = new RoutedEventArgs(MoveEvent, AdornedElement);
+            var args = new RoutedEventArgs(MoveEvent, this);
             RaiseEvent(args);
         }
 
@@ -246,17 +246,17 @@ namespace EfficientDesigner_Control.Controls
         {
             if (!(e.OriginalSource is Thumb) && e.LeftButton == MouseButtonState.Pressed)
             {
-                var p = e.GetPosition(AdornedElement);
-                var vector = p - MousePoint;
+                //var p = e.GetPosition(AdornedElement);
+                //var vector = p - MousePoint;
 
-                var x = Canvas.GetLeft(AdornedElement) + vector.X;
-                var y = Canvas.GetTop(AdornedElement) + vector.Y;
+                //var x = Canvas.GetLeft(AdornedElement) + vector.X;
+                //var y = Canvas.GetTop(AdornedElement) + vector.Y;
 
-                x = Math.Max(0, Math.Min(x, OwnPanel.ActualWidth - this.ActualWidth));
-                y = Math.Max(0, Math.Min(y, OwnPanel.ActualHeight - this.ActualHeight));
+                //x = Math.Max(0, Math.Min(x, OwnPanel.ActualWidth - this.ActualWidth));
+                //y = Math.Max(0, Math.Min(y, OwnPanel.ActualHeight - this.ActualHeight));
 
-                Canvas.SetTop(AdornedElement, y);
-                Canvas.SetLeft(AdornedElement, x);
+                //Canvas.SetTop(AdornedElement, y);
+                //Canvas.SetLeft(AdornedElement, x);
 
                 RaiseMoveEvent();
             }
@@ -264,7 +264,7 @@ namespace EfficientDesigner_Control.Controls
 
         public Panel OwnPanel { get; set; }
 
-        private Point MousePoint { get; set; }
+        public Point MousePoint { get; private set; }
 
 
     }

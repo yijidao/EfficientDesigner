@@ -235,12 +235,31 @@ namespace EfficientDesigner_Control.Controls
 
         private void DesignPanel_ChildrenMove(object sender, RoutedEventArgs e)
         {
-            var element = e.OriginalSource as FrameworkElement;
-            if (element == null) return;
+            if (DoSelectMultiple) return;
+            var mouseOnPanel = Mouse.GetPosition(this);
+            if (mouseOnPanel.X < 0 || mouseOnPanel.X > this.Width || mouseOnPanel.Y < 0 ||
+                mouseOnPanel.Y > Height) return;
+
+            if (!(e.OriginalSource is ControlAdorner controlAdorner)) return;
+
+            var element = controlAdorner.AdornedElement as FrameworkElement;
 
             var top = Canvas.GetTop(element);
             var left = Canvas.GetLeft(element);
 
+            var mouseOnControl = Mouse.GetPosition(element);
+            var vector = mouseOnControl - controlAdorner.MousePoint;
+
+            var x = left + vector.X;
+            var y = top + vector.Y;
+
+            x = Math.Max(0, Math.Min(x, ActualWidth - element.ActualWidth));
+            y = Math.Max(0, Math.Min(y, ActualHeight - element.ActualHeight));
+
+            Canvas.SetTop(element, y);
+            Canvas.SetLeft(element, x);
+
+            // 设置垂直线和水平线
             HLine.Y1 = HLine.Y2 = top + element.Height / 2;
             HLine.X2 = left + element.Width / 2;
 
@@ -253,12 +272,10 @@ namespace EfficientDesigner_Control.Controls
             Canvas.SetTop(LeftText, HLine.Y2 - 10);
             Canvas.SetLeft(LeftText, left / 2);
 
-
             TopText.Text = top.ToString("0.##");
             LeftText.Text = left.ToString("0.##");
 
             TopText.Visibility = top < 30 ? Visibility.Collapsed : Visibility.Visible;
-
             LeftText.Visibility = left < 30 ? Visibility.Collapsed : Visibility.Visible;
         }
 
