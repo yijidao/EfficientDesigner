@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EfficientDesigner_Control.Models
 {
-    class MasterDetailModel
+    class MasterDetailModel : MasterModel
     {
-        public string DisplayName { get; }
-        public MasterModel Master { get; }
-        public List<MasterDetailModel> Detail { get; }
 
-        public MasterDetailModel(string displayName, MasterModel master, List<MasterDetailModel> detail)
+        public MasterDetailModel(FrameworkElement element, MasterModel master, List<MasterDetailModel> details = null) : base(element, details)
         {
-            DisplayName = displayName;
             Master = master;
-            Detail = detail ?? new List<MasterDetailModel>();
         }
+
+        public MasterModel Master { get; set; }
     }
 }

@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EfficientDesigner_Control.Models
 {
     class MasterModel
     {
-        public MasterModel(string displayName, List<MasterDetailModel> details = null)
+        public FrameworkElement Element { get; }
+        public List<MasterDetailModel> Details { get; }
+
+        public string DisplayName { get; }
+
+        public MasterModel(FrameworkElement element, List<MasterDetailModel> details = null)
         {
-            DisplayName = displayName;
+            Element = element;
+            DisplayName = string.IsNullOrWhiteSpace(element.Name) ? "[Null]" : $"[{element.Name}]" + $"[{element.GetType().Name}]";
             Details = details ?? new List<MasterDetailModel>();
         }
 
-        public string DisplayName { get; }
-        public List<MasterDetailModel> Details { get; }
     }
 }
