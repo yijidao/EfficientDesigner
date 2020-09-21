@@ -90,10 +90,7 @@ namespace EfficientDesigner_Control.Controls
             SelectedDecorator = decorator;
         }
 
-        private void DesignPanel_ChildSizeChanged(object sender, RoutedEventArgs e)
-        {
-            MoveLineAndText((e.OriginalSource as ControlAdorner)?.AdornedElement as FrameworkElement);
-        }
+        private void DesignPanel_ChildSizeChanged(object sender, RoutedEventArgs e) => MoveLineAndText((e.OriginalSource as ControlAdorner)?.AdornedElement as FrameworkElement);
 
         /// <summary>
         /// 设置垂直线、水平线、垂直文本、水平文本的位置
@@ -231,7 +228,7 @@ namespace EfficientDesigner_Control.Controls
                 // 渲染新选中的子控件
                 if (value != null)
                 {
-                    foreach (var decorator in value?.Where(x => x != null))
+                    foreach (var decorator in value.Where(x => x != null))
                     {
                         decorator.IsSelected = true;
                         decorator.InvalidateVisual();
@@ -265,7 +262,7 @@ namespace EfficientDesigner_Control.Controls
             DependencyProperty.Register("SelectedElement", typeof(UIElement), typeof(DesignCanvas), new PropertyMetadata(
                 (o, args) =>
                 {
-                    var ctl = (DesignCanvas) o;
+                    var ctl = (DesignCanvas)o;
                     ctl.MoveLineAndText(args.NewValue as FrameworkElement);
                 }));
 
@@ -490,6 +487,13 @@ namespace EfficientDesigner_Control.Controls
                 if (d == null) continue;
                 yield return d;
             }
+        }
+
+        public void GetVisualTree()
+        {
+
+
+            //VisualTreeHelper.GetChild()
         }
 
     }
