@@ -45,7 +45,7 @@ namespace EfficientDesigner.Views
         {
             if ((e.Key == Key.Back || e.Key == Key.Delete))
             {
-                DesignPanel.RemoveChild();
+                DesignPanel.RemoveChildren();
             }
         }
     }

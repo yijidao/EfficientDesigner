@@ -27,7 +27,6 @@ namespace EfficientDesigner_Control.Controls
         private const string LeftTextName = "PART_LeftText";
         private const string SelectedBoundName = "PART_SelectedBound";
 
-
         public ICommand SaveCommand
         {
             get => (ICommand)GetValue(SaveCommandProperty);
@@ -39,7 +38,6 @@ namespace EfficientDesigner_Control.Controls
         /// </summary>
         public static readonly DependencyProperty SaveCommandProperty =
             DependencyProperty.Register("SaveCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
-
 
         public ICommand LoadCommand
         {
@@ -62,7 +60,6 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty SaveAsCommandProperty =
             DependencyProperty.Register("SaveAsCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
-
         public DesignCanvas()
         {
             AllowDrop = true;
@@ -83,6 +80,14 @@ namespace EfficientDesigner_Control.Controls
             var layout = AdornerLayer.GetAdornerLayer(this);
             layout?.AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChildrenMove));
             layout?.AddHandler(ControlAdorner.DecoratorSizeChangedEvent, new RoutedEventHandler(DesignPanel_ChildSizeChanged));
+            layout?.AddHandler(ControlAdorner.MouseDownEvent, new RoutedEventHandler(DesignPanel_ChildMouseDown));
+        }
+
+        private void DesignPanel_ChildMouseDown(object sender, RoutedEventArgs e)
+        {
+            if (!(e.Source is ControlAdorner decorator)) return;
+            SelectedDecorators = null;
+            SelectedDecorator = decorator;
         }
 
         private void DesignPanel_ChildSizeChanged(object sender, RoutedEventArgs e)
@@ -96,9 +101,15 @@ namespace EfficientDesigner_Control.Controls
         /// <param name="element"></param>
         private void MoveLineAndText(FrameworkElement element)
         {
-            if (element == null) return;
+            if (element == null)
+            {
+                TopText.Visibility = LeftText.Visibility = HLine.Visibility = VLine.Visibility = Visibility.Collapsed;
+                return;
+            }
             var top = Canvas.GetTop(element);
             var left = Canvas.GetLeft(element);
+
+            HLine.Visibility = VLine.Visibility = Visibility.Visible;
 
             HLine.Y1 = HLine.Y2 = top + element.Height / 2;
             HLine.X2 = left + element.Width / 2;
@@ -159,17 +170,8 @@ namespace EfficientDesigner_Control.Controls
         private void Child_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            if (SelectedDecorators != null)
-            {
-                foreach (var decorator in SelectedDecorators)
-                {
-                    decorator.IsSelected = false;
-                }
-                SelectedDecorators = null;
-            }
 
-            if (SelectedDecorator != null)
-                SelectedDecorator.IsSelected = false;
+            SelectedDecorators = null;
 
             if (e.Source is FrameworkElement element)
             {
@@ -177,7 +179,6 @@ namespace EfficientDesigner_Control.Controls
                 var decorator = layer?.GetAdorners(element)?.OfType<ControlAdorner>().FirstOrDefault();
 
                 if (decorator == null) return;
-                decorator.IsSelected = true;
                 SelectedDecorator = decorator;
             }
         }
@@ -196,8 +197,17 @@ namespace EfficientDesigner_Control.Controls
             get => _selectedDecorator;
             set
             {
-                _selectedDecorator?.InvalidateVisual();
-                value?.InvalidateVisual();
+                if (_selectedDecorator != null)
+                {
+                    _selectedDecorator.IsSelected = false;
+                    _selectedDecorator.InvalidateVisual();
+                }
+                if (value != null)
+                {
+                    value.IsSelected = true;
+                    value.InvalidateVisual();
+                }
+
                 _selectedDecorator = value;
                 SelectedElement = value?.AdornedElement;
             }
@@ -208,19 +218,23 @@ namespace EfficientDesigner_Control.Controls
             get => _selectedDecorators;
             set
             {
+                // 重新渲染之前选中的子控件
                 if (_selectedDecorators != null)
                 {
-                    foreach (var decorator in _selectedDecorators)
+                    foreach (var decorator in _selectedDecorators?.Where(x => x != null))
                     {
-                        decorator?.InvalidateVisual();
+                        decorator.IsSelected = false;
+                        decorator.InvalidateVisual();
                     }
                 }
 
+                // 渲染新选中的子控件
                 if (value != null)
                 {
-                    foreach (var decorator in value)
+                    foreach (var decorator in value?.Where(x => x != null))
                     {
-                        decorator?.InvalidateVisual();
+                        decorator.IsSelected = true;
+                        decorator.InvalidateVisual();
                     }
                 }
 
@@ -248,7 +262,12 @@ namespace EfficientDesigner_Control.Controls
         /// 选中的元素，提供给属性面板使用。
         /// </summary>
         public static readonly DependencyProperty SelectedElementProperty =
-            DependencyProperty.Register("SelectedElement", typeof(UIElement), typeof(DesignCanvas), new PropertyMetadata(null));
+            DependencyProperty.Register("SelectedElement", typeof(UIElement), typeof(DesignCanvas), new PropertyMetadata(
+                (o, args) =>
+                {
+                    var ctl = (DesignCanvas) o;
+                    ctl.MoveLineAndText(args.NewValue as FrameworkElement);
+                }));
 
         public Rectangle SelectedBound { get; private set; }
 
@@ -276,13 +295,13 @@ namespace EfficientDesigner_Control.Controls
             if (!(e.OriginalSource is ControlAdorner controlDecorator)) return;
             if (!(controlDecorator.AdornedElement is FrameworkElement element)) return;
 
-            var top = Canvas.GetTop(element);
-            var left = Canvas.GetLeft(element);
-
             // 实现控件在画布中拖动的功能
             var mouseOnControl = Mouse.GetPosition(element);
             var vector = mouseOnControl - controlDecorator.MousePoint;
 
+
+            var top = Canvas.GetTop(element);
+            var left = Canvas.GetLeft(element);
             var x = left + vector.X;
             var y = top + vector.Y;
 
@@ -295,16 +314,28 @@ namespace EfficientDesigner_Control.Controls
             MoveLineAndText(element);
         }
 
-        public void RemoveChild()
+        public void RemoveChildren()
         {
-            if (SelectedDecorator == null) return;
-            DesignPanel.Children.Remove(SelectedDecorator.AdornedElement);
-            SelectedDecorator = null;
+            if (SelectedDecorators?.Any() == true)
+            {
+                foreach (var element in SelectedDecorators.Select(x => x.AdornedElement))
+                {
+                    DesignPanel.Children.Remove(element);
+                }
+
+                SelectedDecorators = null;
+            }
+
+            if (SelectedDecorator != null)
+            {
+                DesignPanel.Children.Remove(SelectedDecorator.AdornedElement);
+                SelectedDecorator = null;
+            }
         }
 
         public void Save()
         {
-            if (String.IsNullOrWhiteSpace(FileName))
+            if (string.IsNullOrWhiteSpace(FileName))
             {
                 var dialog = new SaveFileDialog();
                 dialog.Filter = "(*.ed)|*.ed";
@@ -420,32 +451,14 @@ namespace EfficientDesigner_Control.Controls
         {
             if (DoSelectMultiple)
             {
-                if (SelectedDecorator != null)
-                {
-                    SelectedDecorator.IsSelected = false;
-                    SelectedDecorator = null;
-                }
+
+                SelectedDecorator = null;
+
 
                 var x = Canvas.GetLeft(SelectedBound);
                 var y = Canvas.GetTop(SelectedBound);
 
-                if (SelectedDecorators != null)
-                {
-                    foreach (var decorator in SelectedDecorators)
-                    {
-                        decorator.IsSelected = false;
-                    }
-                }
-
-                var decorators = GetDecorators(new Point(x, y), new Point(x + SelectedBound.Width, y + SelectedBound.Height));
-
-                if (decorators != null)
-                {
-                    foreach (var decorator in decorators)
-                    {
-                        decorator.IsSelected = true;
-                    }
-                }
+                var decorators = GetDecorators(new Point(x, y), new Point(x + SelectedBound.Width, y + SelectedBound.Height)).ToList();
 
                 SelectedDecorators = decorators;
 
