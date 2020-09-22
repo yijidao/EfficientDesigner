@@ -489,12 +489,7 @@ namespace EfficientDesigner_Control.Controls
             }
         }
 
-        public void GetVisualTree()
-        {
 
-
-            //VisualTreeHelper.GetChild()
-        }
 
     }
 }

@@ -55,8 +55,8 @@
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
-            <TreeView Margin="5" Grid.Row="1" MinHeight="200" >
-            </TreeView>
+            <!--<TreeView Margin="5" Grid.Row="1" MinHeight="200" >
+            </TreeView>-->
             <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="LightGray" Height="2" Width="100" />
         </Grid>
         <controls:DesignCanvas Grid.Row="1" Grid.Column="1" Margin="0,5" x:Name="DesignPanel" />

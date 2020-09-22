@@ -79,11 +79,10 @@
     <Compile Include="Controls\PropertyPanel\ThicknessGrid.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="Interfaces\IControl.cs" />
-    <Compile Include="Models\MasterDetailModel.cs" />
-    <Compile Include="Models\MasterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="ServiceImplements\" />
     <Folder Include="Services\" />
   </ItemGroup>

@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:EfficientDesigner_Control.Themes.Styles">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Icon.xaml" />
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/PropertyPanel.xaml" />
