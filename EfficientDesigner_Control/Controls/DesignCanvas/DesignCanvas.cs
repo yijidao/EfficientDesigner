@@ -26,6 +26,7 @@ namespace EfficientDesigner_Control.Controls
         private const string TopTextName = "PART_TopText";
         private const string LeftTextName = "PART_LeftText";
         private const string SelectedBoundName = "PART_SelectedBound";
+        private const string ScrollViewerName = "PART_ScrollViewer";
 
         public ICommand SaveCommand
         {
@@ -71,17 +72,17 @@ namespace EfficientDesigner_Control.Controls
 
         public bool AddedHandler { get; set; }
 
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
+        //protected override void OnRender(DrawingContext drawingContext)
+        //{
+        //    base.OnRender(drawingContext);
 
-            if (AddedHandler) return;
-            AddedHandler = true;
-            var layout = AdornerLayer.GetAdornerLayer(this);
-            layout?.AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChildrenMove));
-            layout?.AddHandler(ControlAdorner.DecoratorSizeChangedEvent, new RoutedEventHandler(DesignPanel_ChildSizeChanged));
-            layout?.AddHandler(ControlAdorner.MouseDownEvent, new RoutedEventHandler(DesignPanel_ChildMouseDown));
-        }
+        //    if (AddedHandler) return;
+        //    AddedHandler = true;
+        //    var layout = AdornerLayer.GetAdornerLayer(this);
+        //    layout?.AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChildrenMove));
+        //    layout?.AddHandler(ControlAdorner.DecoratorSizeChangedEvent, new RoutedEventHandler(DesignPanel_ChildSizeChanged));
+        //    layout?.AddHandler(ControlAdorner.MouseDownEvent, new RoutedEventHandler(DesignPanel_ChildMouseDown));
+        //}
 
         private void DesignPanel_ChildMouseDown(object sender, RoutedEventArgs e)
         {
@@ -279,15 +280,49 @@ namespace EfficientDesigner_Control.Controls
             LeftText = GetTemplateChild(LeftTextName) as TextBlock;
             DesignPanel = GetTemplateChild(CanvasName) as Canvas;
             SelectedBound = GetTemplateChild(SelectedBoundName) as Rectangle;
+            ScrollContainer = GetTemplateChild(ScrollViewerName) as ScrollViewer;
 
+            if (!AddedHandler)
+            {
+                AddedHandler = true;
+                AddHandler(ControlAdorner.MoveEvent, new RoutedEventHandler(DesignPanel_ChildrenMove));
+                AddHandler(ControlAdorner.DecoratorSizeChangedEvent, new RoutedEventHandler(DesignPanel_ChildSizeChanged));
+                AddHandler(ControlAdorner.MouseDownEvent, new RoutedEventHandler(DesignPanel_ChildMouseDown));
+            }
+
+            ScrollContainer.PreviewMouseWheel += ScrollContainerOnMouseWheel;
         }
+
+
+        private double _zoomMax = 10;
+        private double _zoomMin = 0.1;
+        private double _zoomSpeed = 0.001;
+        private double _zoom = 1;
+
+        private void ScrollContainerOnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                _zoom += _zoomSpeed * e.Delta;
+
+                if (_zoom < _zoomMin) _zoom = _zoomMin;
+                if (_zoom > _zoomMax) _zoom = _zoomMax;
+
+                DesignPanel.LayoutTransform = new ScaleTransform(_zoom, _zoom);
+
+                //DesignPanel.LayoutTransform = _zoom > 1 ? new ScaleTransform(_zoom, _zoom, p.X, p.Y) : new ScaleTransform(_zoom, _zoom);
+                ////DesignPanel.RenderTransform = _zoom > 1 ? new ScaleTransform(_zoom, _zoom, p.X, p.Y) : new ScaleTransform(_zoom, _zoom);
+            }
+        }
+
+        public ScrollViewer ScrollContainer { get; set; }
 
         private void DesignPanel_ChildrenMove(object sender, RoutedEventArgs e)
         {
             if (DoSelectMultiple) return;
-            var mouseOnPanel = Mouse.GetPosition(this);
-            if (mouseOnPanel.X < 0 || mouseOnPanel.X > this.Width || mouseOnPanel.Y < 0 ||
-                mouseOnPanel.Y > Height) return;
+            var mouseOnPanel = Mouse.GetPosition(DesignPanel);
+            if (mouseOnPanel.X < 0 || mouseOnPanel.X > DesignPanel.Width || mouseOnPanel.Y < 0 ||
+                mouseOnPanel.Y > DesignPanel.Height) return;
 
             if (!(e.OriginalSource is ControlAdorner controlDecorator)) return;
             if (!(controlDecorator.AdornedElement is FrameworkElement element)) return;
@@ -302,8 +337,8 @@ namespace EfficientDesigner_Control.Controls
             var x = left + vector.X;
             var y = top + vector.Y;
 
-            x = Math.Max(0, Math.Min(x, ActualWidth - element.ActualWidth));
-            y = Math.Max(0, Math.Min(y, ActualHeight - element.ActualHeight));
+            x = Math.Max(0, Math.Min(x, DesignPanel.Width - element.ActualWidth));
+            y = Math.Max(0, Math.Min(y, DesignPanel.Height - element.ActualHeight));
 
             Canvas.SetTop(element, y);
             Canvas.SetLeft(element, x);
@@ -421,7 +456,7 @@ namespace EfficientDesigner_Control.Controls
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-
+            //Debug.WriteLine($"{e.Source.GetType().Namespace} {e.OriginalSource.GetType().Name}");
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.LeftButton == MouseButtonState.Pressed)
             {
                 DoSelectMultiple = true;
@@ -488,7 +523,6 @@ namespace EfficientDesigner_Control.Controls
                 yield return d;
             }
         }
-
 
 
     }
