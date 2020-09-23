@@ -86,7 +86,7 @@ namespace EfficientDesigner_Control.Controls
 
         private void DesignPanel_ChildMouseDown(object sender, RoutedEventArgs e)
         {
-            if (!(e.Source is ControlAdorner decorator)) return;
+            if (!(e.OriginalSource is ControlAdorner decorator)) return;
             SelectedDecorators = null;
             SelectedDecorator = decorator;
         }
@@ -534,7 +534,7 @@ namespace EfficientDesigner_Control.Controls
                 if (Canvas.GetTop(element) + element.Height <= p1.Y) continue;
                 if (Canvas.GetLeft(element) + element.Width <= p1.X) continue;
 
-                var d = AdornerLayer.GetAdornerLayer(this)?.GetAdorners(element)?.OfType<ControlAdorner>().FirstOrDefault();
+                var d = AdornerLayer.GetAdornerLayer(element)?.GetAdorners(element)?.OfType<ControlAdorner>().FirstOrDefault();
                 if (d == null) continue;
                 yield return d;
             }
