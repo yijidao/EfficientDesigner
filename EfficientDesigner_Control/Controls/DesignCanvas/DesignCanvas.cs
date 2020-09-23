@@ -274,13 +274,13 @@ namespace EfficientDesigner_Control.Controls
         {
             base.OnApplyTemplate();
 
-            HLine = GetTemplateChild(HLineName) as Line;
-            VLine = GetTemplateChild(VLineName) as Line;
-            TopText = GetTemplateChild(TopTextName) as TextBlock;
-            LeftText = GetTemplateChild(LeftTextName) as TextBlock;
-            DesignPanel = GetTemplateChild(CanvasName) as Canvas;
-            SelectedBound = GetTemplateChild(SelectedBoundName) as Rectangle;
-            ScrollContainer = GetTemplateChild(ScrollViewerName) as ScrollViewer;
+            HLine = GetTemplateChild(HLineName) as Line ?? throw new ArgumentException();
+            VLine = GetTemplateChild(VLineName) as Line ?? throw new ArgumentException();
+            TopText = GetTemplateChild(TopTextName) as TextBlock ?? throw new ArgumentException();
+            LeftText = GetTemplateChild(LeftTextName) as TextBlock ?? throw new ArgumentException();
+            DesignPanel = GetTemplateChild(CanvasName) as Canvas ?? throw new ArgumentException();
+            SelectedBound = GetTemplateChild(SelectedBoundName) as Rectangle ?? throw new ArgumentException();
+            ScrollContainer = GetTemplateChild(ScrollViewerName) as ScrollViewer ?? throw new ArgumentException();
 
             if (!AddedHandler)
             {
@@ -294,24 +294,40 @@ namespace EfficientDesigner_Control.Controls
         }
 
 
-        private double _zoomMax = 10;
-        private double _zoomMin = 0.1;
+        private readonly double _zoomMax = 10;
+        private readonly double _zoomMin = 0.1;
         private double _zoomSpeed = 0.001;
-        private double _zoom = 1;
+
+        public double Zoom
+        {
+            get => (double)GetValue(ZoomProperty);
+            set => SetValue(ZoomProperty, value);
+        }
+
+        public static readonly DependencyProperty ZoomProperty =
+            DependencyProperty.Register("Zoom", typeof(double), typeof(DesignCanvas), new PropertyMetadata(1d,
+                (o, args) =>
+                {
+                    if (!(args.NewValue is double zoom)) return;
+                    var ctl = (DesignCanvas)o;
+                    if (zoom < ctl._zoomMin) zoom = ctl._zoomMin;
+                    if (zoom > ctl._zoomMax) zoom = ctl._zoomMax;
+                    ctl.DesignPanel.LayoutTransform = new ScaleTransform(zoom, zoom);
+                }));
 
         private void ScrollContainerOnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                _zoom += _zoomSpeed * e.Delta;
+                Zoom += _zoomSpeed * e.Delta;
 
-                if (_zoom < _zoomMin) _zoom = _zoomMin;
-                if (_zoom > _zoomMax) _zoom = _zoomMax;
+                if (Zoom < _zoomMin) Zoom = _zoomMin;
+                if (Zoom > _zoomMax) Zoom = _zoomMax;
 
-                DesignPanel.LayoutTransform = new ScaleTransform(_zoom, _zoom);
+                DesignPanel.LayoutTransform = new ScaleTransform(Zoom, Zoom);
 
-                //DesignPanel.LayoutTransform = _zoom > 1 ? new ScaleTransform(_zoom, _zoom, p.X, p.Y) : new ScaleTransform(_zoom, _zoom);
-                ////DesignPanel.RenderTransform = _zoom > 1 ? new ScaleTransform(_zoom, _zoom, p.X, p.Y) : new ScaleTransform(_zoom, _zoom);
+                //DesignPanel.LayoutTransform = Zoom > 1 ? new ScaleTransform(Zoom, Zoom, p.X, p.Y) : new ScaleTransform(Zoom, Zoom);
+                //DesignPanel.RenderTransform = Zoom > 1 ? new ScaleTransform(Zoom, Zoom, p.X, p.Y) : new ScaleTransform(Zoom, Zoom);
             }
         }
 
