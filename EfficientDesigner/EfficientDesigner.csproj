@@ -126,14 +126,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ServiceImplements\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\EfficientDesigner_Control\EfficientDesigner_Control.csproj">
       <Project>{9a54dc73-515e-484c-9ebe-0fe6ae886904}</Project>
       <Name>EfficientDesigner_Control</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ServiceImplements\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
