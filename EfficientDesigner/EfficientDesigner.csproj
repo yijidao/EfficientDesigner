@@ -115,6 +115,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="HandyControl">
+      <Version>2.5.0.2</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Unity">
       <Version>7.2.0.1422</Version>
     </PackageReference>
@@ -123,10 +126,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HandyControl\src\Net_GE45\HandyControl_Net_GE45\HandyControl_Net_GE45.csproj">
-      <Project>{b3805b72-c86c-459c-8a43-d24c6521e295}</Project>
-      <Name>HandyControl_Net_GE45</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EfficientDesigner_Control\EfficientDesigner_Control.csproj">
       <Project>{9a54dc73-515e-484c-9ebe-0fe6ae886904}</Project>
       <Name>EfficientDesigner_Control</Name>

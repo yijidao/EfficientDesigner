@@ -113,13 +113,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HandyControl\src\Net_GE45\HandyControl_Net_GE45\HandyControl_Net_GE45.csproj">
-      <Project>{b3805b72-c86c-459c-8a43-d24c6521e295}</Project>
-      <Name>HandyControl_Net_GE45</Name>
-    </ProjectReference>
+    <Resource Include="Themes\Icon.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Themes\Icon.xml" />
+    <PackageReference Include="HandyControl">
+      <Version>2.5.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
