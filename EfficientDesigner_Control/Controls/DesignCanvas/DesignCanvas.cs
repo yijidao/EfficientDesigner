@@ -294,9 +294,9 @@ namespace EfficientDesigner_Control.Controls
         }
 
 
-        private readonly double _zoomMax = 10;
-        private readonly double _zoomMin = 0.1;
-        private double _zoomSpeed = 0.001;
+        private const double ZoomMax = 10;
+        private const double ZoomMin = 0.1;
+        private const double ZoomSpeed = 0.001;
 
         public double Zoom
         {
@@ -310,8 +310,8 @@ namespace EfficientDesigner_Control.Controls
                 {
                     if (!(args.NewValue is double zoom)) return;
                     var ctl = (DesignCanvas)o;
-                    if (zoom < ctl._zoomMin) zoom = ctl._zoomMin;
-                    if (zoom > ctl._zoomMax) zoom = ctl._zoomMax;
+                    if (zoom < ZoomMin) zoom = ZoomMin;
+                    if (zoom > ZoomMax) zoom = ZoomMax;
                     ctl.DesignPanel.LayoutTransform = new ScaleTransform(zoom, zoom);
                 }));
 
@@ -319,10 +319,10 @@ namespace EfficientDesigner_Control.Controls
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                Zoom += _zoomSpeed * e.Delta;
+                Zoom += ZoomSpeed * e.Delta;
 
-                if (Zoom < _zoomMin) Zoom = _zoomMin;
-                if (Zoom > _zoomMax) Zoom = _zoomMax;
+                if (Zoom < ZoomMin) Zoom = ZoomMin;
+                if (Zoom > ZoomMax) Zoom = ZoomMax;
 
                 DesignPanel.LayoutTransform = new ScaleTransform(Zoom, Zoom);
 
