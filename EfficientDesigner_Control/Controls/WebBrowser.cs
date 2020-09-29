@@ -28,7 +28,7 @@ namespace EfficientDesigner_Control.Controls
             Host.Child = new ChromiumWebBrowser(Url);
         }
 
-        public static bool CefInitialized { get; set; }
+        //public static bool CefInitialized { get; set; }
 
         /// <summary>
         /// AnyCPU时初始化配置
