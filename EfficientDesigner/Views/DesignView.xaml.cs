@@ -16,15 +16,15 @@ namespace EfficientDesigner.Views
 
         }
 
-        private void TreeView_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed && ToolBoxView.SelectedItem is IControl controlItem)
-            {
-                var data = new DataObject();
-                data.SetData("control", controlItem);
-                DragDrop.DoDragDrop(sender as DependencyObject, data, DragDropEffects.Copy);
-            }
-        }
+        //private void TreeView_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (e.LeftButton == MouseButtonState.Pressed && ToolBoxView.SelectedItem is IControl controlItem)
+        //    {
+        //        var data = new DataObject();
+        //        data.SetData("control", controlItem);
+        //        DragDrop.DoDragDrop(sender as DependencyObject, data, DragDropEffects.Copy);
+        //    }
+        //}
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {

@@ -43,7 +43,7 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TreeView  Margin="5" x:Name="ToolBoxView" ItemsSource="{Binding ControlCategories}" MouseMove="TreeView_MouseMove">
+            <!--<TreeView  Margin="5" x:Name="ToolBoxView" ItemsSource="{Binding ControlCategories}" MouseMove="TreeView_MouseMove">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Items}">
                         <TextBlock Text="{Binding Title}" />
@@ -54,9 +54,10 @@
                         </HierarchicalDataTemplate.ItemTemplate>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
-            </TreeView>
+            </TreeView>-->
             <!--<TreeView Margin="5" Grid.Row="1" MinHeight="200" >
             </TreeView>-->
+            <controls:ToolBox Margin="5" Width="200"></controls:ToolBox>
             <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="LightGray" Height="2" Width="100" />
         </Grid>
         <controls:DesignCanvas Grid.Row="1" Grid.Column="1" Margin="0,5" x:Name="DesignPanel" />

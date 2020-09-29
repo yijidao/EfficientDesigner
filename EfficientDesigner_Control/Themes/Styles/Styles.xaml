@@ -6,5 +6,6 @@
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/DesignCanvas.xaml" />
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/ImageButton.xaml" />
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/ThicknessGrid.xaml" />
+        <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/ToolBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

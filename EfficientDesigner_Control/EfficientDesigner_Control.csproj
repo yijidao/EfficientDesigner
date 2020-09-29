@@ -39,7 +39,7 @@
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -100,8 +100,10 @@
     <Compile Include="Controls\RectangleControl.cs" />
     <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="Controls\PropertyPanel\ThicknessGrid.cs" />
+    <Compile Include="Controls\ToolBox\ToolBox.cs" />
     <Compile Include="Controls\WebBrowser.cs" />
     <Compile Include="Converters\Converter.cs" />
+    <Compile Include="ExtensionMethods\FrameworkElementExtensions.cs" />
     <Compile Include="Interfaces\IControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -132,6 +134,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Styles\ThicknessGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Styles\ToolBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

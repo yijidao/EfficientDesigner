@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using EfficientDesigner_Control.ExtensionMethods;
 
 namespace EfficientDesigner_Control.Controls
 {
@@ -104,8 +105,8 @@ namespace EfficientDesigner_Control.Controls
                 TopText.Visibility = LeftText.Visibility = HLine.Visibility = VLine.Visibility = Visibility.Collapsed;
                 return;
             }
-            var top = Canvas.GetTop(element);
-            var left = Canvas.GetLeft(element);
+            var top = element.GetCanvasTop();
+            var left = element.GetCanvasLeft();
 
             HLine.Visibility = VLine.Visibility = Visibility.Visible;
 
@@ -132,7 +133,7 @@ namespace EfficientDesigner_Control.Controls
         {
             if (!e.Data.GetDataPresent("control") || DesignPanel == null) return;
 
-            var control = e.Data.GetData("control") as IControl;
+            var control = e.Data.GetData("control") as ControlDetail;
             var element = control?.GetElement();
             if (element == null)
             {
@@ -348,8 +349,12 @@ namespace EfficientDesigner_Control.Controls
             var vector = mouseOnControl - controlDecorator.MousePoint;
 
 
-            var top = Canvas.GetTop(element);
-            var left = Canvas.GetLeft(element);
+            //var top = double.IsNaN(Canvas.GetTop(element)) ? 0 : Canvas.GetTop(element);
+            //var left = double.IsNaN(Canvas.GetLeft(element))?0 : Canvas.GetLeft(element);
+
+            var top = element.GetCanvasTop();
+            var left = element.GetCanvasLeft();
+
             var x = left + vector.X;
             var y = top + vector.Y;
 
@@ -499,12 +504,14 @@ namespace EfficientDesigner_Control.Controls
         {
             if (DoSelectMultiple)
             {
-
                 SelectedDecorator = null;
 
+                //var x = Canvas.GetLeft(SelectedBound);
+                //var y = Canvas.GetTop(SelectedBound);
 
-                var x = Canvas.GetLeft(SelectedBound);
-                var y = Canvas.GetTop(SelectedBound);
+
+                var x = SelectedBound.GetCanvasLeft();
+                var y = SelectedBound.GetCanvasTop();
 
                 var decorators = GetDecorators(new Point(x, y), new Point(x + SelectedBound.Width, y + SelectedBound.Height)).ToList();
 
@@ -529,10 +536,15 @@ namespace EfficientDesigner_Control.Controls
         {
             foreach (FrameworkElement element in DesignPanel.Children)
             {
-                if (Canvas.GetTop(element) >= p2.Y) continue;
-                if (Canvas.GetLeft(element) >= p2.X) continue;
-                if (Canvas.GetTop(element) + element.Height <= p1.Y) continue;
-                if (Canvas.GetLeft(element) + element.Width <= p1.X) continue;
+                //if (Canvas.GetTop(element) >= p2.Y) continue;
+                //if (Canvas.GetLeft(element) >= p2.X) continue;
+                //if (Canvas.GetTop(element) + element.Height <= p1.Y) continue;
+                //if (Canvas.GetLeft(element) + element.Width <= p1.X) continue;
+
+                if (element.GetCanvasTop() >= p2.Y) continue;
+                if (element.GetCanvasLeft() >= p2.X) continue;
+                if (element.GetCanvasTop() + element.Height <= p1.Y) continue;
+                if (element.GetCanvasLeft() + element.Width <= p1.X) continue;
 
                 var d = AdornerLayer.GetAdornerLayer(element)?.GetAdorners(element)?.OfType<ControlAdorner>().FirstOrDefault();
                 if (d == null) continue;
