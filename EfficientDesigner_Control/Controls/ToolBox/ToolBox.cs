@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using EfficientDesigner_Control.Interfaces;
 
@@ -108,16 +109,32 @@ namespace EfficientDesigner_Control.Controls
                 throw new Exception($"{ControlType.Name} 无法转型为 {nameof(FrameworkElement)}");
             }
 
+            //switch (ControlType)
+            //{
+            //    ControlType.is
+            //}
+
+            if (ControlType == typeof(WebBrowser))
+            {
+                (element as Control).Background = Brushes.CornflowerBlue;
+            }
+            else if (ControlType.IsSubclassOf(typeof(Shape)))
+            {
+                (element as Shape).Stroke = Brushes.Black;
+                (element as Shape).StrokeThickness = 2;
+                (element as Shape).Fill = Brushes.Transparent;
+            }
+
             element.Height = 100;
             element.Width = 100;
             return element;
         }
 
-        private FrameworkElement GetElement(Type type) => type switch
-        {
+        //private FrameworkElement GetElement(Type type) => type switch
+        //{
             
 
-        };
+        //};
 
     }
 }
