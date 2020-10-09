@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,44 +21,48 @@ namespace EfficientDesigner_Control.Controls
         static WebBrowser()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WebBrowser), new FrameworkPropertyMetadata(typeof(WebBrowser)));
+
+            // 对Winfrom控件启用系统自带得现代化样式
+            System.Windows.Forms.Application.EnableVisualStyles();
+
             Cef.EnableHighDPISupport();
 
-            var settings = new CefSettings()
-            {
-                //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
-                CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
-            };
-            settings.CefCommandLineArgs.Add("enable-media-stream");
-            //https://peter.sh/experiments/chromium-command-line-switches/#use-fake-ui-for-media-stream
-            settings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
-            //For screen sharing add (see https://bitbucket.org/chromiumembedded/cef/issues/2582/allow-run-time-handling-of-media-access#comment-58677180)
-            settings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
-            Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
+            InitCef();
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             Host = GetTemplateChild(HostName) as System.Windows.Forms.Integration.WindowsFormsHost ?? throw new ArgumentException();
-            //InitCef();
             Host.Child = new ChromiumWebBrowser(Url);
         }
 
-        //public static bool CefInitialized { get; set; }
-
         /// <summary>
         /// AnyCPU时初始化配置
+        ///
+        /// 1. 首先需要在项目的 csproj 文件中的第一个 <PropertyGroup> 中增加 <CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
+        /// 2. 在 app.config 中添加
+        /// <runtime>
+        /// <assemblyBinding xmlns = "urn:schemas-microsoft-com:asm.v1" >
+        ///     < probing privatePath="x86"/>
+        ///     </assemblyBinding>
+        /// </runtime>
+        /// 3. 设置 32 位优先
+        /// 4. 设置 settings.BrowserSubprocessPath，并且在之后调用 Cef.Initialize
+        /// 如何配置 cefsharp 为 anycpu，请参考：https://github.com/cefsharp/CefSharp/issues/1714
         /// </summary>
-        //private void InitCef()
-        //{
-        //    if (CefInitialized) return;
-        //    var settings = new CefSettings
-        //    {
-        //        BrowserSubprocessPath = System.IO.Path.GetFullPath(@"x86\CefSharp.BrowserSubprocess.exe")
-        //    };
-        //    Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
-        //    CefInitialized = true;
-        //}
+        private static void InitCef()
+        {
+            var settings = new CefSettings();
+
+            // Set BrowserSubProcessPath based on app bitness at runtime
+            settings.BrowserSubprocessPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                Environment.Is64BitProcess ? "x64" : "x86",
+                "CefSharp.BrowserSubprocess.exe");
+
+            // Make sure you set performDependencyCheck false
+            Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
+        }
 
         private WindowsFormsHost Host { get; set; }
 
@@ -67,13 +73,13 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty UrlProperty =
-            DependencyProperty.Register("Url", typeof(string), typeof(WebBrowser), new PropertyMetadata("www.baidu.com", UrlChangedCallback));
+            DependencyProperty.Register("Url", typeof(string), typeof(WebBrowser), new PropertyMetadata("", UrlChangedCallback));
 
         private static void UrlChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(e.NewValue is string url)) return;
             var ctl = d as WebBrowser;
-            if (!(ctl?.Host.Child is ChromiumWebBrowser browser)) return;
+            if (!(ctl?.Host?.Child is ChromiumWebBrowser browser)) return;
             browser.Load(url);
         }
     }

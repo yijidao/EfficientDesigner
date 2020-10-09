@@ -6,6 +6,8 @@ using System.Linq;
 using System.Management;
 using System.Threading.Tasks;
 using System.Windows;
+using CefSharp;
+using CefSharp.WinForms;
 using HandyControl.Data;
 using HandyControl.Tools;
 using Prism.Ioc;
@@ -28,6 +30,13 @@ namespace EfficientDesigner
         {
             base.OnStartup(e);
             ConfigHelper.Instance.SetWindowDefaultStyle();
+
+            // 对Winfrom控件启用系统自带得现代化样式
+            //System.Windows.Forms.Application.EnableVisualStyles();
+
+            //var settings = new CefSettings();
+            //settings.BrowserSubprocessPath = System.IO.Path.GetFullPath(@"x86\CefSharp.BrowserSubprocess.exe");
+            //Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

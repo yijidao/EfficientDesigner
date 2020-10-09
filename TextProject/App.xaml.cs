@@ -16,6 +16,11 @@ namespace TextProject
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            //var settings = new CefSettings();
+            //settings.BrowserSubprocessPath = System.IO.Path.GetFullPath(@"x86\CefSharp.BrowserSubprocess.exe");
+            //Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
+
+
         }
     }
 }

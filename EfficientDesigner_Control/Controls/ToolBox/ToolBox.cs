@@ -19,7 +19,7 @@ namespace EfficientDesigner_Control.Controls
 
         static ToolBox()
         {
-            //Add<Rectangle>();
+            Add<Rectangle>();
             Add<Button>();
             Add<TextBox>();
             Add<WebBrowser>();
