@@ -119,8 +119,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\ControlCategory.cs" />
-    <Compile Include="ViewModels\DesignViewModel.cs" />
     <Compile Include="Views\DesignView.xaml.cs">
       <DependentUpon>DesignView.xaml</DependentUpon>
     </Compile>
@@ -177,8 +175,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="ServiceImplements\" />
     <Folder Include="Services\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EfficientDesigner_Control\EfficientDesigner_Control.csproj">

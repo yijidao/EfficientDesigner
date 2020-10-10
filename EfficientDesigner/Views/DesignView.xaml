@@ -8,7 +8,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:EfficientDesigner_Control.Controls;assembly=EfficientDesigner_Control"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             prism:ViewModelLocator.AutoWireViewModel="True"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              KeyDown="UserControl_KeyDown"
@@ -18,11 +18,11 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>-->
-    <hc:Interaction.Triggers>
+    <!--<hc:Interaction.Triggers>
         <hc:RoutedEventTrigger RoutedEvent="UserControl.Loaded">
             <hc:EventToCommand Command="{Binding LoadedCommand}" />
         </hc:RoutedEventTrigger>
-    </hc:Interaction.Triggers>
+    </hc:Interaction.Triggers>-->
 
     
     <Grid>
@@ -43,20 +43,6 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <!--<TreeView  Margin="5" x:Name="ToolBoxView" ItemsSource="{Binding ControlCategories}" MouseMove="TreeView_MouseMove">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                        <TextBlock Text="{Binding Title}" />
-                        <HierarchicalDataTemplate.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Title}" />
-                            </DataTemplate>
-                        </HierarchicalDataTemplate.ItemTemplate>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>-->
-            <!--<TreeView Margin="5" Grid.Row="1" MinHeight="200" >
-            </TreeView>-->
             <controls:ToolBox Margin="5" Width="200"></controls:ToolBox>
             <GridSplitter ResizeDirection="Rows" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1"  Background="LightGray" Height="2" Width="100" />
         </Grid>
