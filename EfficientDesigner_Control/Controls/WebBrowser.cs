@@ -30,11 +30,33 @@ namespace EfficientDesigner_Control.Controls
             InitCef();
         }
 
+
+
+        public ControlDisplayMode DisplayMode
+        {
+            get { return (ControlDisplayMode)GetValue(DisplayModeProperty); }
+            set { SetValue(DisplayModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty DisplayModeProperty =
+            DependencyProperty.Register("DisplayMode", typeof(ControlDisplayMode), typeof(WebBrowser), new PropertyMetadata(ControlDisplayMode.Runtime));
+
+
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            Host = GetTemplateChild(HostName) as System.Windows.Forms.Integration.WindowsFormsHost ?? throw new ArgumentException();
-            Host.Child = new ChromiumWebBrowser(Url);
+            switch (DisplayMode)
+            {
+                case ControlDisplayMode.Runtime:
+                    Host = GetTemplateChild(HostName) as System.Windows.Forms.Integration.WindowsFormsHost ?? throw new ArgumentException();
+                    Host.Child = new ChromiumWebBrowser(Url);
+                    break;
+                case ControlDisplayMode.Design:
+                    HostText = GetTemplateChild(HostName) as TextBlock ?? throw new ArgumentException();
+                    HostText.Text = Url;
+                    break;
+            }
         }
 
         /// <summary>
@@ -66,6 +88,8 @@ namespace EfficientDesigner_Control.Controls
 
         private WindowsFormsHost Host { get; set; }
 
+        private TextBlock HostText { get; set; }
+
         public string Url
         {
             get => (string)GetValue(UrlProperty);
@@ -73,14 +97,31 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty UrlProperty =
-            DependencyProperty.Register("Url", typeof(string), typeof(WebBrowser), new PropertyMetadata("", UrlChangedCallback));
+            DependencyProperty.Register("Url", typeof(string), typeof(WebBrowser), new PropertyMetadata("网页地址", UrlChangedCallback));
 
         private static void UrlChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(e.NewValue is string url)) return;
             var ctl = d as WebBrowser;
-            if (!(ctl?.Host?.Child is ChromiumWebBrowser browser)) return;
-            browser.Load(url);
+
+            switch (ctl.DisplayMode)
+            {
+                case ControlDisplayMode.Design:
+                    ctl.HostText.Text = url;
+                    break;
+                case ControlDisplayMode.Runtime:
+                    if (!(ctl?.Host?.Child is ChromiumWebBrowser browser)) return;
+                    browser.Load(url);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
+    }
+
+    public enum ControlDisplayMode
+    {
+        Design,
+        Runtime
     }
 }

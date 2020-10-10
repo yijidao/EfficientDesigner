@@ -114,9 +114,10 @@ namespace EfficientDesigner_Control.Controls
             //    ControlType.is
             //}
 
-            if (ControlType == typeof(WebBrowser))
+            if (element is WebBrowser webBrowser)
             {
-                (element as Control).Background = Brushes.CornflowerBlue;
+                webBrowser.Background = Brushes.CornflowerBlue;
+                webBrowser.DisplayMode = ControlDisplayMode.Design;
             }
             else if (ControlType.IsSubclassOf(typeof(Shape)))
             {

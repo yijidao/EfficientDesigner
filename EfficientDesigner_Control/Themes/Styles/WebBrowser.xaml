@@ -6,18 +6,42 @@
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <ControlTemplate TargetType="{x:Type ctl:WebBrowser}" x:Key="RuntimeTemplate">
+        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+            <WindowsFormsHost x:Name="PART_Host" Margin="{TemplateBinding Padding}">
+            </WindowsFormsHost>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="{x:Type ctl:WebBrowser}" x:Key="DesignTemplate">
+        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="PART_Host" Margin="{TemplateBinding Padding}">
+            </TextBlock>
+        </Border>
+    </ControlTemplate>
+
+
     <Style TargetType="{x:Type ctl:WebBrowser}">
         <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Template">
+        <!--<Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ctl:WebBrowser}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-                        <WindowsFormsHost x:Name="PART_Host" Margin="{TemplateBinding Padding}"></WindowsFormsHost>
+                        <WindowsFormsHost x:Name="PART_Host" Margin="{TemplateBinding Padding}">
+                        </WindowsFormsHost>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
+        <Style.Triggers>
+            <Trigger Property="DisplayMode" Value="Design">
+                <Setter Property="Template" Value="{StaticResource DesignTemplate}"></Setter>
+            </Trigger>
+            <Trigger Property="DisplayMode" Value="Runtime">
+                <Setter Property="Template" Value="{StaticResource RuntimeTemplate}"></Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>
