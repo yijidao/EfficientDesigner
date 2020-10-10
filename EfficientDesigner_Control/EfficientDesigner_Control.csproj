@@ -94,9 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\DelegateCommand.cs" />
-    <Compile Include="Controls\Button\ButtonControl.cs" />
     <Compile Include="Controls\DesignCanvas\ControlAdorner.cs" />
-    <Compile Include="Controls\ControlBase.cs" />
     <Compile Include="Controls\DesignCanvas\DesignCanvas.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\BrushPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\DateTimePropertyEditor.cs" />
@@ -118,17 +116,16 @@
     <Compile Include="Controls\PropertyPanel\PropertyItem.cs" />
     <Compile Include="Controls\PropertyPanel\PropertyPanel.cs" />
     <Compile Include="Controls\PropertyPanel\PropertyResolver.cs" />
-    <Compile Include="Controls\RectangleControl.cs" />
-    <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="Controls\PropertyPanel\ThicknessGrid.cs" />
     <Compile Include="Controls\ToolBox\ToolBox.cs" />
     <Compile Include="Controls\WebBrowser.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="ExtensionMethods\FrameworkElementExtensions.cs" />
-    <Compile Include="Interfaces\IControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\Button\" />
+    <Folder Include="Interfaces\" />
     <Folder Include="Models\" />
     <Folder Include="ServiceImplements\" />
     <Folder Include="Services\" />

@@ -1,5 +1,4 @@
 ﻿using EfficientDesigner_Control.Commands;
-using EfficientDesigner_Control.Interfaces;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
