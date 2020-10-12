@@ -58,5 +58,16 @@ namespace EfficientDesigner.Views
             DependencyProperty.Register("SaveAsCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
 
 
+
+        public ICommand PreviewCommand
+        {
+            get { return (ICommand)GetValue(PreviewCommandProperty); }
+            set { SetValue(PreviewCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty PreviewCommandProperty =
+            DependencyProperty.Register("PreviewCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
+
+
     }
 }

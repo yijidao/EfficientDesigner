@@ -121,11 +121,11 @@
     <Compile Include="Controls\WebBrowser.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="ExtensionMethods\FrameworkElementExtensions.cs" />
+    <Compile Include="Interfaces\IHasDisplayMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\Button\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Models\" />
     <Folder Include="ServiceImplements\" />
     <Folder Include="Services\" />

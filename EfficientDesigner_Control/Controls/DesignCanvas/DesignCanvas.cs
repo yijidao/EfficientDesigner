@@ -14,7 +14,10 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml;
 using EfficientDesigner_Control.ExtensionMethods;
+using EfficientDesigner_Control.Interfaces;
+using Path = System.IO.Path;
 
 namespace EfficientDesigner_Control.Controls
 {
@@ -61,6 +64,18 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty SaveAsCommandProperty =
             DependencyProperty.Register("SaveAsCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
+
+
+
+        public ICommand PreviewCommand
+        {
+            get => (ICommand)GetValue(PreviewCommandProperty);
+            set => SetValue(PreviewCommandProperty, value);
+        }
+
+        public static readonly DependencyProperty PreviewCommandProperty =
+            DependencyProperty.Register("PreviewCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
+
         public DesignCanvas()
         {
             AllowDrop = true;
@@ -68,7 +83,10 @@ namespace EfficientDesigner_Control.Controls
             SaveCommand = new DelegateCommand(Save);
             LoadCommand = new DelegateCommand(Load);
             SaveAsCommand = new DelegateCommand(SaveAs);
+            PreviewCommand = new DelegateCommand(Preview);
         }
+
+
 
         public bool AddedHandler { get; set; }
 
@@ -282,6 +300,10 @@ namespace EfficientDesigner_Control.Controls
             SelectedBound = GetTemplateChild(SelectedBoundName) as Rectangle ?? throw new ArgumentException();
             ScrollContainer = GetTemplateChild(ScrollViewerName) as ScrollViewer ?? throw new ArgumentException();
 
+            // 因为 XamlWriter.Save 无法完整序列化在资源字典中canvas赋值的参数，所以在这里手动再赋值一下
+            DesignPanel.Width = 1920;
+            DesignPanel.Height = 1080;
+
             if (!AddedHandler)
             {
                 AddedHandler = true;
@@ -414,6 +436,10 @@ namespace EfficientDesigner_Control.Controls
             }
         }
 
+        /// <summary>
+        /// 将拖拽到 DesignPanel 中的子控件保存到指定文件中
+        /// </summary>
+        /// <param name="fileName"></param>
         private void SaveChild(string fileName)
         {
             DesignPanel.Children.Remove(HLine);
@@ -429,6 +455,26 @@ namespace EfficientDesigner_Control.Controls
             DesignPanel.Children.Add(LeftText);
         }
 
+        /// <summary>
+        /// 将拖拽到 DesignPanel 中的子控件保存到 XmlReader 中
+        /// </summary>
+        /// <returns></returns>
+        private XmlReader SaveChild()
+        {
+            DesignPanel.Children.Remove(HLine);
+            DesignPanel.Children.Remove(VLine);
+            DesignPanel.Children.Remove(TopText);
+            DesignPanel.Children.Remove(LeftText);
+
+            var reader = new StringReader(XamlWriter.Save(DesignPanel));
+
+            DesignPanel.Children.Add(HLine);
+            DesignPanel.Children.Add(VLine);
+            DesignPanel.Children.Add(TopText);
+            DesignPanel.Children.Add(LeftText);
+
+            return XmlReader.Create(reader);
+        }
 
         private string FileName { get; set; }
 
@@ -461,6 +507,41 @@ namespace EfficientDesigner_Control.Controls
                 //}
                 FileName = dialog.FileName;
             }
+        }
+
+        private void Preview()
+        {
+            var reader = SaveChild();
+
+            if (!(XamlReader.Load(reader) is Canvas canvas)) return;
+
+            var canvas2 = new Canvas{ Height = DesignPanel.Height, Width = DesignPanel.Width};
+
+            var window = new Window
+            {
+                Title = "预览模式",
+                Content = new ScrollViewer
+                {
+                    Content = canvas2,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
+                },
+            };
+
+            while (canvas.Children.Count > 0)
+            {
+                var child = canvas.Children[0];
+                canvas.Children.Remove(child);
+
+                if (child is IHasDisplayMode hasDisplayMode)
+                {
+                    hasDisplayMode.SetDisplayMode(ControlDisplayMode.Runtime);
+                }
+
+                canvas2.Children.Add(child);
+            }
+
+            window.ShowDialog();
         }
 
         private Point ClickPoint { get; set; }

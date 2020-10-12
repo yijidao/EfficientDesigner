@@ -72,7 +72,7 @@
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <ScrollViewer x:Name="PART_ScrollViewer" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"  Template="{StaticResource DesignCanvasScrollViewer}">
-                                <Canvas Background="{DynamicResource RegionBrush}" Width="1920" Height="1080" AllowDrop="True" x:Name="PART_Canvas" Margin="{TemplateBinding Padding}">
+                                <Canvas Background="{DynamicResource RegionBrush}" AllowDrop="True" x:Name="PART_Canvas" Margin="{TemplateBinding Padding}">
                                     <Line x:Name="PART_VerticalLine" Stroke="Gray" StrokeThickness="1" Y1="0"/>
                                     <Line x:Name="PART_HorizontalLine" Stroke="Gray" StrokeThickness="1" X1="0" />
                                     <Rectangle x:Name="PART_SelectedBound" Stroke="CornflowerBlue" StrokeThickness="1" StrokeDashArray="4 2" ></Rectangle>

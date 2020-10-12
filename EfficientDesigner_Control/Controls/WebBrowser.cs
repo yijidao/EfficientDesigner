@@ -11,10 +11,11 @@ using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using CefSharp;
 using CefSharp.WinForms;
+using EfficientDesigner_Control.Interfaces;
 
 namespace EfficientDesigner_Control.Controls
 {
-    public class WebBrowser : Control
+    public class WebBrowser : Control, IHasDisplayMode
     {
         private const string HostName = "PART_Host";
 
@@ -107,7 +108,8 @@ namespace EfficientDesigner_Control.Controls
             switch (ctl.DisplayMode)
             {
                 case ControlDisplayMode.Design:
-                    ctl.HostText.Text = url;
+                    if (ctl.HostText != null)
+                        ctl.HostText.Text = url;
                     break;
                 case ControlDisplayMode.Runtime:
                     if (!(ctl?.Host?.Child is ChromiumWebBrowser browser)) return;
@@ -117,6 +119,10 @@ namespace EfficientDesigner_Control.Controls
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public ControlDisplayMode GetDisplayMode() => DisplayMode;
+
+        public void SetDisplayMode(ControlDisplayMode mode) => DisplayMode = mode;
     }
 
     public enum ControlDisplayMode

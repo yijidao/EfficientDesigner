@@ -24,7 +24,7 @@
         </hc:RoutedEventTrigger>
     </hc:Interaction.Triggers>-->
 
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -36,9 +36,13 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <local:RibbonView Grid.ColumnSpan="3" SaveCommand="{Binding ElementName=DesignPanel, Path=SaveCommand}" SaveAsCommand="{Binding ElementName=DesignPanel, Path=SaveAsCommand}" OpenCommand="{Binding ElementName=DesignPanel,Path=LoadCommand}"/>
- 
-         <Grid MinWidth="200" Grid.Row="1" >
+        <local:RibbonView Grid.ColumnSpan="3" 
+                          SaveCommand="{Binding ElementName=DesignPanel, Path=SaveCommand}" 
+                          SaveAsCommand="{Binding ElementName=DesignPanel, Path=SaveAsCommand}" 
+                          OpenCommand="{Binding ElementName=DesignPanel,Path=LoadCommand}"
+                          PreviewCommand="{Binding ElementName=DesignPanel,Path=PreviewCommand}"/>
+
+        <Grid MinWidth="200" Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
