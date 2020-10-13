@@ -181,6 +181,9 @@ namespace EfficientDesigner_Control.Controls
 
             var layout = AdornerLayer.GetAdornerLayer(child);
             layout?.Add(new ControlAdorner(child, DesignPanel));
+
+            SetBorder(child);
+
         }
 
         private void Child_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -386,6 +389,11 @@ namespace EfficientDesigner_Control.Controls
             Canvas.SetLeft(element, x);
 
             MoveLineAndText(element);
+
+            SetBorder(element);
+
+            CheckBorderLine(element);
+
         }
 
         public void RemoveChildren()
@@ -395,6 +403,7 @@ namespace EfficientDesigner_Control.Controls
                 foreach (var element in SelectedDecorators.Select(x => x.AdornedElement))
                 {
                     DesignPanel.Children.Remove(element);
+                    RemoveBorder(element as FrameworkElement);
                 }
 
                 SelectedDecorators = null;
@@ -403,6 +412,7 @@ namespace EfficientDesigner_Control.Controls
             if (SelectedDecorator != null)
             {
                 DesignPanel.Children.Remove(SelectedDecorator.AdornedElement);
+                RemoveBorder(SelectedDecorator.AdornedElement as FrameworkElement);
                 SelectedDecorator = null;
             }
         }
@@ -515,7 +525,7 @@ namespace EfficientDesigner_Control.Controls
 
             if (!(XamlReader.Load(reader) is Canvas canvas)) return;
 
-            var canvas2 = new Canvas{ Height = DesignPanel.Height, Width = DesignPanel.Width};
+            var canvas2 = new Canvas { Height = DesignPanel.Height, Width = DesignPanel.Width };
 
             var window = new Window
             {
@@ -602,6 +612,8 @@ namespace EfficientDesigner_Control.Controls
                 SelectedBound.Height = 0;
                 DoSelectMultiple = false;
             }
+
+            RemoveBorderLine();
         }
 
         protected override void OnMouseLeave(MouseEventArgs e) => SelectedBound.Visibility = Visibility.Collapsed;
@@ -633,5 +645,364 @@ namespace EfficientDesigner_Control.Controls
         }
 
 
+        /**
+         * 1. 四个字典保存控件和对应的上下左右坐标。变量名：TopBorders,BottomBorders,LeftBorders,RightBorders
+         * 2. 拖动的时候判断
+         *    1) 上下左右是否与上下左右相等，相等就显示红线。红线连接两个控件的最远点，红线只需起到对齐作用，不需要与 border 一样。
+         *    2) 上下左右是否和下上右左相等，相等就显示红线。红线在两个控件的交界处，红线必须跟 border 一样。
+         * 3. 最多只有八条红线，可以使用三个变量维护三条红线，拖动的实现添加红线，鼠标松开的时候移除红线。变量名：BorderLine1,BorderLine2,CrossBorderLine
+         * 4. 两个方法拖动时和松开鼠标时调用，CheckBorderLine,RemoveBorderLine
+         */
+
+
+        private Dictionary<FrameworkElement, double> TopBorders { get; } = new Dictionary<FrameworkElement, double>();
+        private Dictionary<FrameworkElement, double> BottomBorders { get; } = new Dictionary<FrameworkElement, double>();
+        private Dictionary<FrameworkElement, double> LeftBorders { get; } = new Dictionary<FrameworkElement, double>();
+        private Dictionary<FrameworkElement, double> RightBorders { get; } = new Dictionary<FrameworkElement, double>();
+
+        public Line TopBorderLine { get; set; }
+        public Line BottomBorderLine { get; set; }
+        public Line RightBorderLine { get; set; }
+        public Line LeftBorderLine { get; set; }
+        public Line TopCrossBorderLine { get; set; }
+        public Line BottomCrossBorderLine { get; set; }
+        public Line RightCrossBorderLine { get; set; }
+        public Line LeftCrossBorderLine { get; set; }
+
+        private void SetBorder(FrameworkElement element)
+        {
+            SetTopBorder(element);
+            SetBottomBorder(element);
+            SetLeftBorder(element);
+            SetRightBorder(element);
+        }
+
+        private void RemoveBorder(FrameworkElement element)
+        {
+            RemoveTopBorder(element);
+            RemoveBottomBorder(element);
+            RemoveLeftBorder(element);
+            RemoveRightBorder(element);
+        }
+
+
+        private void SetTopBorder(FrameworkElement element)
+        {
+            var top = Canvas.GetTop(element);
+            if (double.IsNaN(top)) return;
+            if (TopBorders.ContainsKey(element))
+            {
+                TopBorders[element] = Canvas.GetTop(element);
+            }
+            else
+            {
+                TopBorders.Add(element, top);
+            }
+        }
+
+        private void RemoveTopBorder(FrameworkElement element)
+        {
+            if (element == null) return;
+            TopBorders.Remove(element);
+        }
+
+
+        private void SetBottomBorder(FrameworkElement element)
+        {
+            var bottom = Canvas.GetTop(element) + element.Height;
+            if (double.IsNaN(bottom)) return;
+            if (BottomBorders.ContainsKey(element))
+            {
+                BottomBorders[element] = bottom;
+            }
+            else
+            {
+                BottomBorders.Add(element, bottom);
+            }
+        }
+
+        private void RemoveBottomBorder(FrameworkElement element)
+        {
+            if (element == null) return;
+            BottomBorders.Remove(element);
+        }
+
+        private void SetLeftBorder(FrameworkElement element)
+        {
+            var left = Canvas.GetLeft(element);
+            if (double.IsNaN(left)) return;
+            if (LeftBorders.ContainsKey(element))
+            {
+                LeftBorders[element] = left;
+            }
+            else
+            {
+                LeftBorders.Add(element, left);
+            }
+        }
+
+        private void RemoveLeftBorder(FrameworkElement element)
+        {
+            if (element == null) return;
+            LeftBorders.Remove(element);
+        }
+
+        private void SetRightBorder(FrameworkElement element)
+        {
+            var right = Canvas.GetLeft(element) + element.Width;
+            if (double.IsNaN(right)) return;
+            if (RightBorders.ContainsKey(element))
+            {
+                RightBorders[element] = right;
+            }
+            else
+            {
+                RightBorders.Add(element, right);
+            }
+        }
+
+        private void RemoveRightBorder(FrameworkElement element)
+        {
+            if (element == null) return;
+            RightBorders.Remove(element);
+        }
+
+        private void CheckBorderLine(FrameworkElement element)
+        {
+            double top = Canvas.GetTop(element), left = Canvas.GetLeft(element);
+            if (double.IsNaN(top) || double.IsNaN(left)) return;
+
+            CheckTopBorderLine(element, top, left, left + element.Width);
+            CheckBottomBorderLine(element, top + element.Height, left, left + element.Width);
+            CheckLeftBorderLine(element, left, top, top + element.Height);
+            CheckRightBorderLine(element, left + element.Width, top, top + element.Height);
+        }
+
+        private void RemoveBorderLine()
+        {
+            if (TopBorderLine != null)
+            {
+                DesignPanel.Children.Remove(TopBorderLine);
+                TopBorderLine = null;
+            }
+
+            if (BottomBorderLine != null)
+            {
+                DesignPanel.Children.Remove(BottomBorderLine);
+                BottomBorderLine = null;
+            }
+
+            if (LeftBorderLine != null)
+            {
+                DesignPanel.Children.Remove(LeftBorderLine);
+                LeftBorderLine = null;
+            }
+
+            if (RightBorderLine != null)
+            {
+                DesignPanel.Children.Remove(RightBorderLine);
+                RightBorderLine = null;
+            }
+        }
+
+        private void CheckTopBorderLine(FrameworkElement element, double top, double left, double right)
+        {
+            var elements = TopBorders.Where(x => x.Key != element && Math.Abs(x.Value - top) < 1).ToList();
+
+            if (elements.Any())
+            {
+                var minLeft = elements.Min(x => Canvas.GetLeft(x.Key));
+                var maxRight = elements.Max(x => Canvas.GetLeft(x.Key) + x.Key.Width);
+
+                if (left < minLeft)
+                {
+                    minLeft = left;
+                }
+
+                if (right > maxRight)
+                {
+                    maxRight = right;
+                }
+
+                if (TopBorderLine == null)
+                {
+                    TopBorderLine = new Line
+                    {
+                        StrokeThickness = 1,
+                        Stroke = Brushes.Red,
+                        X1 = minLeft,
+                        X2 = maxRight,
+                        Y1 = top,
+                        Y2 = top
+                    };
+                    DesignPanel.Children.Add(TopBorderLine);
+                }
+                else
+                {
+                    TopBorderLine.X1 = minLeft;
+                    TopBorderLine.X2 = maxRight;
+                    TopBorderLine.Y1 = top;
+                    TopBorderLine.Y2 = top;
+                    TopBorderLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (TopBorderLine != null)
+                {
+                    TopBorderLine.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void CheckBottomBorderLine(FrameworkElement element, double bottom, double left, double right)
+        {
+            var elements = BottomBorders.Where(x => x.Key != element && Math.Abs(x.Value - bottom) < 1).ToList();
+
+            if (elements.Any())
+            {
+                var minLeft = elements.Min(x => Canvas.GetLeft(x.Key));
+                var maxRight = elements.Max(x => Canvas.GetLeft(x.Key) + x.Key.Width);
+
+                if (left < minLeft)
+                {
+                    minLeft = left;
+                }
+
+                if (right > maxRight)
+                {
+                    maxRight = right;
+                }
+
+                if (BottomBorderLine == null)
+                {
+                    BottomBorderLine = new Line
+                    {
+                        StrokeThickness = 1,
+                        Stroke = Brushes.Red,
+                        X1 = minLeft,
+                        X2 = maxRight,
+                        Y1 = bottom,
+                        Y2 = bottom
+                    };
+                    DesignPanel.Children.Add(BottomBorderLine);
+                }
+                else
+                {
+                    BottomBorderLine.X1 = minLeft;
+                    BottomBorderLine.X2 = maxRight;
+                    BottomBorderLine.Y1 = bottom;
+                    BottomBorderLine.Y2 = bottom;
+                    BottomBorderLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (BottomBorderLine != null)
+                {
+                    BottomBorderLine.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void CheckLeftBorderLine(FrameworkElement element, double left, double top, double bottom)
+        {
+            var elements = LeftBorders.Where(x => x.Key != element && Math.Abs(x.Value - left) < 1).ToList();
+
+            if (elements.Any())
+            {
+                var minTop = elements.Min(x => Canvas.GetTop(x.Key));
+                var maxBottom = elements.Max(x => Canvas.GetTop(x.Key) + x.Key.Height);
+
+                if (top < minTop)
+                {
+                    minTop = top;
+                }
+
+                if (bottom > maxBottom)
+                {
+                    maxBottom = bottom;
+                }
+
+                if (LeftBorderLine == null)
+                {
+                    LeftBorderLine = new Line
+                    {
+                        StrokeThickness = 1,
+                        Stroke = Brushes.Red,
+                        X1 = left,
+                        X2 = left,
+                        Y1 = minTop,
+                        Y2 = maxBottom
+                    };
+                    DesignPanel.Children.Add(LeftBorderLine);
+                }
+                else
+                {
+                    LeftBorderLine.X1 = left;
+                    LeftBorderLine.X2 = left;
+                    LeftBorderLine.Y1 = minTop;
+                    LeftBorderLine.Y2 = maxBottom;
+                    LeftBorderLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (LeftBorderLine != null)
+                {
+                    LeftBorderLine.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void CheckRightBorderLine(FrameworkElement element, double right, double top, double bottom)
+        {
+            var elements = RightBorders.Where(x => x.Key != element && Math.Abs(x.Value - right) < 1).ToList();
+
+            if (elements.Any())
+            {
+                var minTop = elements.Min(x => Canvas.GetTop(x.Key));
+                var maxBottom = elements.Max(x => Canvas.GetTop(x.Key) + x.Key.Height);
+
+                if (top < minTop)
+                {
+                    minTop = top;
+                }
+
+                if (bottom > maxBottom)
+                {
+                    maxBottom = bottom;
+                }
+
+                if (RightBorderLine == null)
+                {
+                    RightBorderLine = new Line
+                    {
+                        StrokeThickness = 1,
+                        Stroke = Brushes.Red,
+                        X1 = right,
+                        X2 = right,
+                        Y1 = minTop,
+                        Y2 = maxBottom
+                    };
+                    DesignPanel.Children.Add(RightBorderLine);
+                }
+                else
+                {
+                    RightBorderLine.X1 = right;
+                    RightBorderLine.X2 = right;
+                    RightBorderLine.Y1 = minTop;
+                    RightBorderLine.Y2 = maxBottom;
+                    RightBorderLine.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (RightBorderLine != null)
+                {
+                    RightBorderLine.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
     }
 }
