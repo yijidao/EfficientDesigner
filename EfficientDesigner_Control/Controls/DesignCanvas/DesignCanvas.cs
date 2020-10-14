@@ -358,7 +358,7 @@ namespace EfficientDesigner_Control.Controls
 
         public ScrollViewer ScrollContainer { get; set; }
 
-        private void DesignPanel_ChildrenMove(object sender, RoutedEventArgs e)
+        private  void DesignPanel_ChildrenMove(object sender, RoutedEventArgs e)
         {
             if (DoSelectMultiple) return;
             var mouseOnPanel = Mouse.GetPosition(DesignPanel);
@@ -372,10 +372,6 @@ namespace EfficientDesigner_Control.Controls
             var mouseOnControl = Mouse.GetPosition(element);
             var vector = mouseOnControl - controlDecorator.MousePoint;
 
-
-            //var top = double.IsNaN(Canvas.GetTop(element)) ? 0 : Canvas.GetTop(element);
-            //var left = double.IsNaN(Canvas.GetLeft(element))?0 : Canvas.GetLeft(element);
-
             var top = element.GetCanvasTop();
             var left = element.GetCanvasLeft();
 
@@ -385,8 +381,9 @@ namespace EfficientDesigner_Control.Controls
             x = Math.Max(0, Math.Min(x, DesignPanel.Width - element.ActualWidth));
             y = Math.Max(0, Math.Min(y, DesignPanel.Height - element.ActualHeight));
 
-            Canvas.SetTop(element, y);
-            Canvas.SetLeft(element, x);
+
+            Canvas.SetTop(element, y > 0 ? Math.Floor(y) : Math.Ceiling(y));
+            Canvas.SetLeft(element, x > 0 ? Math.Floor(x) : Math.Ceiling(x));
 
             MoveLineAndText(element);
 
@@ -645,15 +642,15 @@ namespace EfficientDesigner_Control.Controls
         }
 
 
+        #region 拖拽控件显示对齐线
         /**
          * 1. 四个字典保存控件和对应的上下左右坐标。变量名：TopBorders,BottomBorders,LeftBorders,RightBorders
          * 2. 拖动的时候判断
          *    1) 上下左右是否与上下左右相等，相等就显示红线。红线连接两个控件的最远点，红线只需起到对齐作用，不需要与 border 一样。
          *    2) 上下左右是否和下上右左相等，相等就显示红线。红线在两个控件的交界处，红线必须跟 border 一样。
-         * 3. 最多只有八条红线，可以使用三个变量维护三条红线，拖动的实现添加红线，鼠标松开的时候移除红线。变量名：BorderLine1,BorderLine2,CrossBorderLine
+         * 3. 最多只有八条红线，可以使用八个变量维护八条红线，拖动的实现添加红线，鼠标松开的时候移除红线。
          * 4. 两个方法拖动时和松开鼠标时调用，CheckBorderLine,RemoveBorderLine
          */
-
 
         private Dictionary<FrameworkElement, double> TopBorders { get; } = new Dictionary<FrameworkElement, double>();
         private Dictionary<FrameworkElement, double> BottomBorders { get; } = new Dictionary<FrameworkElement, double>();
@@ -669,6 +666,10 @@ namespace EfficientDesigner_Control.Controls
         public Line RightCrossBorderLine { get; set; }
         public Line LeftCrossBorderLine { get; set; }
 
+        /// <summary>
+        /// 保存控件在画布中四个边的值
+        /// </summary>
+        /// <param name="element"></param>
         private void SetBorder(FrameworkElement element)
         {
             SetTopBorder(element);
@@ -677,6 +678,10 @@ namespace EfficientDesigner_Control.Controls
             SetRightBorder(element);
         }
 
+        /// <summary>
+        /// 移除控件在画布中四个边的值
+        /// </summary>
+        /// <param name="element"></param>
         private void RemoveBorder(FrameworkElement element)
         {
             RemoveTopBorder(element);
@@ -767,6 +772,10 @@ namespace EfficientDesigner_Control.Controls
             RightBorders.Remove(element);
         }
 
+        /// <summary>
+        /// 检查画布中有没有对齐的控件，有就显示一条红线
+        /// </summary>
+        /// <param name="element"></param>
         private void CheckBorderLine(FrameworkElement element)
         {
             double top = Canvas.GetTop(element), left = Canvas.GetLeft(element);
@@ -778,6 +787,9 @@ namespace EfficientDesigner_Control.Controls
             CheckRightBorderLine(element, left + element.Width, top, top + element.Height);
         }
 
+        /// <summary>
+        /// 移除用于对齐控件的红线
+        /// </summary>
         private void RemoveBorderLine()
         {
             if (TopBorderLine != null)
@@ -1004,5 +1016,6 @@ namespace EfficientDesigner_Control.Controls
                 }
             }
         }
+        #endregion
     }
 }

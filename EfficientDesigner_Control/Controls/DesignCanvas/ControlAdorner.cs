@@ -155,7 +155,7 @@ namespace EfficientDesigner_Control.Controls
                 LeftTop.Visibility = Visibility.Visible;
                 RightBottom.Visibility = Visibility.Visible;
                 RightTop.Visibility = Visibility.Visible;
-                drawingContext.DrawRectangle(Brushes.Transparent, BorderPen, new Rect(-1, -1, AdornedElement.DesiredSize.Width + 1, AdornedElement.DesiredSize.Height + 1));
+                drawingContext.DrawRectangle(Brushes.Transparent, BorderPen, new Rect(-1, -1, AdornedElement.DesiredSize.Width + 2, AdornedElement.DesiredSize.Height + 2));
             }
             else
             {
@@ -179,14 +179,16 @@ namespace EfficientDesigner_Control.Controls
 
         private void ResizeWidth(double e)
         {
+            e = Math.Floor(e);
             double deltaHorizontal = Math.Min(-e, ChildElement.ActualWidth - ChildElement.MinWidth);
-            Canvas.SetTop(ChildElement, Canvas.GetTop(ChildElement) - TransformOrigin.X * deltaHorizontal * Math.Sin(Angle));
+            Canvas.SetTop(ChildElement,  Canvas.GetTop(ChildElement) - TransformOrigin.X * deltaHorizontal * Math.Sin(Angle));
             Canvas.SetLeft(ChildElement, Canvas.GetLeft(ChildElement) + (deltaHorizontal * TransformOrigin.X * (1 - Math.Cos(Angle))));
 
             ChildElement.Width = Math.Max(4, ChildElement.Width - deltaHorizontal);
         }
         private void ResizeX(double e)
         {
+            e = Math.Floor(e);
             double deltaHorizontal = Math.Min(e, ChildElement.ActualWidth - ChildElement.MinWidth);
             Canvas.SetTop(ChildElement, Canvas.GetTop(ChildElement) + deltaHorizontal * Math.Sin(Angle) - TransformOrigin.X * deltaHorizontal * Math.Sin(Angle));
             Canvas.SetLeft(ChildElement, Canvas.GetLeft(ChildElement) + deltaHorizontal * Math.Cos(Angle) + (TransformOrigin.X * deltaHorizontal * (1 - Math.Cos(Angle))));
@@ -194,6 +196,7 @@ namespace EfficientDesigner_Control.Controls
         }
         private void ResizeHeight(double e)
         {
+            e = Math.Floor(e);
             double deltaVertical = Math.Min(-e, ChildElement.ActualHeight - ChildElement.MinHeight);
             Canvas.SetTop(ChildElement, Canvas.GetTop(ChildElement) + (TransformOrigin.Y * deltaVertical * (1 - Math.Cos(-Angle))));
             Canvas.SetLeft(ChildElement, Canvas.GetLeft(ChildElement) - deltaVertical * TransformOrigin.Y * Math.Sin(-Angle));
@@ -201,6 +204,7 @@ namespace EfficientDesigner_Control.Controls
         }
         private void ResizeY(double e)
         {
+            e = Math.Floor(e);
             double deltaVertical = Math.Min(e, ChildElement.ActualHeight - ChildElement.MinHeight);
             Canvas.SetTop(ChildElement, Canvas.GetTop(ChildElement) + deltaVertical * Math.Cos(-Angle) + (TransformOrigin.Y * deltaVertical * (1 - Math.Cos(-Angle))));
             Canvas.SetLeft(ChildElement, Canvas.GetLeft(ChildElement) + deltaVertical * Math.Sin(-Angle) - (TransformOrigin.Y * deltaVertical * Math.Sin(-Angle)));
@@ -240,7 +244,8 @@ namespace EfficientDesigner_Control.Controls
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            MousePoint = Mouse.GetPosition(AdornedElement);
+            var p = Mouse.GetPosition(AdornedElement);
+            MousePoint = new Point(Math.Floor(p.X), Math.Floor(p.Y)); 
         }
     }
     }
