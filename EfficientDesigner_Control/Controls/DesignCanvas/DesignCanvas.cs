@@ -64,9 +64,6 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty SaveAsCommandProperty =
             DependencyProperty.Register("SaveAsCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
-
-
-
         public ICommand PreviewCommand
         {
             get => (ICommand)GetValue(PreviewCommandProperty);
@@ -76,6 +73,18 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty PreviewCommandProperty =
             DependencyProperty.Register("PreviewCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
+
+
+        public ICommand PublishCommand
+        {
+            get => (ICommand)GetValue(PublishCommandProperty);
+            set => SetValue(PublishCommandProperty, value);
+        }
+
+        public static readonly DependencyProperty PublishCommandProperty =
+            DependencyProperty.Register("PublishCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
+
+
         public DesignCanvas()
         {
             AllowDrop = true;
@@ -84,6 +93,7 @@ namespace EfficientDesigner_Control.Controls
             LoadCommand = new DelegateCommand(Load);
             SaveAsCommand = new DelegateCommand(SaveAs);
             PreviewCommand = new DelegateCommand(Preview);
+            PublishCommand = new DelegateCommand(Publish);
         }
 
 
@@ -443,6 +453,14 @@ namespace EfficientDesigner_Control.Controls
             }
         }
 
+        public void Publish()
+        {
+            var reader = SaveChild();
+            var layout = reader.ReadToEnd();
+
+
+        }
+
         /// <summary>
         /// 将拖拽到 DesignPanel 中的子控件保存到指定文件中
         /// </summary>
@@ -466,7 +484,7 @@ namespace EfficientDesigner_Control.Controls
         /// 将拖拽到 DesignPanel 中的子控件保存到 XmlReader 中
         /// </summary>
         /// <returns></returns>
-        private XmlReader SaveChild()
+        private StringReader SaveChild()
         {
             DesignPanel.Children.Remove(HLine);
             DesignPanel.Children.Remove(VLine);
@@ -480,7 +498,8 @@ namespace EfficientDesigner_Control.Controls
             DesignPanel.Children.Add(TopText);
             DesignPanel.Children.Add(LeftText);
 
-            return XmlReader.Create(reader);
+            //return XmlReader.Create(reader);
+            return reader;
         }
 
         private string FileName { get; set; }
@@ -520,7 +539,7 @@ namespace EfficientDesigner_Control.Controls
         {
             var reader = SaveChild();
 
-            if (!(XamlReader.Load(reader) is Canvas canvas)) return;
+            if (!(XamlReader.Load(XmlReader.Create(reader)) is Canvas canvas)) return;
 
             var canvas2 = new Canvas { Height = DesignPanel.Height, Width = DesignPanel.Width };
 
