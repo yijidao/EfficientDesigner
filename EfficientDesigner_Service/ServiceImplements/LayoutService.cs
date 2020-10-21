@@ -33,5 +33,14 @@ namespace EfficientDesigner_Service.ServiceImplements
                 context.SaveChanges();
             }
         }
+
+        public void RemoveLayout(Layout layout)
+        {
+            using (var context = new LayoutContext())
+            {
+                context.Layouts.Remove(layout);
+                context.SaveChanges();
+            }
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace EfficientDesigner_Service.Services
         Layout[] GetLayouts();
 
         void UpdateLayout(Layout layout);
+
+        void RemoveLayout(Layout layout);
     }
 }
