@@ -17,7 +17,15 @@ using System.Windows.Shapes;
 using System.Xml;
 using EfficientDesigner_Control.ExtensionMethods;
 using EfficientDesigner_Control.Interfaces;
+using EfficientDesigner_Service;
+using EfficientDesigner_Service.Models;
+using EfficientDesigner_Service.ServiceImplements;
+using EfficientDesigner_Service.Services;
+using HandyControl.Controls;
+using MessageBox = HandyControl.Controls.MessageBox;
 using Path = System.IO.Path;
+using ScrollViewer = System.Windows.Controls.ScrollViewer;
+using Window = System.Windows.Window;
 
 namespace EfficientDesigner_Control.Controls
 {
@@ -84,6 +92,16 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty PublishCommandProperty =
             DependencyProperty.Register("PublishCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
 
+        public ICommand GetLayoutsCommand
+        {
+            get { return (ICommand)GetValue(GetLayoutsCommandProperty); }
+            set { SetValue(GetLayoutsCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty GetLayoutsCommandProperty =
+            DependencyProperty.Register("GetLayoutsCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
+
+
 
         public DesignCanvas()
         {
@@ -94,8 +112,8 @@ namespace EfficientDesigner_Control.Controls
             SaveAsCommand = new DelegateCommand(SaveAs);
             PreviewCommand = new DelegateCommand(Preview);
             PublishCommand = new DelegateCommand(Publish);
+            GetLayoutsCommand = new DelegateCommand(GetLayouts);
         }
-
 
 
         public bool AddedHandler { get; set; }
@@ -368,7 +386,7 @@ namespace EfficientDesigner_Control.Controls
 
         public ScrollViewer ScrollContainer { get; set; }
 
-        private  void DesignPanel_ChildrenMove(object sender, RoutedEventArgs e)
+        private void DesignPanel_ChildrenMove(object sender, RoutedEventArgs e)
         {
             if (DoSelectMultiple) return;
             var mouseOnPanel = Mouse.GetPosition(DesignPanel);
@@ -455,11 +473,40 @@ namespace EfficientDesigner_Control.Controls
 
         public void Publish()
         {
-            var reader = SaveChild();
-            var layout = reader.ReadToEnd();
+            var displayNameDialog = new PublishLayout();
+            displayNameDialog.InputText = FileName;
 
+            var dialog = Dialog.Show(displayNameDialog);
+            displayNameDialog.Yes += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(displayNameDialog.InputText)) return;
+
+                var reader = SaveChild();
+                var layout = new Layout
+                {
+                    CreateTime = DateTime.Now,
+                    DisplayName = displayNameDialog.InputText,
+                    File = reader.ReadToEnd(),
+                    LayoutId = Guid.NewGuid()
+                };
+                ServiceFactory.GetLayoutService().UpdateLayout(layout);
+                dialog.Close();
+            };
+            displayNameDialog.No += (s, e) => dialog.Close();
+        }
+
+
+        private void GetLayouts()
+        {
+            var us = new LayoutList();
+            var dialog = Dialog.Show(us);
+            us.closeButton.Click += (s, e) =>
+            {
+                dialog.Close();
+            };
 
         }
+
 
         /// <summary>
         /// 将拖拽到 DesignPanel 中的子控件保存到指定文件中

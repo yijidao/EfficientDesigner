@@ -25,7 +25,9 @@
         </Border>
         <Border DockPanel.Dock="Right" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" >
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                <ctl:ImageButton DockPanel.Dock="Right" ButtonType="预览" Command="{Binding ElementName=RibbonView1, Path=PreviewCommand}"/>
+                <ctl:ImageButton ButtonType="预览" Command="{Binding ElementName=RibbonView1, Path=PreviewCommand}"/>
+                <ctl:ImageButton Margin="5,0,0,0" ButtonType="发布" Command="{Binding ElementName=RibbonView1, Path=PublishCommand}"/>
+                <ctl:ImageButton Margin="5,0,0,0" ButtonType="查询" DisplayName="查看" Command="{Binding ElementName=RibbonView1, Path=GetLayoutsCommand}"></ctl:ImageButton>
             </StackPanel>
         </Border>
     </DockPanel>

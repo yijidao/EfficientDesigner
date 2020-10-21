@@ -5,7 +5,7 @@ using EfficientDesigner_Service.Models;
 
 namespace EfficientDesigner_Service.Services
 {
-    interface ILayoutService
+    public interface ILayoutService
     {
         Layout[] GetLayouts();
 

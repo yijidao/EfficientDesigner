@@ -40,7 +40,9 @@
                           SaveCommand="{Binding ElementName=DesignPanel, Path=SaveCommand}" 
                           SaveAsCommand="{Binding ElementName=DesignPanel, Path=SaveAsCommand}" 
                           OpenCommand="{Binding ElementName=DesignPanel,Path=LoadCommand}"
-                          PreviewCommand="{Binding ElementName=DesignPanel,Path=PreviewCommand}"/>
+                          PreviewCommand="{Binding ElementName=DesignPanel,Path=PreviewCommand}"
+                          PublishCommand="{Binding ElementName=DesignPanel, Path=PublishCommand}"
+                          GetLayoutsCommand="{Binding ElementName=DesignPanel, Path=GetLayoutsCommand}"/>
 
         <Grid MinWidth="200" Grid.Row="1" >
             <Grid.RowDefinitions>

@@ -166,6 +166,8 @@ namespace EfficientDesigner_Control.Controls
                     return Application.Current.Resources["Cancel"] as DrawingImage;
                 case ButtonType.重做:
                     return Application.Current.Resources["Reset"] as DrawingImage;
+                case ButtonType.发布:
+                    return Application.Current.Resources["Publish"] as DrawingImage;
                 case ButtonType.查询:
                 default:
                     return Application.Current.Resources["Query"] as DrawingImage;
@@ -205,5 +207,6 @@ namespace EfficientDesigner_Control.Controls
         预览,
         撤销,
         重做,
+        发布,
     }
 }

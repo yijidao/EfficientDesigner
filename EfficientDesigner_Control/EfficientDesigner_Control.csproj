@@ -96,6 +96,12 @@
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Controls\DesignCanvas\ControlAdorner.cs" />
     <Compile Include="Controls\DesignCanvas\DesignCanvas.cs" />
+    <Compile Include="Controls\DesignCanvas\LayoutList.xaml.cs">
+      <DependentUpon>LayoutList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DesignCanvas\PublishLayout.xaml.cs">
+      <DependentUpon>PublishLayout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PropertyPanel\Editors\BrushPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\DateTimePropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\EnumPropertyEditor.cs" />
@@ -131,6 +137,14 @@
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\DesignCanvas\LayoutList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DesignCanvas\PublishLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Icon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,6 +191,12 @@
     <PackageReference Include="HandyControl">
       <Version>2.5.0.2</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EfficientDesigner_Service\EfficientDesigner_Service.csproj">
+      <Project>{87a19df9-f00c-4259-a036-21aa365c2d9e}</Project>
+      <Name>EfficientDesigner_Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

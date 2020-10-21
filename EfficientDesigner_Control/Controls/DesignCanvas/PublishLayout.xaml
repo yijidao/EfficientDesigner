@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="EfficientDesigner_Control.Controls.PublishLayout"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EfficientDesigner_Control.Controls"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource RegionBrush }"
+             Height="250"
+             Width="450"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="发布界面"  FontWeight="Bold" FontSize="{DynamicResource HeadFontSize}" />
+        <StackPanel Grid.Row="1"  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="界面名称："></TextBlock>
+            <TextBox Width="180" Height="26" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PublishLayout}, Mode=FindAncestor}, Path=InputText, Mode=TwoWay}"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Style="{DynamicResource ButtonPrimary}" Content="确定" Height="30" Width="80" Margin="0,0,20,0" x:Name="yesButton" Click="YesButton_OnClick"></Button>
+            <Button Style="{DynamicResource ButtonPrimary}" Content="取消" Height="30" Width="80" x:Name="noButton" Click="NoButton_OnClick" ></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
