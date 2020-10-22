@@ -504,7 +504,13 @@ namespace EfficientDesigner_Control.Controls
             {
                 dialog.Close();
             };
-
+            us.LoadLayout += (s, e) =>
+            {
+                if (!(e.OriginalSource is Layout layout)) return;
+                var stream = new MemoryStream(Encoding.UTF8.GetBytes(layout.File));
+                LoadChild(stream, layout.DisplayName);
+                dialog.Close();
+            };
         }
 
 
@@ -557,7 +563,34 @@ namespace EfficientDesigner_Control.Controls
             dialog.Filter = "(*.ed)|*.ed";
             if (dialog.ShowDialog() == true)
             {
-                var canvas = XamlReader.Load(dialog.OpenFile()) as Canvas;
+                LoadChild(dialog.OpenFile(), dialog.FileName);
+
+                //var canvas = XamlReader.Load(dialog.OpenFile()) as Canvas;
+                //if (canvas == null) return;
+                //SelectedDecorator = null;
+                //DesignPanel.Children.Clear();
+
+                //DesignPanel.Children.Add(HLine);
+                //DesignPanel.Children.Add(VLine);
+                //DesignPanel.Children.Add(TopText);
+                //DesignPanel.Children.Add(LeftText);
+
+                //while (canvas.Children.Count > 0)
+                //{
+                //    var child = canvas.Children[0];
+                //    canvas.Children.Remove(child);
+                //    AddChild(child as FrameworkElement);
+                //}
+
+                //FileName = dialog.FileName;
+            }
+        }
+
+        private void LoadChild(Stream stream, string fileName)
+        {
+            using (stream)
+            {
+                var canvas = XamlReader.Load(stream) as Canvas;
                 if (canvas == null) return;
                 SelectedDecorator = null;
                 DesignPanel.Children.Clear();
@@ -574,13 +607,10 @@ namespace EfficientDesigner_Control.Controls
                     AddChild(child as FrameworkElement);
                 }
 
-                //foreach (UIElement child in canvas.Children)
-                //{
-                //    AddChild(child);
-                //}
-                FileName = dialog.FileName;
+                FileName = fileName;
             }
         }
+
 
         private void Preview()
         {

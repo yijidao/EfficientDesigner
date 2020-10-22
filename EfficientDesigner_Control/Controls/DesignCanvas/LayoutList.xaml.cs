@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using EfficientDesigner_Service;
 using EfficientDesigner_Service.Models;
 
@@ -49,6 +38,15 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty LayoutsProperty =
             DependencyProperty.Register("Layouts", typeof(ObservableCollection<Layout>), typeof(LayoutList), new PropertyMetadata(new ObservableCollection<Layout>()));
 
+        public static readonly RoutedEvent LoadLayoutEvent = EventManager.RegisterRoutedEvent("LoadLayout",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LayoutList));
+
+        public event RoutedEventHandler LoadLayout
+        {
+            add => AddHandler(LoadLayoutEvent, value);
+            remove => AddHandler(LoadLayoutEvent, value);
+        }
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             //dataGrid.ItemsSource = ServiceFactory.GetLayoutService().GetLayouts();
@@ -58,7 +56,7 @@ namespace EfficientDesigner_Control.Controls
             var b = new Binding(nameof(Layouts)) { Mode = BindingMode.OneWay, Source = this };
             BindingOperations.SetBinding(dataGrid, DataGrid.ItemsSourceProperty, b);
 
-            var binding = new Binding(nameof(CurrentLayout)) {Mode = BindingMode.TwoWay, Source = this};
+            var binding = new Binding(nameof(CurrentLayout)) { Mode = BindingMode.TwoWay, Source = this };
             BindingOperations.SetBinding(dataGrid, DataGrid.SelectedItemProperty, binding);
         }
 
@@ -67,5 +65,7 @@ namespace EfficientDesigner_Control.Controls
             ServiceFactory.GetLayoutService().RemoveLayout(CurrentLayout);
             Layouts.Remove(CurrentLayout);
         }
+
+        private void LoadLayout_OnClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(LoadLayoutEvent, this.CurrentLayout));
     }
 }

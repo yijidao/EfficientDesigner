@@ -39,7 +39,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="加载" Style="{DynamicResource ButtonPrimary}"></Button>
+                                <Button Content="加载" Style="{DynamicResource ButtonPrimary}" Click="LoadLayout_OnClick"></Button>
                                 <Button Content="删除" Style="{DynamicResource ButtonDanger}" Margin="5,0,0,0" Click="ButtonBase_OnClick"></Button>
                             </StackPanel>
                         </DataTemplate>
