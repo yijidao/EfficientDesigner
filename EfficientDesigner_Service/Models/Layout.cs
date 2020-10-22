@@ -14,6 +14,6 @@ namespace EfficientDesigner_Service.Models
 
         public DateTime CreateTime { get; set; }
 
-        public DateTime UpdateTime { get; set; } = DateTime.Now;
+        public DateTime UpdateTime { get; set; }
     }
 }

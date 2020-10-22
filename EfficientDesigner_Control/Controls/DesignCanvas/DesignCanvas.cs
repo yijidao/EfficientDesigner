@@ -474,7 +474,7 @@ namespace EfficientDesigner_Control.Controls
         public void Publish()
         {
             var displayNameDialog = new PublishLayout();
-            displayNameDialog.InputText = FileName;
+            displayNameDialog.InputText = RemoteLayout?.DisplayName;
 
             var dialog = Dialog.Show(displayNameDialog);
             displayNameDialog.Yes += (s, e) =>
@@ -482,14 +482,26 @@ namespace EfficientDesigner_Control.Controls
                 if (string.IsNullOrWhiteSpace(displayNameDialog.InputText)) return;
 
                 var reader = SaveChild();
-                var layout = new Layout
+                if (RemoteLayout == null)
                 {
-                    CreateTime = DateTime.Now,
-                    DisplayName = displayNameDialog.InputText,
-                    File = reader.ReadToEnd(),
-                    LayoutId = Guid.NewGuid()
-                };
-                ServiceFactory.GetLayoutService().UpdateLayout(layout);
+                    var layout = new Layout
+                    {
+                        CreateTime = DateTime.Now,
+                        UpdateTime = DateTime.Now,
+                        DisplayName = displayNameDialog.InputText,
+                        File = reader.ReadToEnd(),
+                        LayoutId = Guid.NewGuid()
+                    };
+                    ServiceFactory.GetLayoutService().UpdateLayout(layout);
+                    RemoteLayout = layout;
+                }
+                else
+                {
+                    RemoteLayout.File = reader.ReadToEnd();
+                    RemoteLayout.DisplayName = displayNameDialog.InputText;
+                    RemoteLayout.UpdateTime = DateTime.Now;
+                    ServiceFactory.GetLayoutService().UpdateLayout(RemoteLayout);
+                }
                 dialog.Close();
             };
             displayNameDialog.No += (s, e) => dialog.Close();
@@ -508,7 +520,8 @@ namespace EfficientDesigner_Control.Controls
             {
                 if (!(e.OriginalSource is Layout layout)) return;
                 var stream = new MemoryStream(Encoding.UTF8.GetBytes(layout.File));
-                LoadChild(stream, layout.DisplayName);
+                LoadChild(stream);
+                RemoteLayout = layout;
                 dialog.Close();
             };
         }
@@ -555,7 +568,20 @@ namespace EfficientDesigner_Control.Controls
             return reader;
         }
 
+        /// <summary>
+        /// 保存到本地的文件名
+        /// </summary>
         private string FileName { get; set; }
+
+        ///// <summary>
+        ///// 发布到数据库的文件名
+        ///// </summary>
+        //private string RemoteFileName { get; set; }
+
+        /// <summary>
+        /// 发布到数据库的布局
+        /// </summary>
+        private Layout RemoteLayout { get; set; }
 
         public void Load()
         {
@@ -563,7 +589,9 @@ namespace EfficientDesigner_Control.Controls
             dialog.Filter = "(*.ed)|*.ed";
             if (dialog.ShowDialog() == true)
             {
-                LoadChild(dialog.OpenFile(), dialog.FileName);
+                LoadChild(dialog.OpenFile());
+                FileName = dialog.FileName;
+                RemoteLayout = null;
 
                 //var canvas = XamlReader.Load(dialog.OpenFile()) as Canvas;
                 //if (canvas == null) return;
@@ -586,7 +614,7 @@ namespace EfficientDesigner_Control.Controls
             }
         }
 
-        private void LoadChild(Stream stream, string fileName)
+        private void LoadChild(Stream stream)
         {
             using (stream)
             {
@@ -606,8 +634,6 @@ namespace EfficientDesigner_Control.Controls
                     canvas.Children.Remove(child);
                     AddChild(child as FrameworkElement);
                 }
-
-                FileName = fileName;
             }
         }
 
