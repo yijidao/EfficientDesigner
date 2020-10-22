@@ -42,7 +42,8 @@
                           OpenCommand="{Binding ElementName=DesignPanel,Path=LoadCommand}"
                           PreviewCommand="{Binding ElementName=DesignPanel,Path=PreviewCommand}"
                           PublishCommand="{Binding ElementName=DesignPanel, Path=PublishCommand}"
-                          GetLayoutsCommand="{Binding ElementName=DesignPanel, Path=GetLayoutsCommand}"/>
+                          GetLayoutsCommand="{Binding ElementName=DesignPanel, Path=GetLayoutsCommand}"
+                          NewCommand="{Binding ElementName=DesignPanel,Path=NewCommand}"/>
 
         <Grid MinWidth="200" Grid.Row="1" >
             <Grid.RowDefinitions>

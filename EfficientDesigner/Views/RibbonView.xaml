@@ -12,7 +12,8 @@
     <DockPanel Margin="5" LastChildFill="False" SnapsToDevicePixels="True">
         <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" >
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                <ctl:ImageButton ButtonType="打开" Command="{Binding ElementName=RibbonView1, Path=OpenCommand}" />
+                <ctl:ImageButton ButtonType="打开" DisplayName="新建" Command="{Binding ElementName=RibbonView1, Path=NewCommand}" />
+                <ctl:ImageButton Margin="5,0,0,0" ButtonType="打开" Command="{Binding ElementName=RibbonView1, Path=OpenCommand}" />
                 <ctl:ImageButton Margin="5,0,0,0" ButtonType="保存" Command="{Binding ElementName=RibbonView1, Path=SaveCommand}" />
                 <ctl:ImageButton Margin="5,0,0,0" ButtonType="另存" Command="{Binding ElementName=RibbonView1, Path=SaveAsCommand}" />
             </StackPanel>

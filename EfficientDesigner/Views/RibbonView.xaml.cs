@@ -75,7 +75,6 @@ namespace EfficientDesigner.Views
             set { SetValue(PublishCommandProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for PublishCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PublishCommandProperty =
             DependencyProperty.Register("PublishCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
 
@@ -88,6 +87,17 @@ namespace EfficientDesigner.Views
 
         public static readonly DependencyProperty GetLayoutsCommandProperty =
             DependencyProperty.Register("GetLayoutsCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
+
+
+
+        public ICommand NewCommand
+        {
+            get { return (ICommand)GetValue(NewCommandProperty); }
+            set { SetValue(NewCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty NewCommandProperty =
+            DependencyProperty.Register("NewCommand", typeof(ICommand), typeof(RibbonView), new PropertyMetadata(null));
 
 
 

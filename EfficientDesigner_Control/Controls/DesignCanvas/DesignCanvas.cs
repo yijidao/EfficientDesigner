@@ -103,6 +103,17 @@ namespace EfficientDesigner_Control.Controls
 
 
 
+        public ICommand NewCommand
+        {   
+            get { return (ICommand)GetValue(NewCommandProperty); }
+            set { SetValue(NewCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty NewCommandProperty =
+            DependencyProperty.Register("NewCommand", typeof(ICommand), typeof(DesignCanvas), new PropertyMetadata(null));
+
+
+
         public DesignCanvas()
         {
             AllowDrop = true;
@@ -113,7 +124,9 @@ namespace EfficientDesigner_Control.Controls
             PreviewCommand = new DelegateCommand(Preview);
             PublishCommand = new DelegateCommand(Publish);
             GetLayoutsCommand = new DelegateCommand(GetLayouts);
+            NewCommand = new DelegateCommand(New);
         }
+
 
 
         public bool AddedHandler { get; set; }
@@ -526,6 +539,18 @@ namespace EfficientDesigner_Control.Controls
             };
         }
 
+
+        private void New()
+        {
+            DesignPanel.Children.Clear();
+
+            DesignPanel.Children.Add(HLine);
+            DesignPanel.Children.Add(VLine);
+            DesignPanel.Children.Add(TopText);
+            DesignPanel.Children.Add(LeftText);
+            FileName = "";
+            RemoteLayout = null;
+        }
 
         /// <summary>
         /// 将拖拽到 DesignPanel 中的子控件保存到指定文件中
