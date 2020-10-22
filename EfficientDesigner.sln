@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientDesigner_Control",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextProject", "TextProject\TextProject.csproj", "{D3314633-3645-4ACD-9286-790721BAE7E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientDesigner_Service", "EfficientDesigner_Service\EfficientDesigner_Service.csproj", "{87A19DF9-F00C-4259-A036-21AA365C2D9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfficientDesigner_Service", "EfficientDesigner_Service\EfficientDesigner_Service.csproj", "{87A19DF9-F00C-4259-A036-21AA365C2D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientDesigner_Shell", "EfficientDesigner_Shell\EfficientDesigner_Shell.csproj", "{78B5D99E-69B5-4DDA-B643-4813597E7F0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{87A19DF9-F00C-4259-A036-21AA365C2D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87A19DF9-F00C-4259-A036-21AA365C2D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87A19DF9-F00C-4259-A036-21AA365C2D9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78B5D99E-69B5-4DDA-B643-4813597E7F0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78B5D99E-69B5-4DDA-B643-4813597E7F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78B5D99E-69B5-4DDA-B643-4813597E7F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78B5D99E-69B5-4DDA-B643-4813597E7F0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
