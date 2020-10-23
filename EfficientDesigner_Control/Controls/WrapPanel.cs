@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -69,15 +65,18 @@ namespace EfficientDesigner_Control.Controls
                 var desiredSize = element.DesiredSize;
                 if (GetLineBreakBefore(element) || currentSize.Width + desiredSize.Width > finalSize.Width)
                 {
-                    ArrageLine(accumulateHeight, currentSize.Height, firstInLine++, i);
+                    ArrangeLine(accumulateHeight, currentSize.Height, firstInLine, i);
                     accumulateHeight += currentSize.Height;
-                    currentSize = desiredSize;
+                    currentSize = new Size();
+
+                    firstInLine = i + 1;
 
                     if (desiredSize.Width > finalSize.Width)
                     {
-                        ArrageLine(accumulateHeight, currentSize.Height, firstInLine++, ++i);
+                        ArrangeLine(accumulateHeight, currentSize.Height, firstInLine, ++i);
                         accumulateHeight += currentSize.Height;
                         currentSize = new Size();
+                        firstInLine = i + 1;
                     }
                 }
                 else
@@ -87,10 +86,15 @@ namespace EfficientDesigner_Control.Controls
                 }
             }
 
+            if (firstInLine < InternalChildren.Count)
+            {
+                ArrangeLine(accumulateHeight, currentSize.Height, firstInLine, InternalChildren.Count -1);
+            }
+
             return finalSize;
         }
 
-        private void ArrageLine(double y, double lineHeight, int start, int end)
+        private void ArrangeLine(double y, double lineHeight, int start, int end)
         {
             // y 是当前的Y轴点，lineHeight 是当前行高，start 是当前行第一个元素的索引，end 是当前行最后一个元素的索引
             double x = 0;
