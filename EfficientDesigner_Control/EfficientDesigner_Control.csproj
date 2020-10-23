@@ -125,6 +125,7 @@
     <Compile Include="Controls\PropertyPanel\ThicknessGrid.cs" />
     <Compile Include="Controls\ToolBox\ToolBox.cs" />
     <Compile Include="Controls\WebBrowser.cs" />
+    <Compile Include="Controls\WrapPanel.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="ExtensionMethods\FrameworkElementExtensions.cs" />
     <Compile Include="Interfaces\IHasDisplayMode.cs" />
