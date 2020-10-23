@@ -47,11 +47,11 @@ namespace EfficientDesigner_Control.Controls
             remove => AddHandler(LoadLayoutEvent, value);
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private async void OnLoaded(object sender, RoutedEventArgs e)
         {
             //dataGrid.ItemsSource = ServiceFactory.GetLayoutService().GetLayouts();
 
-            Layouts = new ObservableCollection<Layout>(ServiceFactory.GetLayoutService().GetLayouts());
+            Layouts = new ObservableCollection<Layout>(await ServiceFactory.GetLayoutService().GetLayouts());
 
             var b = new Binding(nameof(Layouts)) { Mode = BindingMode.OneWay, Source = this };
             BindingOperations.SetBinding(dataGrid, DataGrid.ItemsSourceProperty, b);

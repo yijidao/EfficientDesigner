@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using EfficientDesigner_Service.Contexts;
 using EfficientDesigner_Service.Models;
 using EfficientDesigner_Service.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace EfficientDesigner_Service.ServiceImplements
 {
     public class LayoutService : ILayoutService
     {
-        public Layout[] GetLayouts()
+        public async Task<Layout[]> GetLayouts()
         {
             using (var context = new LayoutContext())
             {
-                return context.Layouts.OrderByDescending(x => x.CreateTime).ToArray();
+                return await context.Layouts.OrderByDescending(x => x.CreateTime).ToArrayAsync();
             }
         }
 
