@@ -23,6 +23,6 @@ namespace EfficientDesigner_Shell
             containerRegistry.Register<ILayoutService, LayoutService>();
         }
 
-        protected override Window CreateShell() => new MainWindow();
+        protected override Window CreateShell() => Container.Resolve<MainWindow>();
     }
 }

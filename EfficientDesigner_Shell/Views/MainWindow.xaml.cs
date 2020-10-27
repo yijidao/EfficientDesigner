@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Xml;
+using EfficientDesigner_Service.Models;
+using EfficientDesigner_Shell.Events;
+using Prism.Events;
+using Prism.Ioc;
+using Prism.Mvvm;
 
 namespace EfficientDesigner_Shell.Views
 {
@@ -19,9 +17,37 @@ namespace EfficientDesigner_Shell.Views
     /// </summary>
     public partial class MainWindow : HandyControl.Controls.Window
     {
-        public MainWindow()
+        public MainWindow(IEventAggregator eventAggregator)
         {
             InitializeComponent();
+            eventAggregator.GetEvent<OpenLayoutView>().Subscribe(OpenTabItem);
+        }
+
+        private void OpenTabItem(Layout layout)
+        {
+            var tabItem = new HandyControl.Controls.TabItem
+            {
+                Header = layout.DisplayName,
+                Content = XamlReader.Load(XmlReader.Create(new StringReader(layout.File))),
+                ShowCloseButton = true,
+                IsSelected = true
+            };
+            if (tabItem.Content is Canvas ctl)
+            {
+                ctl.Background = Application.Current.Resources["RegionBrush"] as Brush;
+            }
+            tabControl.Items.Add(tabItem);
+        }
+
+        private void TabControl_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            tabControl.Items.Add(new HandyControl.Controls.TabItem
+            {
+                Header = "首页",
+                Content = ContainerLocator.Current.Resolve<LayoutList>(),
+                IsSelected = true
+            });
+
         }
     }
 }

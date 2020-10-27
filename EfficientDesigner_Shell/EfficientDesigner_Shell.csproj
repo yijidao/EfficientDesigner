@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Events\OpenLayoutView.cs" />
     <Compile Include="ViewModels\LayoutListViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\LayoutList.xaml.cs">

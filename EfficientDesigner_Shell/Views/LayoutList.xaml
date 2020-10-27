@@ -27,7 +27,8 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type model:Layout}">
-                    <Button Content="{Binding DisplayName}" Style="{DynamicResource ButtonInfo}" Height="80" Width="200" Margin="5"></Button>
+                    <Button Content="{Binding DisplayName}" Style="{DynamicResource ButtonInfo}" Height="80" Width="200" Margin="5" Click="Layout_OnClick">
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

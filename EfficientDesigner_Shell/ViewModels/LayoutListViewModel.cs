@@ -9,6 +9,7 @@ using EfficientDesigner_Control.Commands;
 using EfficientDesigner_Service.Models;
 using EfficientDesigner_Service.Services;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace EfficientDesigner_Shell.ViewModels
 {
@@ -16,7 +17,7 @@ namespace EfficientDesigner_Shell.ViewModels
     {
         private readonly ILayoutService _layoutService;
 
-        public LayoutListViewModel(ILayoutService layoutService)
+        public LayoutListViewModel( ILayoutService layoutService)
         {
             _layoutService = layoutService;
         }
@@ -32,5 +33,6 @@ namespace EfficientDesigner_Shell.ViewModels
         {
             Layouts = new ObservableCollection<Layout>(await _layoutService.GetLayouts());
         });
+
     }
 }
