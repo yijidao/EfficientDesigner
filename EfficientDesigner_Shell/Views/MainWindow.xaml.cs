@@ -4,11 +4,14 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Xml;
+using EfficientDesigner_Control.Controls;
 using EfficientDesigner_Service.Models;
 using EfficientDesigner_Shell.Events;
+using Prism;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Unity;
 
 namespace EfficientDesigner_Shell.Views
 {
@@ -28,7 +31,7 @@ namespace EfficientDesigner_Shell.Views
             var tabItem = new HandyControl.Controls.TabItem
             {
                 Header = layout.DisplayName,
-                Content = XamlReader.Load(XmlReader.Create(new StringReader(layout.File))),
+                Content = DesignCanvas.LoadLayout(layout.File),
                 ShowCloseButton = true,
                 IsSelected = true
             };

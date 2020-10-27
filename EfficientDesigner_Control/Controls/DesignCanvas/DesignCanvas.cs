@@ -104,7 +104,7 @@ namespace EfficientDesigner_Control.Controls
 
 
         public ICommand NewCommand
-        {   
+        {
             get { return (ICommand)GetValue(NewCommandProperty); }
             set { SetValue(NewCommandProperty, value); }
         }
@@ -669,18 +669,7 @@ namespace EfficientDesigner_Control.Controls
 
             if (!(XamlReader.Load(XmlReader.Create(reader)) is Canvas canvas)) return;
 
-            var canvas2 = new Canvas { Height = DesignPanel.Height, Width = DesignPanel.Width };
-
-            var window = new Window
-            {
-                Title = "预览模式",
-                Content = new ScrollViewer
-                {
-                    Content = canvas2,
-                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
-                },
-            };
+            var canvas2 = new Canvas { Height = DesignPanel.Height, Width = DesignPanel.Width }; // 直接从 SaveChild() 序列化的 Canvas 的 width 和 height 属性没有值，需要手动赋值才能有正确的值。
 
             while (canvas.Children.Count > 0)
             {
@@ -695,7 +684,37 @@ namespace EfficientDesigner_Control.Controls
                 canvas2.Children.Add(child);
             }
 
+            var window = new Window
+            {
+                Title = "预览模式",
+                Content = new ScrollViewer
+                {
+                    Content = canvas2,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Visible,
+                },
+            };
+
             window.ShowDialog();
+        }
+
+        /// <summary>
+        /// Shell 程序用于加载界面
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static Canvas LoadLayout(string file)
+        {
+            if (!(XamlReader.Load(XmlReader.Create(new StringReader(file))) is Canvas canvas)) return new Canvas();
+            foreach (UIElement element in canvas.Children)
+            {
+                if (element is IHasDisplayMode hasDisplayMode)
+                {
+                    hasDisplayMode.SetDisplayMode(ControlDisplayMode.Runtime);
+                }
+            }
+
+            return canvas;
         }
 
         private Point ClickPoint { get; set; }
