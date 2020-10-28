@@ -3,14 +3,16 @@ using System;
 using EfficientDesigner_Service.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EfficientDesigner_Service.Migrations
 {
     [DbContext(typeof(LayoutContext))]
-    partial class LayoutContextModelSnapshot : ModelSnapshot
+    [Migration("20201028074727_添加PropertyBinding和将Id列和时间列改为自动生成。")]
+    partial class 添加PropertyBinding和将Id列和时间列改为自动生成
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

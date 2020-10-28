@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using EfficientDesigner_Service.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,53 @@ namespace EfficientDesigner_Service.Contexts
     {
         public DbSet<Layout> Layouts { get; set; }
 
+        public DbSet<PropertyBinding> PropertyBindings { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source = Efficient_Service.db");
         }
+
+
+        public override int SaveChanges()
+        {
+
+            var addedEntities = ChangeTracker.Entries().Where(e => e.State == EntityState.Added).ToList();
+            addedEntities.ForEach(e =>
+            {
+                e.Property("CreateTime").CurrentValue = DateTime.Now;
+                e.Property("UpdateTime").CurrentValue = DateTime.Now;
+            });
+
+            var modifiedEntities = ChangeTracker.Entries().Where(e => e.State == EntityState.Modified).ToList();
+            modifiedEntities.ForEach(e =>
+            {
+                e.Property("UpdateTime").CurrentValue = DateTime.Now;
+            });
+
+            return base.SaveChanges();
+        }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    //base.OnModelCreating(modelBuilder);
+        //    modelBuilder.Entity<Layout>()
+        //        .Property(l => l.CreateTime)
+        //        .ValueGeneratedOnAdd()
+        //        .HasDefaultValue("datetime('now', 'localtime')");
+        //    modelBuilder.Entity<Layout>()
+        //        .Property(l => l.UpdateTime)
+        //        .ValueGeneratedOnAddOrUpdate()
+        //        .HasDefaultValue("datetime('now', 'localtime')");
+        //    modelBuilder.Entity<PropertyBinding>()
+        //        .Property(p => p.CreateTime)
+        //        .ValueGeneratedOnAdd()
+        //        .HasDefaultValue("datetime('now', 'localtime')");
+        //    modelBuilder.Entity<PropertyBinding>()
+        //        .Property(p => p.UpdateTime)
+        //        .ValueGeneratedOnAddOrUpdate()
+        //        .HasDefaultValue("datetime('now', 'localtime')");
+
+        //}
     }
 }
