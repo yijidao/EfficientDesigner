@@ -91,6 +91,7 @@ namespace EfficientDesigner_Control.Controls
 
         private TextBlock HostText { get; set; }
 
+        [BindingApi]
         public string Url
         {
             get => (string)GetValue(UrlProperty);

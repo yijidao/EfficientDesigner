@@ -32,5 +32,7 @@ namespace EfficientDesigner.Views
                 DesignPanel.RemoveChildren();
             }
         }
+
+
     }
 }

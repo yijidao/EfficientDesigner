@@ -75,7 +75,7 @@ namespace EfficientDesigner_Control.Controls
 
         public object DefaultValue
         {
-            get { return (object)GetValue(DefaultValueProperty); }
+            get { return GetValue(DefaultValueProperty); }
             set { SetValue(DefaultValueProperty, value); }
         }
 
@@ -86,7 +86,7 @@ namespace EfficientDesigner_Control.Controls
 
         public object Value
         {
-            get { return (object)GetValue(ValueProperty); }
+            get { return GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 

@@ -217,6 +217,11 @@ namespace EfficientDesigner_Control.Controls
         {
             if (child == null) return;
 
+            if (string.IsNullOrWhiteSpace(child.Name))
+            {
+                child.Name = $"Auto_{DesignPanel.Children.Count}"; // 自动生成控件名称
+            }
+
             DesignPanel.Children.Add(child);
             child.PreviewMouseDown += Child_PreviewMouseDown;
 
@@ -487,7 +492,8 @@ namespace EfficientDesigner_Control.Controls
         public void Publish()
         {
             var displayNameDialog = new PublishLayout();
-            displayNameDialog.InputText = RemoteLayout?.DisplayName;
+            //displayNameDialog.InputText = RemoteLayout?.DisplayName;
+            displayNameDialog.InputText = LayoutModel?.DisplayName;
 
             var dialog = Dialog.Show(displayNameDialog);
             displayNameDialog.Yes += (s, e) =>
@@ -495,26 +501,28 @@ namespace EfficientDesigner_Control.Controls
                 if (string.IsNullOrWhiteSpace(displayNameDialog.InputText)) return;
 
                 var reader = SaveChild();
-                if (RemoteLayout == null)
-                {
-                    var layout = new Layout
-                    {
-                        CreateTime = DateTime.Now,
-                        UpdateTime = DateTime.Now,
-                        DisplayName = displayNameDialog.InputText,
-                        File = reader.ReadToEnd(),
-                        LayoutId = Guid.NewGuid()
-                    };
-                    ServiceFactory.GetLayoutService().UpdateLayout(layout);
-                    RemoteLayout = layout;
-                }
-                else
-                {
-                    RemoteLayout.File = reader.ReadToEnd();
-                    RemoteLayout.DisplayName = displayNameDialog.InputText;
-                    RemoteLayout.UpdateTime = DateTime.Now;
-                    ServiceFactory.GetLayoutService().UpdateLayout(RemoteLayout);
-                }
+
+                if (LayoutModel == null) return;
+                LayoutModel.DisplayName = displayNameDialog.InputText;
+                LayoutModel.File = reader.ReadToEnd();
+                LayoutModel = ServiceFactory.GetLayoutService().UpdateLayout(LayoutModel);
+
+                //if (RemoteLayout == null)
+                //{
+                //    var layout = new Layout
+                //    {
+                //        DisplayName = displayNameDialog.InputText,
+                //        File = reader.ReadToEnd(),
+                //    };
+                //    ServiceFactory.GetLayoutService().UpdateLayout(layout);
+                //    RemoteLayout = layout;
+                //}
+                //else
+                //{
+                //    RemoteLayout.File = reader.ReadToEnd();
+                //    RemoteLayout.DisplayName = displayNameDialog.InputText;
+                //    ServiceFactory.GetLayoutService().UpdateLayout(RemoteLayout);
+                //}
                 dialog.Close();
             };
             displayNameDialog.No += (s, e) => dialog.Close();
@@ -534,7 +542,8 @@ namespace EfficientDesigner_Control.Controls
                 if (!(e.OriginalSource is Layout layout)) return;
                 var stream = new MemoryStream(Encoding.UTF8.GetBytes(layout.File));
                 LoadChild(stream);
-                RemoteLayout = layout;
+                //RemoteLayout = layout;
+                LayoutModel = layout;
                 dialog.Close();
             };
         }
@@ -549,7 +558,8 @@ namespace EfficientDesigner_Control.Controls
             DesignPanel.Children.Add(TopText);
             DesignPanel.Children.Add(LeftText);
             FileName = "";
-            RemoteLayout = null;
+            //RemoteLayout = null;
+            LayoutModel = new Layout();
         }
 
         /// <summary>
@@ -606,7 +616,17 @@ namespace EfficientDesigner_Control.Controls
         /// <summary>
         /// 发布到数据库的布局
         /// </summary>
-        private Layout RemoteLayout { get; set; }
+        //private Layout RemoteLayout { get; set; }
+
+        public static readonly DependencyProperty LayoutModelProperty = DependencyProperty.Register(
+            "LayoutModel", typeof(Layout), typeof(DesignCanvas), new PropertyMetadata(new Layout()));
+
+        public Layout LayoutModel
+        {
+            get { return (Layout)GetValue(LayoutModelProperty); }
+            set { SetValue(LayoutModelProperty, value); }
+        }
+
 
         public void Load()
         {
@@ -616,26 +636,8 @@ namespace EfficientDesigner_Control.Controls
             {
                 LoadChild(dialog.OpenFile());
                 FileName = dialog.FileName;
-                RemoteLayout = null;
-
-                //var canvas = XamlReader.Load(dialog.OpenFile()) as Canvas;
-                //if (canvas == null) return;
-                //SelectedDecorator = null;
-                //DesignPanel.Children.Clear();
-
-                //DesignPanel.Children.Add(HLine);
-                //DesignPanel.Children.Add(VLine);
-                //DesignPanel.Children.Add(TopText);
-                //DesignPanel.Children.Add(LeftText);
-
-                //while (canvas.Children.Count > 0)
-                //{
-                //    var child = canvas.Children[0];
-                //    canvas.Children.Remove(child);
-                //    AddChild(child as FrameworkElement);
-                //}
-
-                //FileName = dialog.FileName;
+                //RemoteLayout = null;
+                LayoutModel = new Layout();
             }
         }
 
@@ -806,7 +808,6 @@ namespace EfficientDesigner_Control.Controls
                 yield return d;
             }
         }
-
 
         #region 拖拽控件显示对齐线
         /**

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -35,7 +36,7 @@ namespace EfficientDesigner_Control.Controls
             if (element == null || ElementItemsControl == null) return;
 
             //var watch = Stopwatch.StartNew();
-
+            
             var propertyDescriptors = TypeDescriptor.GetProperties(element.GetType()).OfType<PropertyDescriptor>().Where(x => x.IsBrowsable);
 
             var items = GetPropertyItems(propertyDescriptors).ToList();

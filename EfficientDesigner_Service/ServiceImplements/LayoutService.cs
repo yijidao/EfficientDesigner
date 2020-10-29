@@ -20,7 +20,7 @@ namespace EfficientDesigner_Service.ServiceImplements
             }
         }
 
-        public void UpdateLayout(Layout layout)
+        public Layout UpdateLayout(Layout layout)
         {
             using (var context = new LayoutContext())
             {
@@ -33,6 +33,7 @@ namespace EfficientDesigner_Service.ServiceImplements
                     context.Layouts.Add(layout);
                 }
                 context.SaveChanges();
+                return layout;
             }
         }
 

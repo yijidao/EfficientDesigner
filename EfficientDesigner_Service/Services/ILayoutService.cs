@@ -10,7 +10,7 @@ namespace EfficientDesigner_Service.Services
     {
         Task<Layout[]> GetLayouts();
 
-        void UpdateLayout(Layout layout);
+        Layout UpdateLayout(Layout layout);
 
         void RemoveLayout(Layout layout);
     }
