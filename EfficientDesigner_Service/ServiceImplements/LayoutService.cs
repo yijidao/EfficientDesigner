@@ -45,5 +45,13 @@ namespace EfficientDesigner_Service.ServiceImplements
                 context.SaveChanges();
             }
         }
+
+        public async Task<DataSource[]> GetDataSource()
+        {
+            using (var context = new LayoutContext())
+            {
+                return await context.DataSources.OrderByDescending(x => x.CreateTime).ToArrayAsync();
+            }
+        }
     }
 }

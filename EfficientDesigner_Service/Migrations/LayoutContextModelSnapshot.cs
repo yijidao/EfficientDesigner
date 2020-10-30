@@ -16,6 +16,26 @@ namespace EfficientDesigner_Service.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9");
 
+            modelBuilder.Entity("EfficientDesigner_Service.Models.DataSource", b =>
+                {
+                    b.Property<Guid>("DataSourceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Api")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DataSourceId");
+
+                    b.ToTable("DataSources");
+                });
+
             modelBuilder.Entity("EfficientDesigner_Service.Models.Layout", b =>
                 {
                     b.Property<Guid>("LayoutId")
@@ -23,7 +43,6 @@ namespace EfficientDesigner_Service.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreateTime")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DisplayName")
@@ -33,7 +52,6 @@ namespace EfficientDesigner_Service.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdateTime")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("TEXT");
 
                     b.HasKey("LayoutId");
@@ -48,20 +66,18 @@ namespace EfficientDesigner_Service.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreateTime")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ElementName")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("LayoutId")
+                    b.Property<Guid?>("LayoutId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PropertyName")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdateTime")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
@@ -71,16 +87,14 @@ namespace EfficientDesigner_Service.Migrations
 
                     b.HasIndex("LayoutId");
 
-                    b.ToTable("PropertyBinding");
+                    b.ToTable("PropertyBindings");
                 });
 
             modelBuilder.Entity("EfficientDesigner_Service.Models.PropertyBinding", b =>
                 {
                     b.HasOne("EfficientDesigner_Service.Models.Layout", "Layout")
                         .WithMany("PropertyBindings")
-                        .HasForeignKey("LayoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LayoutId");
                 });
 #pragma warning restore 612, 618
         }

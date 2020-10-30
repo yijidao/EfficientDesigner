@@ -13,5 +13,7 @@ namespace EfficientDesigner_Service.Services
         Layout UpdateLayout(Layout layout);
 
         void RemoveLayout(Layout layout);
+
+        Task<DataSource[]> GetDataSource();
     }
 }

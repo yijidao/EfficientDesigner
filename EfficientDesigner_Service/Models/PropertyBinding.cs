@@ -24,6 +24,6 @@ namespace EfficientDesigner_Service.Models
 
         public Layout Layout { get; set; }
 
-        public Guid LayoutId { get; set; }
+        //public Guid LayoutId { get; set; }
     }
 }

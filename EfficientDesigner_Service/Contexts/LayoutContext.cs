@@ -13,6 +13,8 @@ namespace EfficientDesigner_Service.Contexts
 
         public DbSet<PropertyBinding> PropertyBindings { get; set; }
 
+        public DbSet<DataSource> DataSources { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source = Efficient_Service.db");
