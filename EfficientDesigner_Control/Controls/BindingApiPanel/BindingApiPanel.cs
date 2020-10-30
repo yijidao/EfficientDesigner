@@ -34,11 +34,18 @@ namespace EfficientDesigner_Control.Controls
 
         private static void SelectedElementChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var ctl = (BindingApiPanel)d;
+            if (e.NewValue == null)
+            {
+                ctl.ElementItemsControl.ItemsSource = null;
+                return;
+            }
 
-            if (!(e.NewValue is Control element) || !(d is BindingApiPanel ctl)) return;
 
             var bindingProperties = e.GetType().GetProperties()
                 .Where(p => Attribute.GetCustomAttribute(p, typeof(BindingApiAttribute)) != null);
+
+            var element = (FrameworkElement)e.NewValue;
 
             var bindingApiItems = bindingProperties.Select(x =>
             {
@@ -49,19 +56,23 @@ namespace EfficientDesigner_Control.Controls
                     ItemsSource = ctl.ApiSource,
                     LayoutId = ctl.LayoutModel.LayoutId
                 };
+
                 if (ctl.BindingPropertyDic.ContainsKey($"{element.Name}_{x.Name}"))
                 {
-                    item.SelectedItem = ctl.ApiSource?.FirstOrDefault(s => s == ctl.BindingPropertyDic[x.Name]);
+                    item.SelectedItem =
+                        ctl.ApiSource?.FirstOrDefault(api => api == ctl.BindingPropertyDic[$"{element.Name}_{x.Name}"]);
                 }
+
                 return item;
             });
 
-
-
+            ctl.ElementItemsControl.ItemsSource = bindingApiItems;
         }
 
-        public ObservableCollection<BindingApiItem> BindingApiItems { get; set; }
-
+        /// <summary>
+        /// 还没赋值，从数据库查询即可
+        /// 刷新的时候也要更新这个数组
+        /// </summary>
         public string[] ApiSource { get; set; }
 
 
@@ -72,27 +83,27 @@ namespace EfficientDesigner_Control.Controls
         }
 
 
-
-
-        public LayoutViewModel LayoutModel
+        public Layout LayoutModel
         {
-            get { return (LayoutViewModel)GetValue(LayoutModelProperty); }
+            get { return (Layout)GetValue(LayoutModelProperty); }
             set { SetValue(LayoutModelProperty, value); }
         }
 
         public static readonly DependencyProperty LayoutModelProperty =
-            DependencyProperty.Register("LayoutModel", typeof(LayoutViewModel), typeof(BindingApiPanel), new PropertyMetadata(default(LayoutViewModel), LayoutModelChangedCallback));
+            DependencyProperty.Register("LayoutModel", typeof(Layout), typeof(BindingApiPanel), new PropertyMetadata(default(Layout), LayoutModelChangedCallback));
 
         private static void LayoutModelChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is BindingApiPanel ctl)) return;
+            var ctl = (BindingApiPanel)d;
+
             ctl.BindingPropertyDic =
                 (e.NewValue as Layout)?.PropertyBindings.ToDictionary(k => $"{k.ElementName}_{k.PropertyName}",
                     v => v.Value);
         }
 
-
-
+        /// <summary>
+        /// 存放键为 "ElementName_PropertyName" 值为具体Api的字典。
+        /// </summary>
         public Dictionary<string, string> BindingPropertyDic { get; set; }
 
         private ItemsControl ElementItemsControl { get; set; }
@@ -103,35 +114,47 @@ namespace EfficientDesigner_Control.Controls
             ElementItemsControl =
                 GetTemplateChild(ItemsControlName) as ItemsControl ?? throw new ArgumentException("无法转换成目标类型:ItemsControl");
 
-            if (!AddHandler)
+            if (!_addedHandler)
             {
-                AddHandler = true;
+                _addedHandler = true;
                 AddHandler(BindingApiItem.ValueChangedEvent, new RoutedEventHandler(BindingApiItem_ValueChanged));
             }
         }
 
         private void BindingApiItem_ValueChanged(object sender, RoutedEventArgs e)
         {
+            var item = (BindingApiItem)sender;
+            var name = ((FrameworkElement)SelectedElement).Name;
+            var k = $"{name}_{item.PropertyName}";
+            if (BindingPropertyDic.ContainsKey(k))
+            {
+                BindingPropertyDic[k] = item.SelectedItem;
+            }
+            else
+            {
+                BindingPropertyDic.Add(k, item.SelectedItem);
+            }
 
+            var p = LayoutModel.PropertyBindings.FirstOrDefault(x =>
+                x.ElementName == name && x.PropertyName == item.PropertyName);
+            if (p != null)
+            {
+                p.Value = item.SelectedItem;
+            }
+            else
+            {
+                LayoutModel.PropertyBindings.Add(new PropertyBinding
+                {
+                    ElementName = name,
+                    PropertyName = item.PropertyName,
+                    Value = item.SelectedItem,
+                    Layout = LayoutModel,
+                    LayoutId = LayoutModel.LayoutId
+
+                });
+            }
         }
 
-        private bool AddHandler;
-
-        public static readonly DependencyProperty CurrentLayoutProperty = DependencyProperty.Register(
-            "CurrentLayout", typeof(object), typeof(BindingApiPanel), new PropertyMetadata(default(object)));
-
-        public object CurrentLayout
-        {
-            get { return (object)GetValue(CurrentLayoutProperty); }
-            set { SetValue(CurrentLayoutProperty, value); }
-        }
-
-        /// <summary>
-        /// 用于储存控件和绑定了Api的属性
-        /// </summary>
-        public Dictionary<Guid, List<BindingApiItem>> ControlsDic { get; set; }
-
-
-
+        private bool _addedHandler;
     }
 }

@@ -38,7 +38,7 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register(
-            "PropertyName", typeof(string), typeof(BindingApiItem), new PropertyMetadata(default(string), (o, args) => ((BindingApiItem)o).RaiseEvent(new RoutedEventArgs(ValueChangedEvent, null))));
+            "PropertyName", typeof(string), typeof(BindingApiItem), new PropertyMetadata(default(string), (o, args) => ((BindingApiItem)o).RaiseEvent(new RoutedEventArgs(ValueChangedEvent, ""))));
 
         public string PropertyName
         {
@@ -55,11 +55,6 @@ namespace EfficientDesigner_Control.Controls
         {
             add => AddHandler(ValueChangedEvent, value);
             remove => RemoveHandler(ValueChangedEvent, value);
-        }
-
-        internal void UpdateApi()
-        {
-
         }
     }
 }
