@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using EfficientDesigner_Control.ViewModels;
+using EfficientDesigner_Service;
 using EfficientDesigner_Service.Models;
 
 namespace EfficientDesigner_Control.Controls
@@ -23,6 +24,7 @@ namespace EfficientDesigner_Control.Controls
     public class BindingApiPanel : Control
     {
         private const string ItemsControlName = "PART_ItemsControl";
+        private const string RefreshButtonName = "PART_RefreshButton";
 
         static BindingApiPanel()
         {
@@ -42,7 +44,7 @@ namespace EfficientDesigner_Control.Controls
             }
 
 
-            var bindingProperties = e.GetType().GetProperties()
+            var bindingProperties = e.NewValue.GetType().GetProperties()
                 .Where(p => Attribute.GetCustomAttribute(p, typeof(BindingApiAttribute)) != null);
 
             var element = (FrameworkElement)e.NewValue;
@@ -53,14 +55,14 @@ namespace EfficientDesigner_Control.Controls
                 {
                     PropertyName = x.Name,
                     DisplayName = x.Name,
-                    ItemsSource = ctl.ApiSource,
+                    ItemsSource = ctl.Apis,
                     LayoutId = ctl.LayoutModel.LayoutId
                 };
 
                 if (ctl.BindingPropertyDic.ContainsKey($"{element.Name}_{x.Name}"))
                 {
                     item.SelectedItem =
-                        ctl.ApiSource?.FirstOrDefault(api => api == ctl.BindingPropertyDic[$"{element.Name}_{x.Name}"]);
+                        ctl.Apis?.FirstOrDefault(api => api == ctl.BindingPropertyDic[$"{element.Name}_{x.Name}"]);
                 }
 
                 return item;
@@ -73,8 +75,22 @@ namespace EfficientDesigner_Control.Controls
         /// 还没赋值，从数据库查询即可
         /// 刷新的时候也要更新这个数组
         /// </summary>
-        public string[] ApiSource { get; set; }
+        public string[] Apis
+        {
+            get
+            {
+                if (_apis == null)
+                {
+                    var t = GetDataSources();
+                    t.Wait();
+                    _apis = t.Result.Select(x => x.Api).ToArray();
+                }
+                return _apis;
+            }
+            set => _apis = value;
+        }
 
+        private async Task<DataSource[]> GetDataSources() => await ServiceFactory.GetLayoutService().GetDataSource();
 
         public UIElement SelectedElement
         {
@@ -97,8 +113,8 @@ namespace EfficientDesigner_Control.Controls
             var ctl = (BindingApiPanel)d;
 
             ctl.BindingPropertyDic =
-                (e.NewValue as Layout)?.PropertyBindings.ToDictionary(k => $"{k.ElementName}_{k.PropertyName}",
-                    v => v.Value);
+                (e.NewValue as Layout)?.PropertyBindings?.ToDictionary(k => $"{k.ElementName}_{k.PropertyName}",
+                    v => v.Value) ?? new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -108,16 +124,32 @@ namespace EfficientDesigner_Control.Controls
 
         private ItemsControl ElementItemsControl { get; set; }
 
+        private Button RefreshButton { get; set; }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            ElementItemsControl =
-                GetTemplateChild(ItemsControlName) as ItemsControl ?? throw new ArgumentException("无法转换成目标类型:ItemsControl");
+            ElementItemsControl = GetTemplateChild(ItemsControlName) as ItemsControl ?? throw new ArgumentException("无法转换成目标类型:ItemsControl");
+            RefreshButton = GetTemplateChild(RefreshButtonName) as Button ?? throw new ArgumentException("无法转换成目标类型：Button");
+            RefreshButton.Click += RefreshButtonOnClick;
 
             if (!_addedHandler)
             {
                 _addedHandler = true;
                 AddHandler(BindingApiItem.ValueChangedEvent, new RoutedEventHandler(BindingApiItem_ValueChanged));
+            }
+        }
+
+        private async void RefreshButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            var dataSources = await GetDataSources();
+            Apis = dataSources.Select(x => x.Api).ToArray();
+
+            if (!(ElementItemsControl.ItemsSource is IEnumerable<BindingApiItem> bindingApiItems)) return;
+
+            foreach (var bindingApiItem in bindingApiItems)
+            {
+                bindingApiItem.ItemsSource = Apis;
             }
         }
 
@@ -149,12 +181,11 @@ namespace EfficientDesigner_Control.Controls
                     PropertyName = item.PropertyName,
                     Value = item.SelectedItem,
                     Layout = LayoutModel,
-                    LayoutId = LayoutModel.LayoutId
-
                 });
             }
         }
 
         private bool _addedHandler;
+        private string[] _apis;
     }
 }

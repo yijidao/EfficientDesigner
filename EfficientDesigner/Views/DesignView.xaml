@@ -29,7 +29,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -55,7 +55,15 @@
         </Grid>
         <controls:DesignCanvas Grid.Row="1" Grid.Column="1" Margin="0,5" x:Name="DesignPanel" />
         <GridSplitter Grid.Row="1" Grid.Column="1" Margin="-3,0,0,0" Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
-        <controls:PropertyPanel Grid.Row="1" SelectedElement="{Binding ElementName=DesignPanel, Path=SelectedElement}" Grid.Column="2"  x:Name="PropertyPanel1" Margin="5" Width="350" />
+
+        <hc:TabControl Grid.Row="1" Grid.Column="2" Margin="5" >
+            <hc:TabItem Header="属性" >
+                <controls:PropertyPanel  SelectedElement="{Binding ElementName=DesignPanel, Path=SelectedElement}"   x:Name="PropertyPanel1"  />
+            </hc:TabItem>
+            <hc:TabItem Header="接口" >
+                <controls:BindingApiPanel SelectedElement="{Binding ElementName=DesignPanel,Path=SelectedElement}" LayoutModel="{Binding ElementName=DesignPanel, Path=LayoutModel}"></controls:BindingApiPanel>
+            </hc:TabItem>
+        </hc:TabControl>
 
         <GridSplitter Grid.Row="1" Grid.Column="2"   Background="LightGray" Height="100" Width="2" HorizontalAlignment="Left" />
     </Grid>

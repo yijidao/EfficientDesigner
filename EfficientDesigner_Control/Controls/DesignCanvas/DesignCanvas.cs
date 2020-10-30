@@ -608,18 +608,8 @@ namespace EfficientDesigner_Control.Controls
         /// </summary>
         private string FileName { get; set; }
 
-        ///// <summary>
-        ///// 发布到数据库的文件名
-        ///// </summary>
-        //private string RemoteFileName { get; set; }
-
-        /// <summary>
-        /// 发布到数据库的布局
-        /// </summary>
-        //private Layout RemoteLayout { get; set; }
-
         public static readonly DependencyProperty LayoutModelProperty = DependencyProperty.Register(
-            "LayoutModel", typeof(Layout), typeof(DesignCanvas), new PropertyMetadata(new Layout()));
+            "LayoutModel", typeof(Layout), typeof(DesignCanvas), new PropertyMetadata(new Layout(), (o, args) => ((DesignCanvas)o).SelectedElement = null));
 
         public Layout LayoutModel
         {
