@@ -30,7 +30,7 @@ namespace EfficientDesigner_Service.ServiceImplements
                 }
                 else
                 {
-                    context.Layouts.Add(layout);
+                    layout = context.Layouts.Add(layout).Entity;
                 }
                 context.SaveChanges();
                 return layout;
@@ -51,6 +51,24 @@ namespace EfficientDesigner_Service.ServiceImplements
             using (var context = new LayoutContext())
             {
                 return await context.DataSources.OrderByDescending(x => x.CreateTime).ToArrayAsync();
+            }
+        }
+
+        public DataSource UpdateDataSource(DataSource dataSource)
+        {
+            using (var context = new LayoutContext())
+            {
+                if (context.DataSources.Any(x => x.DataSourceId == dataSource.DataSourceId))
+                {
+                    context.Update(dataSource);
+                }
+                else
+                {
+                    dataSource = context.Add(dataSource).Entity;
+                }
+
+                context.SaveChanges();
+                return dataSource;
             }
         }
     }
