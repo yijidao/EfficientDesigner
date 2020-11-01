@@ -43,7 +43,7 @@
                                                     <ControlTemplate TargetType="{x:Type ctl:BindingApiItem}">
                                                         <DockPanel>
                                                             <TextBlock  Text="{TemplateBinding DisplayName}" Focusable="False" DockPanel.Dock="Left" Width="50" VerticalAlignment="Center"></TextBlock>
-                                                            <ComboBox Margin="6,0,0,0" MinWidth="120" ItemsSource="{TemplateBinding ItemsSource}" SelectedItem="{TemplateBinding SelectedItem}"></ComboBox>
+                                                            <ComboBox Margin="6,0,0,0" MinWidth="120" ItemsSource="{TemplateBinding ItemsSource}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedItem, Mode=TwoWay}"></ComboBox>
                                                         </DockPanel>
                                                     </ControlTemplate>
                                                 </Setter.Value>

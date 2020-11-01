@@ -29,7 +29,12 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
-            "SelectedItem", typeof(string), typeof(BindingApiItem), new PropertyMetadata(default(string)));
+            "SelectedItem", typeof(string), typeof(BindingApiItem), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                delegate (DependencyObject o, DependencyPropertyChangedEventArgs args)
+                {
+                    var ctl = ((BindingApiItem)o);
+                    ctl.RaiseEvent(new RoutedEventArgs(ValueChangedEvent, ctl));
+                }));
 
         public string SelectedItem
         {
@@ -38,7 +43,7 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.Register(
-            "PropertyName", typeof(string), typeof(BindingApiItem), new PropertyMetadata(default(string), (o, args) => ((BindingApiItem)o).RaiseEvent(new RoutedEventArgs(ValueChangedEvent, ""))));
+            "PropertyName", typeof(string), typeof(BindingApiItem), new PropertyMetadata(default(string)));
 
         public string PropertyName
         {

@@ -155,7 +155,7 @@ namespace EfficientDesigner_Control.Controls
 
         private void BindingApiItem_ValueChanged(object sender, RoutedEventArgs e)
         {
-            var item = (BindingApiItem)sender;
+            var item = (BindingApiItem)e.OriginalSource;
             var name = ((FrameworkElement)SelectedElement).Name;
             var k = $"{name}_{item.PropertyName}";
             if (BindingPropertyDic.ContainsKey(k))
@@ -167,7 +167,7 @@ namespace EfficientDesigner_Control.Controls
                 BindingPropertyDic.Add(k, item.SelectedItem);
             }
 
-            var p = LayoutModel.PropertyBindings.FirstOrDefault(x =>
+            var p = LayoutModel.PropertyBindings?.FirstOrDefault(x =>
                 x.ElementName == name && x.PropertyName == item.PropertyName);
             if (p != null)
             {
@@ -175,7 +175,7 @@ namespace EfficientDesigner_Control.Controls
             }
             else
             {
-                LayoutModel.PropertyBindings.Add(new PropertyBinding
+                (LayoutModel.PropertyBindings ??= new List<PropertyBinding>()).Add(new PropertyBinding
                 {
                     ElementName = name,
                     PropertyName = item.PropertyName,
