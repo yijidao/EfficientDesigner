@@ -37,6 +37,7 @@ namespace EfficientDesigner_Control.Controls
         private static void SelectedElementChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ctl = (BindingApiPanel)d;
+            if (ctl.ElementItemsControl == null) return;
             if (e.NewValue == null)
             {
                 ctl.ElementItemsControl.ItemsSource = null;
@@ -46,7 +47,7 @@ namespace EfficientDesigner_Control.Controls
 
             var bindingProperties = e.NewValue.GetType().GetProperties()
                 .Where(p => Attribute.GetCustomAttribute(p, typeof(BindingApiAttribute)) != null);
-
+             
             var element = (FrameworkElement)e.NewValue;
 
             var bindingApiItems = bindingProperties.Select(x =>
