@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,6 +40,21 @@ namespace EfficientDesigner_Control.Controls
         private const string LeftTextName = "PART_LeftText";
         private const string SelectedBoundName = "PART_SelectedBound";
         private const string ScrollViewerName = "PART_ScrollViewer";
+
+        private static HttpClient _httpClient;
+
+        public static HttpClient HttpClient
+        {
+            get
+            {
+                if (_httpClient == null)
+                {
+                    _httpClient = new HttpClient();
+                }
+                return _httpClient;
+            }
+        }
+
 
         public ICommand SaveCommand
         {
@@ -655,7 +672,7 @@ namespace EfficientDesigner_Control.Controls
         }
 
 
-        private void Preview()
+        private async void Preview()
         {
             var reader = SaveChild();
 
@@ -665,12 +682,25 @@ namespace EfficientDesigner_Control.Controls
 
             while (canvas.Children.Count > 0)
             {
-                var child = canvas.Children[0];
+                var child = (FrameworkElement)(canvas.Children[0]);
                 canvas.Children.Remove(child);
 
-                if (child is IHasDisplayMode hasDisplayMode)
+                if (child is IHasDisplayMode hasDisplayMode) // WebBrowser 在设计和运行状态下有两种不同的模式
                 {
                     hasDisplayMode.SetDisplayMode(ControlDisplayMode.Runtime);
+                }
+
+
+                var hasPropertyBindingItem =
+                    LayoutModel.PropertyBindings.FirstOrDefault(x => x.ElementName == child.Name);
+                if (hasPropertyBindingItem != null)
+                {
+                    var response = await HttpClient.GetAsync(hasPropertyBindingItem.Value);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = response.Content.ReadAsStringAsync().Result;
+                        child.GetType().GetProperty(hasPropertyBindingItem.PropertyName)?.SetValue(child, result, null);
+                    }
                 }
 
                 canvas2.Children.Add(child);
@@ -693,16 +723,29 @@ namespace EfficientDesigner_Control.Controls
         /// <summary>
         /// Shell 程序用于加载界面
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="layoutModel"></param>
         /// <returns></returns>
-        public static Canvas LoadLayout(string file)
+        public static async Task<Canvas> LoadLayout(Layout layoutModel)
         {
+            var file = layoutModel.File;
             if (!(XamlReader.Load(XmlReader.Create(new StringReader(file))) is Canvas canvas)) return new Canvas();
-            foreach (UIElement element in canvas.Children)
+            foreach (FrameworkElement element in canvas.Children)
             {
                 if (element is IHasDisplayMode hasDisplayMode)
                 {
                     hasDisplayMode.SetDisplayMode(ControlDisplayMode.Runtime);
+                }
+
+                var hasPropertyBindingItem =
+                    layoutModel.PropertyBindings.FirstOrDefault(x => x.ElementName == element.Name);
+                if (hasPropertyBindingItem != null)
+                {
+                    var response = await DesignCanvas.HttpClient.GetAsync(hasPropertyBindingItem.Value);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = response.Content.ReadAsStringAsync().Result;
+                        element.GetType().GetProperty(hasPropertyBindingItem.PropertyName)?.SetValue(element, result, null);
+                    }
                 }
             }
 

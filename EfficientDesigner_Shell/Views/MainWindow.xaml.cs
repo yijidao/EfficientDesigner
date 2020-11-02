@@ -26,12 +26,12 @@ namespace EfficientDesigner_Shell.Views
             eventAggregator.GetEvent<OpenLayoutView>().Subscribe(OpenTabItem);
         }
 
-        private void OpenTabItem(Layout layout)
+        private async void OpenTabItem(Layout layout)
         {
             var tabItem = new HandyControl.Controls.TabItem
             {
                 Header = layout.DisplayName,
-                Content = DesignCanvas.LoadLayout(layout.File),
+                Content = await DesignCanvas.LoadLayout(layout),
                 ShowCloseButton = true,
                 IsSelected = true
             };
