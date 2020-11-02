@@ -12,15 +12,6 @@ using EfficientDesigner_Service.Models;
 
 namespace EfficientDesigner_Control.Controls
 {
-    /// <summary>
-    /// 1. 新增控件 BindingAPIPanel，用于交互，用于显示属性和选择接口
-    ///    a. 接口栏使用下拉选择
-    /// 2. 增加特性 CanBindingAPI，用于控件识别哪些属性可以绑定到API
-    /// 3. 增加数据库增加接口
-    /// 4. 发布的时候将绑定关系保存到数据库
-    /// 5. DesignCanvas 添加控件时，应该给控件的Name赋值为guid，然后使用界面的guid 控件 guid 形成关联关系，以Json格式保存属性和值的关系(url : www.baidu.com)。
-    /// 6. item  可以使用事件跟panel交互，而不是使用绑定。
-    /// </summary>
     public class BindingApiPanel : Control
     {
         private const string ItemsControlName = "PART_ItemsControl";

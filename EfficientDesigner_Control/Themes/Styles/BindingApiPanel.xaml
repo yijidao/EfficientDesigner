@@ -26,7 +26,7 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                             </Grid.RowDefinitions>
                                 
-                            <ScrollViewer>
+                            <ScrollViewer Focusable="False">
                                 <ItemsControl x:Name="PART_ItemsControl">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
