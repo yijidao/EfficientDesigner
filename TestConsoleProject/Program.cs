@@ -12,8 +12,8 @@ namespace TestConsoleProject
 
             Console.WriteLine("添加 DataSource...");
             
-            ServiceFactory.GetLayoutService().UpdateDataSource(new DataSource{Api = "https://localhost:5001/getBaiDu" });
-            ServiceFactory.GetLayoutService().UpdateDataSource(new DataSource{Api = "https://localhost:5001/getGoogle" });
+            ServiceFactory.GetLayoutService().UpdateDataSource(new DataSource{Api = "https://localhost:5001/efficientdesignapi/getBaiDu" });
+            ServiceFactory.GetLayoutService().UpdateDataSource(new DataSource{Api = "https://localhost:5001/efficientdesignapi/getGoogle" });
 
             Console.WriteLine("添加完毕...");
         }
