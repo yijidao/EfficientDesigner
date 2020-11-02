@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfficientDesigner_Service",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientDesigner_Shell", "EfficientDesigner_Shell\EfficientDesigner_Shell.csproj", "{78B5D99E-69B5-4DDA-B643-4813597E7F0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleProject", "TestConsoleProject\TestConsoleProject.csproj", "{04A900A8-5BA3-4F34-B9F0-A81A8B926A91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsoleProject", "TestConsoleProject\TestConsoleProject.csproj", "{04A900A8-5BA3-4F34-B9F0-A81A8B926A91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApi", "TestWebApi\TestWebApi.csproj", "{475BCF23-2C81-4C26-B565-1511EFCDF531}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{04A900A8-5BA3-4F34-B9F0-A81A8B926A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04A900A8-5BA3-4F34-B9F0-A81A8B926A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04A900A8-5BA3-4F34-B9F0-A81A8B926A91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{475BCF23-2C81-4C26-B565-1511EFCDF531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{475BCF23-2C81-4C26-B565-1511EFCDF531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{475BCF23-2C81-4C26-B565-1511EFCDF531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{475BCF23-2C81-4C26-B565-1511EFCDF531}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
