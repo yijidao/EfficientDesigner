@@ -18,12 +18,12 @@
                 <ctl:ImageButton Margin="5,0,0,0" ButtonType="另存" Command="{Binding ElementName=ribbonView1, Path=SaveAsCommand}" />
             </StackPanel>
         </Border>
-        <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" Margin="5,0,0,0">
+        <!--<Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" Margin="5,0,0,0">
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
                 <ctl:ImageButton ButtonType="撤销" />
                 <ctl:ImageButton Margin="5,0,0,0" ButtonType="重做" />
             </StackPanel>
-        </Border>
+        </Border>-->
         <Border DockPanel.Dock="Right" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1,0,0,0" >
             <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
                 <ctl:ImageButton ButtonType="预览" Command="{Binding ElementName=ribbonView1, Path=PreviewCommand}"/>

@@ -35,7 +35,6 @@ namespace EfficientDesigner_Control.Controls
                 return;
             }
 
-
             var bindingProperties = e.NewValue.GetType().GetProperties()
                 .Where(p => Attribute.GetCustomAttribute(p, typeof(BindingApiAttribute)) != null);
              
