@@ -4,3 +4,4 @@ obj
 /.vs/EfficientDesigner/v16/*.suo
 /.vs/EfficientDesigner/DesignTimeBuild/*.v2
 /EfficientDesigner_Shell/*.user
+build

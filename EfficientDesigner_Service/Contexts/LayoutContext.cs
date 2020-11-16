@@ -17,7 +17,7 @@ namespace EfficientDesigner_Service.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = Efficient_Service.db");
+            optionsBuilder.UseSqlite($"Data Source = {Environment.CurrentDirectory}\\..\\Efficient_Service.db");
         }
 
 
