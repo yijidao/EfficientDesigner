@@ -12,6 +12,7 @@ using HandyControl.Data;
 using HandyControl.Tools;
 using Prism.Ioc;
 using Prism.Unity;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace EfficientDesigner
 {
@@ -20,6 +21,7 @@ namespace EfficientDesigner
     /// </summary>
     public partial class App : PrismApplication
     {
+
         protected override Window CreateShell()
         {
             var w = Container.Resolve<MainWindow>();
@@ -30,6 +32,11 @@ namespace EfficientDesigner
         {
             base.OnStartup(e);
             ConfigHelper.Instance.SetWindowDefaultStyle();
+            DispatcherUnhandledException += (s, args) =>
+            {
+                MessageBox.Show(args.Exception.ToString());
+                args.Handled = true;
+            };
 
         }
 
