@@ -692,7 +692,7 @@ namespace EfficientDesigner_Control.Controls
 
 
                 var hasPropertyBindingItem =
-                    LayoutModel.PropertyBindings.FirstOrDefault(x => x.ElementName == child.Name);
+                    LayoutModel.PropertyBindings?.FirstOrDefault(x => x.ElementName == child.Name);
                 if (hasPropertyBindingItem != null)
                 {
                     var response = await HttpClient.GetAsync(hasPropertyBindingItem.Value);
