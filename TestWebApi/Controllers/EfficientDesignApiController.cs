@@ -17,6 +17,8 @@ namespace TestWebApi.Controllers
 
         public Dictionary<string, Dictionary<DateTime, int>> LinePassengerFlowDic { get; set; } = new Dictionary<string, Dictionary<DateTime, int>>();
 
+        public Dictionary<string, Dictionary<DateTime, int>> InOutPassengerFlowDic { get; set; } = new Dictionary<string, Dictionary<DateTime, int>>();
+
         public EfficientDesignApiController(ILogger<EfficientDesignApiController> logger)
         {
             _logger = logger;
@@ -24,9 +26,12 @@ namespace TestWebApi.Controllers
             LinePassengerFlowDic.Add("一号线", GeneratePassengerFlow());
             LinePassengerFlowDic.Add("二号线", GeneratePassengerFlow());
             LinePassengerFlowDic.Add("三号线", GeneratePassengerFlow());
-            //LinePassengerFlowDic.Add("四号线", GeneratePassengerFlow());
-            //LinePassengerFlowDic.Add("五号线", GeneratePassengerFlow());
-            //LinePassengerFlowDic.Add("六号线", GeneratePassengerFlow());
+            LinePassengerFlowDic.Add("四号线", GeneratePassengerFlow());
+            LinePassengerFlowDic.Add("五号线", GeneratePassengerFlow());
+            LinePassengerFlowDic.Add("六号线", GeneratePassengerFlow());
+
+            InOutPassengerFlowDic.Add("进站", GeneratePassengerFlow());
+            InOutPassengerFlowDic.Add("出站", GeneratePassengerFlow());
         }
 
         private Dictionary<DateTime, int> GeneratePassengerFlow()
@@ -43,6 +48,7 @@ namespace TestWebApi.Controllers
 
             return passengerFlow;
         }
+
 
         [HttpGet]
         public string Get()
@@ -92,14 +98,26 @@ namespace TestWebApi.Controllers
         [HttpGet("GetPassengerFlow")]
         public string PassengerFlow()
         {
-            var datas = LinePassengerFlowDic.Select(dic => new LineChartData
+            var data = LinePassengerFlowDic.Select(dic => new LineChartData
             {
                 Name = dic.Key,
-                Dates = dic.Value.Where(dic2 => dic2.Key <= DateTime.Now)
+                DataModels = dic.Value.Where(dic2 => dic2.Key <= DateTime.Now)
                     .Select(dic2 => new DateValueModel(dic2.Key, dic2.Value))
             });
 
-            return JsonConvert.SerializeObject(datas);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        [HttpGet("GetInOutPassengerFlow")]
+        public string InOutPassengerFlow()
+        {
+            var data = InOutPassengerFlowDic.Select(dic => new LineChartData
+            {
+                Name = dic.Key,
+                DataModels = dic.Value.Where(dic2 => dic2.Key <= DateTime.Now)
+                    .Select(dic2 => new DateValueModel(dic2.Key, dic2.Value))
+            });
+            return JsonConvert.SerializeObject(data);
         }
     }
 }
