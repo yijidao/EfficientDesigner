@@ -11,7 +11,7 @@ namespace EfficientDesigner_Control.Controls
     {
         private const string ElementItemsControlName = "PART_ItemsControl";
 
-        public PropertyPanel()
+        static PropertyPanel()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyPanel), new FrameworkPropertyMetadata(typeof(PropertyPanel)));
         }
