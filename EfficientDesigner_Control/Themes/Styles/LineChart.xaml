@@ -14,7 +14,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <TextBlock FontSize="{TemplateBinding FontSize}" x:Name="PART_Title" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <TextBlock FontWeight="{TemplateBinding FontWeight}" FontSize="{TemplateBinding FontSize}" x:Name="PART_Title" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
                 <lvchart:CartesianChart Grid.Row="1" x:Name="PART_Chart">
                     <lvchart:CartesianChart.Resources>
                         <Style TargetType="Path">
@@ -28,7 +28,7 @@
 
     <ControlTemplate TargetType="{x:Type ctl:LineChart}" x:Key="DesignTemplate"> 
         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="PART_Title" FontSize="{TemplateBinding FontSize}" FontWeight="Bold" Margin="{TemplateBinding Padding}">
+            <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="PART_Title" FontSize="{TemplateBinding FontSize}" FontWeight="Bold" Margin="{TemplateBinding Padding}">
             </TextBlock>
         </Border>
     </ControlTemplate>
@@ -38,7 +38,8 @@
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="{StaticResource SecondaryTextBrush}" />
-        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
         <Style.Triggers>
             <Trigger Property="DisplayMode" Value="Design">
                 <Setter Property="Template" Value="{StaticResource DesignTemplate}"></Setter>
