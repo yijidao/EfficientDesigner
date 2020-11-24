@@ -1,8 +1,7 @@
 {
   "profiles": {
     "TestConsoleProject": {
-      "commandName": "Project",
-      "workingDirectory": "D:\\CSharpCode\\新建文件夹\\EfficientDesigner\\EfficientDesigner_Service"
+      "commandName": "Project"
     }
   }
 }
