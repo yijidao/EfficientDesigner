@@ -48,7 +48,7 @@ namespace EfficientDesigner_Control.Controls
             series.AddRange(chartDates.Select(data => new LineSeries
             {
                 Title = data.Name,
-                Values = new ChartValues<DateValueModel>(data.Dates)
+                Values = new ChartValues<DateValueModel>(data.DataModels)
             }));
 
             SetChartData(ctl.Chart, series);
@@ -120,7 +120,7 @@ namespace EfficientDesigner_Control.Controls
                 series.AddRange(chartDates.Select(data => new LineSeries
                 {
                     Title = data.Name,
-                    Values = new ChartValues<DateValueModel>(data.Dates)
+                    Values = new ChartValues<DateValueModel>(data.DataModels)
                 }));
 
                 SetChartData(Chart, series);

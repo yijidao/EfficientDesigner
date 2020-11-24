@@ -25,7 +25,7 @@
         </Style.Triggers>-->
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ctl:LineChart}">
+                <ControlTemplate TargetType="{x:Type ctl:ColumnChart}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource DefaultCornerRadius}">
                         <Grid Margin="{TemplateBinding Padding}">
                             <Grid.RowDefinitions>
@@ -35,9 +35,9 @@
                             <TextBlock FontWeight="Bold" FontSize="18" x:Name="PART_Title" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
                             <lvchart:CartesianChart Grid.Row="1" x:Name="PART_Chart">
                                 <lvchart:CartesianChart.Resources>
-                                    <Style TargetType="Path">
+                                    <!--<Style TargetType="Path">
                                         <Setter Property="Stretch" Value="None"></Setter>
-                                    </Style>
+                                    </Style>-->
                                 </lvchart:CartesianChart.Resources>
                             </lvchart:CartesianChart>
                         </Grid>

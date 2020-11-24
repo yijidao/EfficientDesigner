@@ -36,7 +36,7 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty DisplayModeProperty =
-            DependencyProperty.Register("DisplayMode", typeof(ControlDisplayMode), typeof(LineChart), new PropertyMetadata(ControlDisplayMode.Runtime));
+            DependencyProperty.Register("DisplayMode", typeof(ControlDisplayMode), typeof(ColumnChart), new PropertyMetadata(ControlDisplayMode.Runtime));
 
         public ControlDisplayMode GetDisplayMode() => DisplayMode;
 
@@ -53,7 +53,7 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(LineChart), new PropertyMetadata("标题"));
+            DependencyProperty.Register("Title", typeof(string), typeof(ColumnChart), new PropertyMetadata("标题"));
 
         [BindingApi]
         public string DataSource
@@ -63,19 +63,19 @@ namespace EfficientDesigner_Control.Controls
         }
 
         public static readonly DependencyProperty DataSourceProperty =
-            DependencyProperty.Register("DataSource", typeof(string), typeof(LineChart), new PropertyMetadata("", DataSourceChangedCallback));
+            DependencyProperty.Register("DataSource", typeof(string), typeof(ColumnChart), new PropertyMetadata("", DataSourceChangedCallback));
 
         private static void DataSourceChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var value = e.NewValue.ToString();
-            var ctl = (LineChart)d;
+            var ctl = (ColumnChart)d;
 
             var chartDates = JsonConvert.DeserializeObject<List<LineChartData>>(value);
             var series = new SeriesCollection();
             series.AddRange(chartDates.Select(data => new ColumnSeries
             {
                 Title = data.Name,
-                Values = new ChartValues<DateValueModel>(data.Dates)
+                Values = new ChartValues<DateValueModel>(data.DataModels)
             }));
 
             SetChartData(ctl.Chart, series);
@@ -116,13 +116,13 @@ namespace EfficientDesigner_Control.Controls
                 series.AddRange(chartDates.Select(data => new ColumnSeries
                 {
                     Title = data.Name,
-                    Values = new ChartValues<DateValueModel>(data.Dates)
+                    Values = new ChartValues<DateValueModel>(data.DataModels)
                 }));
 
                 SetChartData(Chart, series);
             }
 
-            textBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(LineChart.Title))
+            textBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(ColumnChart.Title))
             {
                 Source = this,
             });

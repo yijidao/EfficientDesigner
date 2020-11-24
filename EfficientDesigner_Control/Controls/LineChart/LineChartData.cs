@@ -10,6 +10,6 @@ namespace EfficientDesigner_Control.Controls
     {
         public string Name { get; set; }
 
-        public IEnumerable<DateValueModel> Dates { get; set; }
+        public IEnumerable<DateValueModel> DataModels { get; set; }
     }
 }
