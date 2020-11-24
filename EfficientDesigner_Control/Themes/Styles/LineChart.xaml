@@ -2,10 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ctl="clr-namespace:EfficientDesigner_Control.Controls"
                     xmlns:lvchart="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf">
-    <!--<ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
-    </ResourceDictionary.MergedDictionaries>-->
+    </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate TargetType="{x:Type ctl:LineChart}" x:Key="RuntimeTemplate">
         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource DefaultCornerRadius}">
@@ -21,12 +21,6 @@
                             <Setter Property="Stretch" Value="None"></Setter>
                         </Style>
                     </lvchart:CartesianChart.Resources>
-                    <!--<lvchart:CartesianChart.AxisX>
-                        <lvchart:Axis x:Name="axisX"></lvchart:Axis>
-                    </lvchart:CartesianChart.AxisX>
-                    <lvchart:CartesianChart.AxisY>
-                        <lvchart:Axis x:Name="axisY"></lvchart:Axis>
-                    </lvchart:CartesianChart.AxisY>-->
                 </lvchart:CartesianChart>
             </Grid>
         </Border>
