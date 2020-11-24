@@ -105,6 +105,9 @@
     <Compile Include="Controls\DesignCanvas\PublishLayout.xaml.cs">
       <DependentUpon>PublishLayout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LineChart\DateValueModel.cs" />
+    <Compile Include="Controls\LineChart\LineChart.cs" />
+    <Compile Include="Controls\LineChart\LineChartData.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\BrushPropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\DateTimePropertyEditor.cs" />
     <Compile Include="Controls\PropertyPanel\Editors\EnumPropertyEditor.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="Controls\WrapPanel.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="ExtensionMethods\FrameworkElementExtensions.cs" />
+    <Compile Include="Interfaces\IAutoRequest.cs" />
     <Compile Include="Interfaces\IHasDisplayMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BindableBase.cs" />
@@ -163,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Styles\ImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Styles\LineChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,6 +207,9 @@
     </PackageReference>
     <PackageReference Include="HandyControl">
       <Version>2.5.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="LiveCharts.Wpf">
+      <Version>0.9.7</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using TestWebApi.Dto;
 
 namespace TestWebApi.Controllers
 {
@@ -13,9 +15,33 @@ namespace TestWebApi.Controllers
     {
         private readonly ILogger<EfficientDesignApiController> _logger;
 
+        public Dictionary<string, Dictionary<DateTime, int>> LinePassengerFlowDic { get; set; } = new Dictionary<string, Dictionary<DateTime, int>>();
+
         public EfficientDesignApiController(ILogger<EfficientDesignApiController> logger)
         {
             _logger = logger;
+
+            LinePassengerFlowDic.Add("一号线", GeneratePassengerFlow());
+            LinePassengerFlowDic.Add("二号线", GeneratePassengerFlow());
+            LinePassengerFlowDic.Add("三号线", GeneratePassengerFlow());
+            //LinePassengerFlowDic.Add("四号线", GeneratePassengerFlow());
+            //LinePassengerFlowDic.Add("五号线", GeneratePassengerFlow());
+            //LinePassengerFlowDic.Add("六号线", GeneratePassengerFlow());
+        }
+
+        private Dictionary<DateTime, int> GeneratePassengerFlow()
+        {
+            var random = new Random();
+            var passengerFlow = new Dictionary<DateTime, int>();
+
+            var current = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 6, 0, 0);
+            for (int i = 0; i < 12; i++)
+            {
+                passengerFlow.Add(current, random.Next(1, 15));
+                current = current.AddHours(1);
+            }
+
+            return passengerFlow;
         }
 
         [HttpGet]
@@ -29,7 +55,7 @@ namespace TestWebApi.Controllers
         {
             return "www.google.com";
         }
-        
+
         [HttpGet("getbaidu")]
         public string BaiDu()
         {
@@ -59,6 +85,21 @@ namespace TestWebApi.Controllers
         {
             return
                 "https://cdn.jsdelivr.net/gh/apache/incubator-echarts-website@asf-site/examples/data/thumb/scatter-matrix.jpg?_v_=20200710_1";
+        }
+
+
+
+        [HttpGet("GetPassengerFlow")]
+        public string PassengerFlow()
+        {
+            var datas = LinePassengerFlowDic.Select(dic => new LineChartData
+            {
+                Name = dic.Key,
+                Dates = dic.Value.Where(dic2 => dic2.Key <= DateTime.Now)
+                    .Select(dic2 => new DateValueModel(dic2.Key, dic2.Value))
+            });
+
+            return JsonConvert.SerializeObject(datas);
         }
     }
 }

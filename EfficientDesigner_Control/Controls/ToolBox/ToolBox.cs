@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using EfficientDesigner_Control.Interfaces;
 
 namespace EfficientDesigner_Control.Controls
 {
@@ -23,6 +24,7 @@ namespace EfficientDesigner_Control.Controls
             Add<Button>();
             Add<TextBox>();
             Add<WebBrowser>();
+            Add<LineChart>();
         }
 
         public ToolBox()
@@ -116,13 +118,22 @@ namespace EfficientDesigner_Control.Controls
             if (element is WebBrowser webBrowser)
             {
                 webBrowser.Background = Brushes.CornflowerBlue;
-                webBrowser.DisplayMode = ControlDisplayMode.Design;
+                //webBrowser.DisplayMode = ControlDisplayMode.Design;
+            }
+            else if (element is LineChart lineChart)
+            {
+                lineChart.Background = Brushes.AliceBlue;
             }
             else if (ControlType.IsSubclassOf(typeof(Shape)))
             {
                 (element as Shape).Stroke = Brushes.Black;
                 (element as Shape).StrokeThickness = 2;
                 (element as Shape).Fill = Brushes.Transparent;
+            }
+
+            if (element is IHasDisplayMode displayMode)
+            {
+                displayMode.SetDisplayMode(ControlDisplayMode.Design);
             }
 
             element.Height = 100;
