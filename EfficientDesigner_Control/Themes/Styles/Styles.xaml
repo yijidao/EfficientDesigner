@@ -10,5 +10,6 @@
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/WebBrowser.xaml" />
         <ResourceDictionary Source="/EfficientDesigner_Control;component/Themes/Styles/BindingApiPanel.xaml" />
         <ResourceDictionary Source="LineChart.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="ColumnChart.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

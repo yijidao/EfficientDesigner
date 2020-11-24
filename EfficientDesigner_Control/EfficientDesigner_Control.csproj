@@ -97,6 +97,7 @@
     <Compile Include="Controls\BindingApiPanel\BindingApiAttribute.cs" />
     <Compile Include="Controls\BindingApiPanel\BindingApiItem.cs" />
     <Compile Include="Controls\BindingApiPanel\BindingApiPanel.cs" />
+    <Compile Include="Controls\ColumnChart\ColumnChart.cs" />
     <Compile Include="Controls\DesignCanvas\ControlAdorner.cs" />
     <Compile Include="Controls\DesignCanvas\DesignCanvas.cs" />
     <Compile Include="Controls\DesignCanvas\LayoutList.xaml.cs">
@@ -159,6 +160,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Styles\BindingApiPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Styles\ColumnChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

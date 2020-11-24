@@ -25,6 +25,7 @@ namespace EfficientDesigner_Control.Controls
             Add<TextBox>();
             Add<WebBrowser>();
             Add<LineChart>();
+            Add<ColumnChart>();
         }
 
         public ToolBox()
@@ -120,10 +121,10 @@ namespace EfficientDesigner_Control.Controls
                 webBrowser.Background = Brushes.CornflowerBlue;
                 //webBrowser.DisplayMode = ControlDisplayMode.Design;
             }
-            else if (element is LineChart lineChart)
-            {
-                lineChart.Background = Brushes.AliceBlue;
-            }
+            //else if (element is LineChart lineChart)
+            //{
+                //lineChart.Background = Brushes.AliceBlue;
+            //}
             else if (ControlType.IsSubclassOf(typeof(Shape)))
             {
                 (element as Shape).Stroke = Brushes.Black;
