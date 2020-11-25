@@ -15,6 +15,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Xml;
 using EfficientDesigner_Control.ExtensionMethods;
@@ -671,7 +672,6 @@ namespace EfficientDesigner_Control.Controls
             }
         }
 
-
         private async void Preview()
         {
             var reader = SaveChild();
@@ -689,7 +689,6 @@ namespace EfficientDesigner_Control.Controls
                 {
                     hasDisplayMode.SetDisplayMode(ControlDisplayMode.Runtime);
                 }
-
 
                 var hasPropertyBindingItem =
                     LayoutModel.PropertyBindings?.FirstOrDefault(x => x.ElementName == child.Name);
@@ -750,6 +749,37 @@ namespace EfficientDesigner_Control.Controls
             }
 
             return canvas;
+        }
+
+        /// <summary>
+        /// 用来刷新界面中的图表或者网页
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="layoutModel"></param>
+        /// <returns></returns>
+        public static async Task RefershDataSoure(Canvas canvas, Layout layoutModel)
+        {
+            foreach (FrameworkElement element in canvas.Children)
+            {
+                var hasPropertyBindingItem =
+                    layoutModel.PropertyBindings.FirstOrDefault(x => x.ElementName == element.Name);
+                if (hasPropertyBindingItem != null)
+                {
+                    // 如果是WebBrowser 控件，则刷新页面
+                    if (element is WebBrowser browser)
+                    {
+                        browser.Refresh();
+                        continue;
+                    }
+
+                    var response = await DesignCanvas.HttpClient.GetAsync(hasPropertyBindingItem.Value);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var result = response.Content.ReadAsStringAsync().Result;
+                        element.GetType().GetProperty(hasPropertyBindingItem.PropertyName)?.SetValue(element, result, null);
+                    }
+                }
+            }
         }
 
         private Point ClickPoint { get; set; }

@@ -33,7 +33,7 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <TextBlock FontWeight="Bold" FontSize="18" x:Name="PART_Title" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                            <lvchart:CartesianChart Grid.Row="1" x:Name="PART_Chart">
+                            <lvchart:CartesianChart Grid.Row="1" LegendLocation="Left" x:Name="PART_Chart">
                                 <lvchart:CartesianChart.Resources>
                                     <!--<Style TargetType="Path">
                                         <Setter Property="Stretch" Value="None"></Setter>

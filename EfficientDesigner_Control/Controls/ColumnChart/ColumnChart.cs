@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace EfficientDesigner_Control.Controls
 {
-    public class ColumnChart : Control, IHasDisplayMode,IAutoRequest
+    public class ColumnChart : Control, IHasDisplayMode, IAutoRequest
     {
         private const string TextBlockTitleName = "PART_Title";
         private const string ChartName = "PART_Chart";
@@ -23,10 +23,6 @@ namespace EfficientDesigner_Control.Controls
         static ColumnChart()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ColumnChart), new FrameworkPropertyMetadata(typeof(ColumnChart)));
-            Charting.For<DateValueModel>(
-                Mappers.Xy<DateValueModel>()
-                    .X(model => model.Date.Ticks)
-                    .Y(model => model.Value));
         }
 
         public ControlDisplayMode DisplayMode
@@ -44,7 +40,28 @@ namespace EfficientDesigner_Control.Controls
 
         public int Interval { get; set; } = 30;
 
-        public CartesianChart Chart { get; set; }
+        public CartesianChart Chart
+        {
+            get => _chart;
+            set
+            {
+                _chart = value;
+                if (_chart != null)
+                {
+                    // 设置横轴
+                    _chart.AxisX.Add(new Axis
+                    {
+                        Title = "时间",
+                    });
+                    // 设置纵轴
+                    _chart.AxisY.Add(new Axis
+                    {
+                        Title = "人次",
+                        LabelFormatter = d => $"{d}万"
+                    });
+                }
+            }
+        }
 
         public string Title
         {
@@ -65,40 +82,42 @@ namespace EfficientDesigner_Control.Controls
         public static readonly DependencyProperty DataSourceProperty =
             DependencyProperty.Register("DataSource", typeof(string), typeof(ColumnChart), new PropertyMetadata("", DataSourceChangedCallback));
 
+        private CartesianChart _chart;
+
         private static void DataSourceChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var value = e.NewValue.ToString();
             var ctl = (ColumnChart)d;
 
-            var chartDates = JsonConvert.DeserializeObject<List<LineChartData>>(value);
+            SetChartData(ctl.Chart, value);
+        }
+
+        static void SetChartData(CartesianChart chart, string dataSource)
+        {
+            if (chart == null) return;
+
+            var chartDates = JsonConvert.DeserializeObject<List<ColumnChartData>>(dataSource);
             var series = new SeriesCollection();
             series.AddRange(chartDates.Select(data => new ColumnSeries
             {
                 Title = data.Name,
-                Values = new ChartValues<DateValueModel>(data.DataModels)
+                Values = new ChartValues<double>(data.DataModels.Select(model => model.Value))
             }));
+            var lables = new HashSet<string>();
 
-            SetChartData(ctl.Chart, series);
-        }
+            foreach (var model in chartDates.SelectMany(data => data.DataModels))
+            {
+                lables.Add(model.Lable);
+            }
 
-        static void SetChartData(CartesianChart chart, SeriesCollection series)
-        {
-            if (chart == null) return;
-            // 设置横轴
+            var axisX = chart.AxisX.FirstOrDefault();
+            if (axisX != null)
+            {
+                axisX.Labels = lables.ToList();
+            }
+
             chart.Series = series;
-            chart.AxisX.Add(new Axis
-            {
-                Title = "时间",
-                LabelFormatter = d => new DateTime((long)d).Hour.ToString(),
-                MinValue = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0).Ticks,
-                MaxValue = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 30, 0).Ticks,
-            });
-            // 设置纵轴
-            chart.AxisY.Add(new Axis
-            {
-                Title = "人次",
-                LabelFormatter = d => $"{d}万"
-            });
+
         }
 
         public override void OnApplyTemplate()
@@ -109,17 +128,9 @@ namespace EfficientDesigner_Control.Controls
 
             if (DisplayMode == ControlDisplayMode.Runtime)
             {
+                // 一定要在运行模式中才给Chart赋值，不然会出现序列化到xaml出错的Bug
                 Chart = GetTemplateChild(ChartName) as CartesianChart ?? throw new ArgumentException();
-
-                var chartDates = JsonConvert.DeserializeObject<List<LineChartData>>(DataSource);
-                var series = new SeriesCollection();
-                series.AddRange(chartDates.Select(data => new ColumnSeries
-                {
-                    Title = data.Name,
-                    Values = new ChartValues<DateValueModel>(data.DataModels)
-                }));
-
-                SetChartData(Chart, series);
+                SetChartData(Chart, DataSource);
             }
 
             textBlock.SetBinding(TextBlock.TextProperty, new Binding(nameof(ColumnChart.Title))

@@ -121,6 +121,12 @@ namespace EfficientDesigner_Control.Controls
             }
         }
 
+        public void Refresh()
+        {
+            if (!(Host?.Child is ChromiumWebBrowser browser && !string.IsNullOrWhiteSpace(Url))) return;
+            browser.Load(Url);
+        }
+
         public ControlDisplayMode GetDisplayMode() => DisplayMode;
 
         public void SetDisplayMode(ControlDisplayMode mode) => DisplayMode = mode;

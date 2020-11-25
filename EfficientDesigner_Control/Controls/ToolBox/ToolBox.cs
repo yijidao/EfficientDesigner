@@ -23,6 +23,7 @@ namespace EfficientDesigner_Control.Controls
             Add<Rectangle>();
             Add<Button>();
             Add<TextBox>();
+            Add<TextBlock>();
             Add<WebBrowser>();
             Add<LineChart>();
             Add<ColumnChart>();

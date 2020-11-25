@@ -7,32 +7,6 @@
         <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <ControlTemplate TargetType="{x:Type ctl:LineChart}" x:Key="RuntimeTemplate">
-        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource DefaultCornerRadius}">
-            <Grid Margin="{TemplateBinding Padding}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <TextBlock FontWeight="Bold" FontSize="18" x:Name="PART_Title" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                <lvchart:CartesianChart Grid.Row="1" x:Name="PART_Chart">
-                    <lvchart:CartesianChart.Resources>
-                        <Style TargetType="Path">
-                            <Setter Property="Stretch" Value="None"></Setter>
-                        </Style>
-                    </lvchart:CartesianChart.Resources>
-                </lvchart:CartesianChart>
-            </Grid>
-        </Border>
-    </ControlTemplate>
-
-    <ControlTemplate TargetType="{x:Type ctl:LineChart}" x:Key="DesignTemplate"> 
-        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-            <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="PART_Title" FontSize="18" FontWeight="Bold" Margin="{TemplateBinding Padding}">
-            </TextBlock>
-        </Border>
-    </ControlTemplate>
-
     <Style TargetType="ctl:LineChart">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
@@ -41,13 +15,35 @@
         <Setter Property="Background" Value="AliceBlue"></Setter>
         <!--<Setter Property="FontSize" Value="18"></Setter>
         <Setter Property="FontWeight" Value="Bold"></Setter>-->
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <Trigger Property="DisplayMode" Value="Design">
                 <Setter Property="Template" Value="{StaticResource DesignTemplate}"></Setter>
             </Trigger>
             <Trigger Property="DisplayMode" Value="Runtime">
                 <Setter Property="Template" Value="{StaticResource RuntimeTemplate}"></Setter>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ctl:LineChart}" >
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource DefaultCornerRadius}">
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontWeight="Bold" FontSize="18" x:Name="PART_Title" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                            <lvchart:CartesianChart Grid.Row="1" LegendLocation="Left" x:Name="PART_Chart">
+                                <lvchart:CartesianChart.Resources>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Stretch" Value="None"></Setter>
+                                    </Style>
+                                </lvchart:CartesianChart.Resources>
+                            </lvchart:CartesianChart>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

@@ -98,6 +98,8 @@
     <Compile Include="Controls\BindingApiPanel\BindingApiItem.cs" />
     <Compile Include="Controls\BindingApiPanel\BindingApiPanel.cs" />
     <Compile Include="Controls\ColumnChart\ColumnChart.cs" />
+    <Compile Include="Controls\ColumnChart\ColumnChartData.cs" />
+    <Compile Include="Controls\ColumnChart\LableValueModel.cs" />
     <Compile Include="Controls\DesignCanvas\ControlAdorner.cs" />
     <Compile Include="Controls\DesignCanvas\DesignCanvas.cs" />
     <Compile Include="Controls\DesignCanvas\LayoutList.xaml.cs">
