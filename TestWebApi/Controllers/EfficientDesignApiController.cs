@@ -132,5 +132,24 @@ namespace TestWebApi.Controllers
             return JsonConvert.SerializeObject(data);
 
         }
+
+        [HttpGet("GetZhuJiangNewTownInOutPassengerFlow")]
+        public string ZhuJiangNewTownInOutPassengerFlow()
+        {
+            var data = new LineChartData[]
+            {
+                new LineChartData
+                {
+                    Name = "进站",
+                    DataModels = GeneratePassengerFlow().Where(dic => dic.Key <= DateTime.Now).Select(dic=>new DateValueModel(dic.Key, dic.Value))
+                },
+                new LineChartData
+                {
+                    Name = "出站",
+                    DataModels = GeneratePassengerFlow().Where(dic => dic.Key <= DateTime.Now).Select(dic=>new DateValueModel(dic.Key, dic.Value))
+                },
+            };
+            return JsonConvert.SerializeObject(data);
+        }
     }
 }
