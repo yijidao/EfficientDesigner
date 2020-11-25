@@ -29,28 +29,14 @@ namespace EfficientDesigner_Shell.Views
 
         private async void OpenTabItem(Layout layout)
         {
-            //var tabItem = new HandyControl.Controls.TabItem
-            //{
-            //    Header = layout.DisplayName,
-            //    Content = await DesignCanvas.LoadLayout(layout),
-            //    ShowCloseButton = true,
-            //    IsSelected = true
-            //};
-            //if (tabItem.Content is Canvas ctl)
-            //{
-            //    ctl.Background = Application.Current.Resources["RegionBrush"] as Brush;
-
-            //    tabItem.KeyUp += (sender, e) =>
-            //    {
-            //        if (e.Key != Key.F5) return;
-            //        DesignCanvas.RefershDataSoure(ctl, layout);
-            //    };
-            //}
-
             var canvas = await DesignCanvas.LoadLayout(layout);
-            var grid = new Grid();
-            grid.Children.Add(canvas);
-            grid.Background = Application.Current.Resources["RegionBrush"] as Brush;
+            var grid = new ScrollViewer
+            {
+                Background = Application.Current.Resources["RegionBrush"] as Brush,
+                Content = canvas,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Visible
+            };
 
             var tabItem = new HandyControl.Controls.TabItem
             {
@@ -64,8 +50,6 @@ namespace EfficientDesigner_Shell.Views
                 if (e.Key != Key.F5) return;
                 DesignCanvas.RefershDataSoure(canvas, layout);
             };
-
-
 
             tabControl.Items.Add(tabItem);
         }

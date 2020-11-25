@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Top="100"
         Left="100"
-        Title="可视化设计器" Height="768" Width="1366"
+        Title="可视化设计器" Height="1080" Width="1920"
         Style="{StaticResource WindowWin10}">
     <Grid>
         <view:DesignView />

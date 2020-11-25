@@ -710,6 +710,7 @@ namespace EfficientDesigner_Control.Controls
                 Title = "预览模式",
                 Content = new ScrollViewer
                 {
+                    Background = Application.Current.Resources["RegionBrush"] as Brush,
                     Content = canvas2,
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Visible,
                     VerticalScrollBarVisibility = ScrollBarVisibility.Visible,

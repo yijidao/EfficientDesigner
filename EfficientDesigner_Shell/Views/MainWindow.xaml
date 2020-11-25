@@ -8,7 +8,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="可视化设计器Shell" Height="768" Width="1366"
+        Title="可视化设计器Shell" Height="1080" Width="1920"
         Style="{StaticResource WindowWin10}">
     <Grid>
         <hc:TabControl x:Name="tabControl" Margin="5" Loaded="TabControl_OnLoaded" />
