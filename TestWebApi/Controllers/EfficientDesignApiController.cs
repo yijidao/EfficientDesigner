@@ -17,7 +17,7 @@ namespace TestWebApi.Controllers
 
         public Dictionary<string, Dictionary<DateTime, int>> LinePassengerFlowDic { get; set; } = new Dictionary<string, Dictionary<DateTime, int>>();
 
-        public Dictionary<string, Dictionary<DateTime, int>> InOutPassengerFlowDic { get; set; } = new Dictionary<string, Dictionary<DateTime, int>>();
+        //public Dictionary<string, Dictionary<DateTime, int>> InOutPassengerFlowDic { get; set; } = new Dictionary<string, Dictionary<DateTime, int>>();
 
         public EfficientDesignApiController(ILogger<EfficientDesignApiController> logger)
         {
@@ -30,8 +30,8 @@ namespace TestWebApi.Controllers
             LinePassengerFlowDic.Add("五号线", GeneratePassengerFlow());
             LinePassengerFlowDic.Add("六号线", GeneratePassengerFlow());
 
-            InOutPassengerFlowDic.Add("进站", GeneratePassengerFlow());
-            InOutPassengerFlowDic.Add("出站", GeneratePassengerFlow());
+            //InOutPassengerFlowDic.Add("进站", GeneratePassengerFlow());
+            //InOutPassengerFlowDic.Add("出站", GeneratePassengerFlow());
         }
 
         private Dictionary<DateTime, int> GeneratePassengerFlow()
@@ -48,6 +48,7 @@ namespace TestWebApi.Controllers
 
             return passengerFlow;
         }
+
 
 
         [HttpGet]
@@ -111,13 +112,25 @@ namespace TestWebApi.Controllers
         [HttpGet("GetInOutPassengerFlow")]
         public string InOutPassengerFlow()
         {
-            var data = InOutPassengerFlowDic.Select(dic => new LineChartData
+            var inDic = GeneratePassengerFlow();
+            var outDic = GeneratePassengerFlow();
+
+            var data = new ColumnChartData[]
             {
-                Name = dic.Key,
-                DataModels = dic.Value.Where(dic2 => dic2.Key <= DateTime.Now)
-                    .Select(dic2 => new DateValueModel(dic2.Key, dic2.Value))
-            });
+                new ColumnChartData
+                {
+                    Name = "入站",
+                    DataModels = inDic.Where(dic => dic.Key <= DateTime.Now).Select(dic => new LableValueModel{Lable = $"{dic.Key.Hour}:00", Value = dic.Value})
+                },
+                new ColumnChartData
+                {
+                    Name = "出站",
+                    DataModels = outDic.Where(dic => dic.Key <= DateTime.Now).Select(dic => new LableValueModel{Lable = $"{dic.Key.Hour}:00", Value = dic.Value})
+                }
+            };
+
             return JsonConvert.SerializeObject(data);
+
         }
     }
 }
