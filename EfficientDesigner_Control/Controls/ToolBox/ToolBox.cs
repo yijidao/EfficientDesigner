@@ -120,17 +120,20 @@ namespace EfficientDesigner_Control.Controls
             if (element is WebBrowser webBrowser)
             {
                 webBrowser.Background = Brushes.CornflowerBlue;
-                //webBrowser.DisplayMode = ControlDisplayMode.Design;
             }
-            //else if (element is LineChart lineChart)
-            //{
-                //lineChart.Background = Brushes.AliceBlue;
-            //}
             else if (ControlType.IsSubclassOf(typeof(Shape)))
             {
                 (element as Shape).Stroke = Brushes.Black;
                 (element as Shape).StrokeThickness = 2;
                 (element as Shape).Fill = Brushes.Transparent;
+            }
+            else if (ControlType.IsSubclassOf(typeof(ContentControl)))
+            {
+                (element as ContentControl).Content = ControlType.Name;
+            }
+            else if(ControlType.GetProperty("Text") != null)
+            {
+                ControlType.GetProperty("Text").SetValue(element,ControlType.Name);
             }
 
             if (element is IHasDisplayMode displayMode)
