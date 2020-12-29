@@ -18,7 +18,7 @@ namespace EfficientDesigner_Service.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //var connectString = $"Data Source = {Environment.CurrentDirectory}\\..\\Efficient_Service.db";
-            var connectString = $"Data Source = D:\\CSharpCode\\新建文件夹\\EfficientDesigner\\EfficientDesigner_Service\\Efficient_Service.db";
+            var connectString = $"Data Source =D:\\Code\\EfficientDesigner\\EfficientDesigner_Service\\Efficient_Service.db";
             optionsBuilder.UseSqlite(connectString);
         }
 
