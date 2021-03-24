@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using EfficientDesigner_Service.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace EfficientDesigner_Service.Contexts
 {
@@ -15,10 +17,19 @@ namespace EfficientDesigner_Service.Contexts
 
         public DbSet<DataSource> DataSources { get; set; }
 
+        public static JsonConfig Config { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //var connectString = $"Data Source = {Environment.CurrentDirectory}\\..\\Efficient_Service.db";
-            var connectString = $"Data Source =D:\\Code\\EfficientDesigner\\EfficientDesigner_Service\\Efficient_Service.db";
+            if (Config == null)
+            {
+                using (var stream = new StreamReader("config.json", Encoding.UTF8))
+                {
+                    var json = stream.ReadToEnd();
+                    Config = JsonConvert.DeserializeObject<JsonConfig>(json);
+                }
+            }
+            var connectString = Config?.DbAddress ?? "";
             optionsBuilder.UseSqlite(connectString);
         }
 
@@ -63,5 +74,10 @@ namespace EfficientDesigner_Service.Contexts
         //        .HasDefaultValue("datetime('now', 'localtime')");
 
         //}
+    }
+
+    class JsonConfig
+    {
+        public string DbAddress { get; set; }
     }
 }
