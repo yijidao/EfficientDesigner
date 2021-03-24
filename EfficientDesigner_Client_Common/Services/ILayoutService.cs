@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EfficientDesigner_Common.Dtos;
+﻿using System.Threading.Tasks;
+using EfficientDesigner_Client_Common.Models;
 
-namespace EfficientDesigner_Common.Services
+namespace EfficientDesigner_Client_Common.Services
 {
     public interface ILayoutService
     {
-        Task<LayoutDto[]> GetLayoutList();
+        Task<LayoutModel[]> GetLayoutList();
     }
 }
