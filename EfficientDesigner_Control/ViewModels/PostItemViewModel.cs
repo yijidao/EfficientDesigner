@@ -10,7 +10,7 @@ using Prism.Mvvm;
 
 namespace EfficientDesigner_Control.ViewModels
 {
-    public class PostItenViewModel : BindableBase
+    public class PostItemViewModel : BindableBase
     {
         private string _name;
         public string Name
@@ -33,7 +33,7 @@ namespace EfficientDesigner_Control.ViewModels
             set => SetProperty(ref _editing, value);
         }
 
-        public PostItenViewModel(string name)
+        public PostItemViewModel(string name)
         {
             Name = name;
             UpdateTime = DateTime.Now;

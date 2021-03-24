@@ -30,7 +30,9 @@ namespace EfficientDesigner_Control.ViewModels
         {
             var datas = await ServiceFactory.GetLayoutService().GetLayouts();
             var vms = datas.Select(x => new LayoutItemViewModel(x));
+            LayoutItems.Clear();
             LayoutItems.AddRange(vms);
+            //LayoutItems = new ObservableCollection<LayoutItemViewModel>(vms);
         }
 
         public ICommand LoadDataCommand { get; }

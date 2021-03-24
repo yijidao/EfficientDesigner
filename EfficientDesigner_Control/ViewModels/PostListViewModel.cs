@@ -13,8 +13,8 @@ namespace EfficientDesigner_Control.ViewModels
 {
     public class PostListViewModel : BindableBase
     {
-        private ObservableCollection<PostItenViewModel> _postItems;
-        public ObservableCollection<PostItenViewModel> PostItems
+        private ObservableCollection<PostItemViewModel> _postItems;
+        public ObservableCollection<PostItemViewModel> PostItems
         {
             get => _postItems;
             set => SetProperty(ref _postItems, value);
@@ -25,11 +25,11 @@ namespace EfficientDesigner_Control.ViewModels
             //ServiceFactory.GetLayoutService().GetLayouts();
             //if(DesignerProperties.isin)
 
-            PostItems = new ObservableCollection<PostItenViewModel>
+            PostItems = new ObservableCollection<PostItemViewModel>
             {
-                new PostItenViewModel("标题1"),
-                new PostItenViewModel("标题2"),
-                new PostItenViewModel("标题3"),
+                new PostItemViewModel("标题1"),
+                new PostItemViewModel("标题2"),
+                new PostItemViewModel("标题3"),
             };
 
         }

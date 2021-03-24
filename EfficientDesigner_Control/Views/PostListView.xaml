@@ -14,7 +14,7 @@
     <Grid>
         <ItemsControl ItemsSource="{Binding PostItems}">
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type vm:PostItenViewModel}">
+                <DataTemplate DataType="{x:Type vm:PostItemViewModel}">
                     <Border Padding="5">
                         <Grid>
                             <Grid.ColumnDefinitions>

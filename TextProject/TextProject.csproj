@@ -125,6 +125,10 @@
       <Project>{9a54dc73-515e-484c-9ebe-0fe6ae886904}</Project>
       <Name>EfficientDesigner_Control</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EfficientDesigner_Service\EfficientDesigner_Service.csproj">
+      <Project>{87a19df9-f00c-4259-a036-21aa365c2d9e}</Project>
+      <Name>EfficientDesigner_Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HandyControl">
@@ -134,7 +138,7 @@
       <Version>0.9.7</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

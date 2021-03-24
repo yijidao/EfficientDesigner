@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EfficientDesigner_Control.Views"
              xmlns:vm="clr-namespace:EfficientDesigner_Control.ViewModels"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance vm:LayoutListViewModel}">
@@ -18,15 +20,12 @@
             <TextBlock Text="所有布局："></TextBlock>
             <Button Content="加载布局" Command="{Binding LoadDataCommand}"></Button>
         </StackPanel>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding LayoutItems}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="vm:LayoutItemViewModel">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}"></TextBlock>
-                        <TextBlock Text="{Binding CreateTime}"></TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding  LayoutItems}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="名称" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="创建时间" Binding="{Binding CreateTime}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

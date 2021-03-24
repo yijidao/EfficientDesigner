@@ -142,7 +142,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LayoutItemViewModel.cs" />
     <Compile Include="ViewModels\LayoutListViewModel.cs" />
-    <Compile Include="ViewModels\PostItenViewModel.cs" />
+    <Compile Include="ViewModels\PostItemViewModel.cs" />
     <Compile Include="ViewModels\PostListViewModel.cs" />
     <Compile Include="Views\LayoutListView.xaml.cs">
       <DependentUpon>LayoutListView.xaml</DependentUpon>

@@ -63,7 +63,7 @@ namespace TextProject
 
             void OpenView()
             {
-                var window = new Window { Content = Activator.CreateInstance(_type), Background = Brushes.White };
+                var window = new Window { Content = Activator.CreateInstance(_type)};
                 window.Show();
             }
         }
