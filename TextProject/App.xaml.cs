@@ -5,13 +5,17 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using EfficientDesigner_Common.ServiceImps;
+using EfficientDesigner_Common.Services;
+using Prism.Ioc;
+using Prism.Unity;
 
 namespace TextProject
 {
     /// <summary>
     /// App.xaml 的交互逻辑
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -22,5 +26,12 @@ namespace TextProject
 
 
         }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.Register<ILayoutService, LayoutService>();
+        }
+
+        protected override Window CreateShell() => new MainWindow();
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EfficientDesigner_Service.ServiceImplements
 {
-    class LayoutService : ILayoutService
+    public class LayoutService : ILayoutService
     {
         public async Task<Layout[]> GetLayouts()
         {

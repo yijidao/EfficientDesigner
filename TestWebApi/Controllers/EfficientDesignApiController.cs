@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EfficientDesigner_Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -150,6 +151,16 @@ namespace TestWebApi.Controllers
                 },
             };
             return JsonConvert.SerializeObject(data);
+        }
+
+        [HttpGet("LayoutList")]
+        public async Task<string> LayoutList()
+        {
+            var datas = await ServiceFactory.GetLayoutService().GetLayouts();
+
+            var result = datas.Select(x => new LayoutDto(x));
+
+            return JsonConvert.SerializeObject(result);
         }
     }
 }

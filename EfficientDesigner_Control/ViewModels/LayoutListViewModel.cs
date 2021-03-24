@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using EfficientDesigner_Service;
-using EfficientDesigner_Service.ServiceImplements;
+using EfficientDesigner_Common.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -14,6 +13,7 @@ namespace EfficientDesigner_Control.ViewModels
 {
     public class LayoutListViewModel : BindableBase
     {
+        private readonly ILayoutService _layoutService;
         private ObservableCollection<LayoutItemViewModel> _layoutItems = new ObservableCollection<LayoutItemViewModel>();
         public ObservableCollection<LayoutItemViewModel> LayoutItems
         {
@@ -21,14 +21,15 @@ namespace EfficientDesigner_Control.ViewModels
             set => SetProperty(ref _layoutItems, value);
         }
 
-        public LayoutListViewModel()
+        public LayoutListViewModel(ILayoutService layoutService)
         {
+            _layoutService = layoutService;
             LoadDataCommand = new DelegateCommand(async () => await LoadData());
         }
 
         private async Task LoadData()
         {
-            var datas = await ServiceFactory.GetLayoutService().GetLayouts();
+            var datas = await _layoutService.GetLayoutList();
             var vms = datas.Select(x => new LayoutItemViewModel(x));
             LayoutItems.Clear();
             LayoutItems.AddRange(vms);
