@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TextProject"
         xmlns:ctl="clr-namespace:EfficientDesigner_Control.Controls;assembly=EfficientDesigner_Control"
+        xmlns:ctl2="clr-namespace:EfficientDesigner_Control.Views;assembly=EfficientDesigner_Control"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <!--<ctl2:PostListView></ctl2:PostListView>-->
+        <ItemsControl x:Name="viewList">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top"></StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="local:ToTestViewItem">
+                    <Button Content="{Binding Name}" Command="{Binding OpenViewCommand}"></Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Control.Margin" Value="5"></Setter>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
     </Grid>
 </Window>

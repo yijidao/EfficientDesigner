@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using EfficientDesigner_Control.Interfaces;
+using EfficientDesigner_Control.Views;
+using Prism.Mvvm;
 
 namespace EfficientDesigner_Control.Controls
 {
@@ -27,6 +30,7 @@ namespace EfficientDesigner_Control.Controls
             Add<WebBrowser>();
             Add<LineChart>();
             Add<ColumnChart>();
+            Add<PostListView>();
         }
 
         public ToolBox()
@@ -112,12 +116,20 @@ namespace EfficientDesigner_Control.Controls
                 throw new Exception($"{ControlType.Name} 无法转型为 {nameof(FrameworkElement)}");
             }
 
-            //switch (ControlType)
+            //if (ControlType == typeof(PostListView))
             //{
-            //    ControlType.is
+            //    new PostListView()
+            //    {
+
+            //    }
             //}
 
-            if (element is WebBrowser webBrowser)
+            if (element is UserControl uc)
+            {
+                DesignerProperties.SetIsInDesignMode(uc, true);
+                ViewModelLocator.SetAutoWireViewModel(element, false);
+            }
+            else if (element is WebBrowser webBrowser)
             {
                 webBrowser.Background = Brushes.CornflowerBlue;
             }

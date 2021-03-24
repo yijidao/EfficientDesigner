@@ -1,5 +1,4 @@
-﻿using EfficientDesigner_Control.Commands;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,6 +24,7 @@ using EfficientDesigner_Service.Models;
 using EfficientDesigner_Service.ServiceImplements;
 using EfficientDesigner_Service.Services;
 using HandyControl.Controls;
+using Prism.Commands;
 using MessageBox = HandyControl.Controls.MessageBox;
 using Path = System.IO.Path;
 using ScrollViewer = System.Windows.Controls.ScrollViewer;

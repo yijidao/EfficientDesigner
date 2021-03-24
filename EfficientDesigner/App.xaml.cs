@@ -37,7 +37,12 @@ namespace EfficientDesigner
                 MessageBox.Show(args.Exception.ToString());
                 args.Handled = true;
             };
+        }
 
+
+        protected override void ConfigureViewModelLocator()
+        {
+            //base.ConfigureViewModelLocator();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
