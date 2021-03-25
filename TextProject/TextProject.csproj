@@ -121,6 +121,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EfficientDesigner_Client_Common\EfficientDesigner_Client_Common.csproj">
+      <Project>{a5bdcb03-4ac1-446d-9dd0-9f7aca3ee178}</Project>
+      <Name>EfficientDesigner_Client_Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EfficientDesigner_Control\EfficientDesigner_Control.csproj">
       <Project>{9a54dc73-515e-484c-9ebe-0fe6ae886904}</Project>
       <Name>EfficientDesigner_Control</Name>

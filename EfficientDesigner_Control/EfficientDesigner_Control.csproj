@@ -244,6 +244,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EfficientDesigner_Client_Common\EfficientDesigner_Client_Common.csproj">
+      <Project>{a5bdcb03-4ac1-446d-9dd0-9f7aca3ee178}</Project>
+      <Name>EfficientDesigner_Client_Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EfficientDesigner_Service\EfficientDesigner_Service.csproj">
       <Project>{87a19df9-f00c-4259-a036-21aa365c2d9e}</Project>
       <Name>EfficientDesigner_Service</Name>

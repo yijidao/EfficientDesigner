@@ -5,8 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using EfficientDesigner_Common.ServiceImps;
-using EfficientDesigner_Common.Services;
+using EfficientDesigner_Client_Common.ServiceImps;
+using EfficientDesigner_Client_Common.Services;
 using Prism.Ioc;
 using Prism.Unity;
 
