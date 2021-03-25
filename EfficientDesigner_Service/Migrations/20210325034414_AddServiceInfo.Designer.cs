@@ -3,14 +3,16 @@ using System;
 using EfficientDesigner_Service.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EfficientDesigner_Service.Migrations
 {
     [DbContext(typeof(LayoutContext))]
-    partial class LayoutContextModelSnapshot : ModelSnapshot
+    [Migration("20210325034414_AddServiceInfo")]
+    partial class AddServiceInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

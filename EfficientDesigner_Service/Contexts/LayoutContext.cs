@@ -17,6 +17,8 @@ namespace EfficientDesigner_Service.Contexts
 
         public DbSet<DataSource> DataSources { get; set; }
 
+        public DbSet<ServiceInfo> ServiceInfos { get; set; }
+
         public static JsonConfig Config { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

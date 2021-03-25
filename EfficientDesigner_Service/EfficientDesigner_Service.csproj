@@ -14,6 +14,8 @@
     <Compile Remove="Migrations\20201030034936_InitialCreate.Designer.cs" />
     <Compile Remove="Migrations\20201030035338_InitialCreate.cs" />
     <Compile Remove="Migrations\20201030035338_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20210325034020_AddServiceInfo.cs" />
+    <Compile Remove="Migrations\20210325034020_AddServiceInfo.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,10 +25,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
