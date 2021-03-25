@@ -17,5 +17,10 @@ namespace EfficientDesigner_Service.Services
         Task<DataSource[]> GetDataSource();
 
         DataSource UpdateDataSource(DataSource dataSource);
+
+        Task<ServiceInfo[]> UpdateServiceInfos(bool returnResult = false, params ServiceInfo[] serviceInfos);
+
+        Task<ServiceInfo[]> GetServiceInfos(string name = null);
+
     }
 }

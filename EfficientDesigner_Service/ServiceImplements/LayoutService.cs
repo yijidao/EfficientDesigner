@@ -72,5 +72,34 @@ namespace EfficientDesigner_Service.ServiceImplements
                 return dataSource;
             }
         }
+
+        public async Task<ServiceInfo[]> UpdateServiceInfos(bool returnResult, params ServiceInfo[] serviceInfos)
+        {
+            if (serviceInfos == null || serviceInfos.Length == 0) return Array.Empty<ServiceInfo>();
+            var results = new List<ServiceInfo>();
+
+            using (var context = new LayoutContext())
+            {
+                var list1 = serviceInfos.Intersect(context.ServiceInfos).ToArray();
+                var list2 = serviceInfos.Except(list1);
+                foreach (var info in list1)
+                {
+                    context.Update(info);
+                }
+
+                results.AddRange(list2.Select(info => context.Add(info).Entity).Where(result => returnResult));
+                
+                context.SaveChanges();
+                return results.ToArray();
+            }
+        }
+
+        public async Task<ServiceInfo[]> GetServiceInfos(string name = null)
+        {
+            using (var context = new LayoutContext())
+            {
+                return string.IsNullOrWhiteSpace(name) ? await context.ServiceInfos.OrderBy(x => x.Name).ToArrayAsync() : await context.ServiceInfos.Where(x => x.Name == name).ToArrayAsync();
+            }
+        }
     }
 }

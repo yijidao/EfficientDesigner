@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EfficientDesigner_Service;
+using EfficientDesigner_Service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -15,14 +16,16 @@ namespace TestWebApi.Controllers
     public class EfficientDesignApiController : ControllerBase
     {
         private readonly ILogger<EfficientDesignApiController> _logger;
+        private readonly ILayoutService _layoutService;
 
         public Dictionary<string, Dictionary<DateTime, int>> LinePassengerFlowDic { get; set; } = new Dictionary<string, Dictionary<DateTime, int>>();
 
         //public Dictionary<string, Dictionary<DateTime, int>> InOutPassengerFlowDic { get; set; } = new Dictionary<string, Dictionary<DateTime, int>>();
 
-        public EfficientDesignApiController(ILogger<EfficientDesignApiController> logger)
+        public EfficientDesignApiController(ILogger<EfficientDesignApiController> logger, ILayoutService layoutService)
         {
             _logger = logger;
+            _layoutService = layoutService;
 
             LinePassengerFlowDic.Add("一号线", GeneratePassengerFlow());
             LinePassengerFlowDic.Add("二号线", GeneratePassengerFlow());
@@ -162,5 +165,9 @@ namespace TestWebApi.Controllers
 
             return JsonConvert.SerializeObject(result);
         }
+
+        [HttpGet("ServiceInfoList")]
+        public async Task<string> ServiceInfoList(string name = null) =>
+            JsonConvert.SerializeObject(await _layoutService.GetServiceInfos(name));
     }
 }
