@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using EfficientDesigner_Service;
+using EfficientDesigner_Service.Models;
 using EfficientDesigner_Service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -167,7 +169,30 @@ namespace TestWebApi.Controllers
         }
 
         [HttpGet("ServiceInfoList")]
-        public async Task<string> ServiceInfoList(string name = null) =>
-            JsonConvert.SerializeObject(await _layoutService.GetServiceInfos(name));
-    }
+        public async Task<string> GetServiceInfos([FromQuery] params string[] name)
+        {
+            return JsonConvert.SerializeObject(await _layoutService.GetServiceInfos(name));
+        }
+
+        [HttpPost("ServiceInfoList")]
+        public string UpdateServiceInfoList([FromBody] UpdateServiceInfoRequest request)
+        {
+            return JsonConvert.SerializeObject(_layoutService.UpdateServiceInfos(request.ReturnUpdateData, request.Datas));
+        }
+
+        [HttpDelete("ServiceInfoList")]
+        public IActionResult DeleteServiceInfos([FromQuery] params string[] name)
+        {
+            if (name.Count(x => !string.IsNullOrWhiteSpace(x)) == 0)
+            {
+                return BadRequest("缺少参数");
+            }
+            else
+            {
+                _layoutService.RemoveServiceInfosFor(name);
+                return Ok();
+            }
+        }
+
+     }
 }

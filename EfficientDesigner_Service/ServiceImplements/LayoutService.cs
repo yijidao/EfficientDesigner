@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using EfficientDesigner_Service.Contexts;
 using EfficientDesigner_Service.Models;
 using EfficientDesigner_Service.Services;
@@ -73,32 +74,57 @@ namespace EfficientDesigner_Service.ServiceImplements
             }
         }
 
-        public async Task<ServiceInfo[]> UpdateServiceInfos(bool returnResult, params ServiceInfo[] serviceInfos)
+        public ServiceInfo[] UpdateServiceInfos(bool returnResult, params ServiceInfo[] serviceInfos)
         {
             if (serviceInfos == null || serviceInfos.Length == 0) return Array.Empty<ServiceInfo>();
             var results = new List<ServiceInfo>();
 
             using (var context = new LayoutContext())
             {
-                var list1 = serviceInfos.Intersect(context.ServiceInfos).ToArray();
-                var list2 = serviceInfos.Except(list1);
-                foreach (var info in list1)
+                foreach (var info in serviceInfos)
                 {
-                    context.Update(info);
+                    var first = context.ServiceInfos.SingleOrDefault(x => x.Name != null && x.Name == info.Name);
+                    if (first == null)
+                    {
+                        if (returnResult)
+                        {
+                            results.Add(context.Add(info).Entity);
+                        }
+                        else
+                        {
+                            context.Add(info);
+                        }
+                    }
+                    else
+                    {
+                        first.Address = info.Address;
+                        first.Enable = info.Enable;
+                        if (returnResult)
+                        {
+                            results.Add(first);
+                        }
+                    }
                 }
-
-                results.AddRange(list2.Select(info => context.Add(info).Entity).Where(result => returnResult));
-                
                 context.SaveChanges();
                 return results.ToArray();
             }
         }
 
-        public async Task<ServiceInfo[]> GetServiceInfos(string name = null)
+        public async Task<ServiceInfo[]> GetServiceInfos(params string[] names)
+        {
+            names = names.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+            using (var context = new LayoutContext())
+            {
+                return names.Length == 0 ? await context.ServiceInfos.OrderBy(x => x.Name).ToArrayAsync() : await context.ServiceInfos.Where(x => names.Contains(x.Name)).ToArrayAsync();
+            }
+        }
+
+        public void RemoveServiceInfosFor(params string[] names)
         {
             using (var context = new LayoutContext())
             {
-                return string.IsNullOrWhiteSpace(name) ? await context.ServiceInfos.OrderBy(x => x.Name).ToArrayAsync() : await context.ServiceInfos.Where(x => x.Name == name).ToArrayAsync();
+                context.ServiceInfos.RemoveRange(context.ServiceInfos.Where(x => names.Contains(x.Name)));
+                context.SaveChanges();
             }
         }
     }
