@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using EfficientDesigner_Service.Models;
@@ -23,5 +24,7 @@ namespace EfficientDesigner_Service.Services
         Task<ServiceInfo[]> GetServiceInfos(params string[] names);
 
         void RemoveServiceInfosFor(params string[] names);
+
+        Task<ServiceInfo[]> GetServiceInfos(Expression<Func<ServiceInfo, bool>> predicate);
     }
 }

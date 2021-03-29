@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using EfficientDesigner_Service;
 using EfficientDesigner_Service.Models;
@@ -193,6 +194,39 @@ namespace TestWebApi.Controllers
                 return Ok();
             }
         }
+        [HttpGet("ServiceInfoListForFunctionName")]
+        public async Task<string> GetServiceInfosByFunctionName([FromQuery] params string[] name)
+        {
+            if (name == null || name.Length == 0)
+            {
+                return JsonConvert.SerializeObject(await _layoutService.GetServiceInfos());
+            }
+            return JsonConvert.SerializeObject(await _layoutService.GetServiceInfos(x => name.Contains(x.FunctionName)));
+        }
 
-     }
+        [HttpGet("Test1")]
+        public string GetTest1()
+        {
+            var result = new List<string>();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                result.Add($"测试列表A-{i}");
+            }
+
+            return JsonConvert.SerializeObject(result.ToArray());
+        }
+
+        [HttpGet("Test2")]
+        public string GetTest2()
+        {
+            var result = new List<string>();
+            for (int i = 1; i < 7; i++)
+            {
+                result.Add($"测试列表B-{i}");
+            }
+
+            return JsonConvert.SerializeObject(result.ToArray());
+        }
+    }
 }

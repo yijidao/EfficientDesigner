@@ -93,7 +93,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\HasServiceAttribute.cs" />
     <Compile Include="Common\ToTestAttribute.cs" />
+    <Compile Include="Common\VisualViewModelBase.cs" />
     <Compile Include="Controls\BindingApiPanel\BindingApiAttribute.cs" />
     <Compile Include="Controls\BindingApiPanel\BindingApiItem.cs" />
     <Compile Include="Controls\BindingApiPanel\BindingApiPanel.cs" />
@@ -144,11 +146,20 @@
     <Compile Include="ViewModels\LayoutListViewModel.cs" />
     <Compile Include="ViewModels\PostItemViewModel.cs" />
     <Compile Include="ViewModels\PostListViewModel.cs" />
+    <Compile Include="ViewModels\ServiceInfoItemViewModel.cs" />
+    <Compile Include="ViewModels\ServiceInfoViewModel.cs" />
+    <Compile Include="ViewModels\TestViewModel.cs" />
     <Compile Include="Views\LayoutListView.xaml.cs">
       <DependentUpon>LayoutListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PostListView.xaml.cs">
       <DependentUpon>PostListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServiceInfoView.xaml.cs">
+      <DependentUpon>ServiceInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +227,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PostListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServiceInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="EfficientDesigner_Control.Views.TestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EfficientDesigner_Control.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:vm="clr-namespace:EfficientDesigner_Control.ViewModels"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance vm:TestViewModel}">
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded">
+            <hc:InvokeCommandAction  Command="{Binding LoadDataCommand}"></hc:InvokeCommandAction>
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+    <Grid>
+        <ListBox ItemsSource="{Binding Datas}" Width="200"></ListBox>            
+    </Grid>
+</UserControl>

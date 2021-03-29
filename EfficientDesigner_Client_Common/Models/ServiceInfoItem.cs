@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EfficientDesigner_Service.Models
+namespace EfficientDesigner_Client_Common.Models
 {
-    public class ServiceInfo
+    public class ServiceInfoItem
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
-
-        public string FunctionName { get; set; }
 
         public string Address { get; set; }
 
@@ -23,5 +17,6 @@ namespace EfficientDesigner_Service.Models
         public DateTime CreateTime { get; set; }
 
         public DateTime UpdateTime { get; set; }
+
     }
 }

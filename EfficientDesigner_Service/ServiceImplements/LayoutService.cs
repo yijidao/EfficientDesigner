@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -83,7 +84,7 @@ namespace EfficientDesigner_Service.ServiceImplements
             {
                 foreach (var info in serviceInfos)
                 {
-                    var first = context.ServiceInfos.SingleOrDefault(x => x.Name != null && x.Name == info.Name);
+                    var first = context.ServiceInfos.SingleOrDefault(x => x.Id != null && x.Id == info.Id);
                     if (first == null)
                     {
                         if (returnResult)
@@ -99,6 +100,8 @@ namespace EfficientDesigner_Service.ServiceImplements
                     {
                         first.Address = info.Address;
                         first.Enable = info.Enable;
+                        first.FunctionName = info.FunctionName;
+                        first.Name = info.Name;
                         if (returnResult)
                         {
                             results.Add(first);
@@ -116,6 +119,14 @@ namespace EfficientDesigner_Service.ServiceImplements
             using (var context = new LayoutContext())
             {
                 return names.Length == 0 ? await context.ServiceInfos.OrderBy(x => x.Name).ToArrayAsync() : await context.ServiceInfos.Where(x => names.Contains(x.Name)).ToArrayAsync();
+            }
+        }
+
+        public async Task<ServiceInfo[]> GetServiceInfos(Expression<Func<ServiceInfo, bool>> predicate)
+        {
+            using (var context = new LayoutContext())
+            {
+                return await context.ServiceInfos.Where(predicate).OrderBy(x => x.Name).ToArrayAsync();
             }
         }
 

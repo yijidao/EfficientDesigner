@@ -44,6 +44,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Models\LayoutItemModel.cs" />
     <Compile Include="Models\LayoutModel.cs" />
+    <Compile Include="Models\ServiceInfoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceImps\LayoutService.cs" />
     <Compile Include="Services\ILayoutService.cs" />

@@ -22,8 +22,6 @@ namespace EfficientDesigner_Control.ViewModels
 
         public PostListViewModel()
         {
-            //ServiceFactory.GetLayoutService().GetLayouts();
-            //if(DesignerProperties.isin)
 
             PostItems = new ObservableCollection<PostItemViewModel>
             {

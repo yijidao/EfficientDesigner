@@ -21,6 +21,7 @@ namespace EfficientDesigner_Service.Contexts
 
         public static JsonConfig Config { get; set; }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (Config == null)
@@ -53,6 +54,13 @@ namespace EfficientDesigner_Service.Contexts
             });
 
             return base.SaveChanges();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ServiceInfo>()
+                .HasAlternateKey(x => x.Name);
         }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
