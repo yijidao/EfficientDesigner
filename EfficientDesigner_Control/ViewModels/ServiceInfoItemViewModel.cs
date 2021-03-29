@@ -31,11 +31,27 @@ namespace EfficientDesigner_Control.ViewModels
             set => SetProperty(ref _enable, value);
         }
 
+        private string _function;
+        public string Function
+        {
+            get => _function;
+            set => SetProperty(ref _function, value);
+        }
+
+        private string _service;
+        public string Service
+        {
+            get => _service;
+            set => SetProperty(ref _service, value);
+        }
+
         public ServiceInfoItemViewModel(ServiceInfoItem model)
         {
             Name = model.Name;
             Address = model.Address;
             Enable = model.Enable;
+            Function = model.Function;
+            Service = model.Service;
         }
     }
 }

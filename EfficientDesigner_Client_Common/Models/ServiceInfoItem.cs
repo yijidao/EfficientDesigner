@@ -14,6 +14,10 @@ namespace EfficientDesigner_Client_Common.Models
 
         public bool Enable { get; set; }
 
+        public string Function { get; set; }
+
+        public string Service { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         public DateTime UpdateTime { get; set; }
