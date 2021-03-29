@@ -100,7 +100,8 @@ namespace EfficientDesigner_Service.ServiceImplements
                     {
                         first.Address = info.Address;
                         first.Enable = info.Enable;
-                        first.FunctionName = info.FunctionName;
+                        first.Function = info.Function;
+                        first.Service = info.Service;
                         first.Name = info.Name;
                         if (returnResult)
                         {

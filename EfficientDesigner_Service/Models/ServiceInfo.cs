@@ -14,7 +14,9 @@ namespace EfficientDesigner_Service.Models
 
         public string Name { get; set; }
 
-        public string FunctionName { get; set; }
+        public string Function { get; set; }
+
+        public string Service { get; set; }
 
         public string Address { get; set; }
 

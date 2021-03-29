@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using EfficientDesigner_Service;
@@ -194,14 +195,27 @@ namespace TestWebApi.Controllers
                 return Ok();
             }
         }
-        [HttpGet("ServiceInfoListForFunctionName")]
-        public async Task<string> GetServiceInfosByFunctionName([FromQuery] params string[] name)
+        [HttpGet("ServiceInfoListFor")]
+        public async Task<string> GetServiceInfosFor(string service, string function)
         {
-            if (name == null || name.Length == 0)
+            var result = Array.Empty<ServiceInfo>();
+            if (string.IsNullOrWhiteSpace(service) && string.IsNullOrWhiteSpace(function))
             {
-                return JsonConvert.SerializeObject(await _layoutService.GetServiceInfos());
+                result = await _layoutService.GetServiceInfos();
             }
-            return JsonConvert.SerializeObject(await _layoutService.GetServiceInfos(x => name.Contains(x.FunctionName)));
+            else if (!string.IsNullOrWhiteSpace(service) && !string.IsNullOrWhiteSpace(function))
+            {
+                result = await _layoutService.GetServiceInfos(x => service.Trim() == x.Service && function.Trim() == x.Function);
+            }
+            else if (!string.IsNullOrWhiteSpace(function))
+            {
+                result = await _layoutService.GetServiceInfos(x => function.Trim() == x.Function);
+            }
+            else if (!string.IsNullOrWhiteSpace(service))
+            {
+                result = await _layoutService.GetServiceInfos(x => service.Trim() == x.Service);
+            }
+            return JsonConvert.SerializeObject(result);
         }
 
         [HttpGet("Test1")]
