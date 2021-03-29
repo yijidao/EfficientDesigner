@@ -148,6 +148,8 @@
     <Compile Include="ViewModels\PostListViewModel.cs" />
     <Compile Include="ViewModels\ServiceInfoItemViewModel.cs" />
     <Compile Include="ViewModels\ServiceInfoViewModel.cs" />
+    <Compile Include="ViewModels\ServicePanel\ServiceItemViewModel.cs" />
+    <Compile Include="ViewModels\ServicePanel\ServicePanelViewModel.cs" />
     <Compile Include="ViewModels\TestViewModel.cs" />
     <Compile Include="Views\LayoutListView.xaml.cs">
       <DependentUpon>LayoutListView.xaml</DependentUpon>
@@ -157,6 +159,9 @@
     </Compile>
     <Compile Include="Views\ServiceInfoView.xaml.cs">
       <DependentUpon>ServiceInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServicePanelView.xaml.cs">
+      <DependentUpon>ServicePanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
@@ -231,6 +236,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ServiceInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServicePanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
