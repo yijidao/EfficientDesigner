@@ -12,6 +12,6 @@ namespace EfficientDesigner_Client_Common.Services
 
         Task<string[]> GetTestList(Guid layoutId, string viewId);
 
-
+        Task<ServiceInfoItem[]> GetServiceListFor(string service, string function);
     }
 }

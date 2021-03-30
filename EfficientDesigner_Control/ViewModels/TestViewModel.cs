@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using Prism.Mvvm;
 
 namespace EfficientDesigner_Control.ViewModels
 {
-    [HasService(nameof(ILayoutService),nameof(ILayoutService.GetTestList))]
+    [HasService(nameof(ILayoutService),nameof(ILayoutService.GetTestList), "获取列表数据")]
     public class TestViewModel : VisualViewModelBase
     {
         private readonly ILayoutService _layoutService;

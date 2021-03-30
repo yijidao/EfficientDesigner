@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 namespace EfficientDesigner_Control.Common
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    class HasServiceAttribute: Attribute
+    public class HasServiceAttribute: Attribute
     {
-        public string InterfaceName { get; }
-        public string MethodName { get; }
+        public string Service { get; }
+        public string Function { get; }
 
-        public HasServiceAttribute(string interfaceName, string methodName)
+        public string Description { get; set; }
+
+        public HasServiceAttribute(string service, string function, string description)
         {
-            InterfaceName = interfaceName;
-            MethodName = methodName;
+            Service = service;
+            Function = function;
+            Description = description;
         }
     }
 }

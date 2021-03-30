@@ -160,7 +160,7 @@
     <Compile Include="Views\ServiceInfoView.xaml.cs">
       <DependentUpon>ServiceInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ServicePanelView.xaml.cs">
+    <Compile Include="Views\ServicePanel\ServicePanelView.xaml.cs">
       <DependentUpon>ServicePanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestView.xaml.cs">
@@ -239,7 +239,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ServicePanelView.xaml">
+    <Page Include="Views\ServicePanel\ServicePanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

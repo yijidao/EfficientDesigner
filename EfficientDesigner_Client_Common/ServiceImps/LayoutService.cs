@@ -15,6 +15,8 @@ namespace EfficientDesigner_Client_Common.ServiceImps
 
         private const string ServiceListUrl = "https://localhost:5001/efficientdesignapi/serviceinfolist";
 
+        private const string ServiceListUrlFor = "https://localhost:5001/efficientdesignapi/serviceinfolistfor";
+
         public async Task<LayoutModel[]> GetLayoutList()
         {
             var result = await Client.GetAsync(LayoutListUrl);
@@ -52,6 +54,20 @@ namespace EfficientDesigner_Client_Common.ServiceImps
             }
 
             return JsonConvert.DeserializeObject<string[]>(content);
+        }
+
+        public async Task<ServiceInfoItem[]> GetServiceListFor(string service, string function)
+        {
+            var url = $"{ServiceListUrlFor}?service={service}&function={function}";
+
+            var result = await Client.GetAsync(url);
+            var content = await result.Content.ReadAsStringAsync();
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new Exception($"状态码：{result.StatusCode}，内容：{content}");
+            }
+
+            return JsonConvert.DeserializeObject<ServiceInfoItem[]>(content);
         }
     }
 }
