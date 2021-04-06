@@ -111,12 +111,12 @@ namespace EfficientDesigner_Control.Controls
 
         public FrameworkElement GetElement()
         {
-            //if (!(Activator.CreateInstance(ControlType) is FrameworkElement element))
-            //{
-            //    throw new Exception($"{ControlType.Name} 无法转型为 {nameof(FrameworkElement)}");
-            //}
-            var element = new ContentControl();
-            
+            if (!(Activator.CreateInstance(ControlType) is FrameworkElement element))
+            {
+                throw new Exception($"{ControlType.Name} 无法转型为 {nameof(FrameworkElement)}");
+            }
+            //var element = new ContentControl();
+
             //if (ControlType == typeof(PostListView))
             //{
             //    new PostListView()
