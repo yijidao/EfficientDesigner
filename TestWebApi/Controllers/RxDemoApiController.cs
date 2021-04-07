@@ -10,7 +10,7 @@ using TestWebApi.Dto;
 namespace TestWebApi.Controllers
 {
     [ApiController]
-    [Route("[rxapi/controller]")]
+    [Route("[controller]")]
     public class RxDemoApiController : ControllerBase
     {
         public RxDemoApiController(ILogger<RxDemoApiController> logger)
@@ -18,16 +18,16 @@ namespace TestWebApi.Controllers
 
         }
 
-        //[HttpGet("Login")]
-        //public ActionResult<> Login([FromBody] LoginRequest request)
-        //{
-        //    if (request.Username.Trim() != "admin" || request.Password.Trim() != "admin")
-        //    {
-        //        return JsonConvert.SerializeObject(ResponseBase.CreateErrorResponse("账号或密码错误"));
-        //    }
-        //    var dic = new Dictionary<string, string> { { "userId", "001" } };
-            
-        //    return JsonConvert.SerializeObject(dic);
-        //}
+        [HttpGet("Login")]
+        public ActionResult<Dictionary<string,string>> Login([FromBody] LoginRequest request)
+        {
+            if (request.Username.Trim() != "admin" || request.Password.Trim() != "admin")
+            {
+                return NotFound("账号或密码错误");
+            }
+            var dic = new Dictionary<string, string> { { "userId", "001" } };
+
+            return dic;
+        }
     }
 }
