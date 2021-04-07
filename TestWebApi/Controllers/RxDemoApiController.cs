@@ -18,14 +18,14 @@ namespace TestWebApi.Controllers
 
         }
 
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public ActionResult<Dictionary<string,string>> Login([FromBody] LoginRequest request)
         {
             if (request.Username.Trim() != "admin" || request.Password.Trim() != "admin")
             {
                 return NotFound("账号或密码错误");
             }
-            var dic = new Dictionary<string, string> { { "userId", "001" } };
+            var dic = new Dictionary<string, string> {{ "userId", "001" }};
 
             return dic;
         }
