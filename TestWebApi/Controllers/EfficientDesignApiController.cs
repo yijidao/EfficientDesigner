@@ -161,25 +161,25 @@ namespace TestWebApi.Controllers
         }
 
         [HttpGet("LayoutList")]
-        public async Task<string> LayoutList()
+        public async Task<IEnumerable<LayoutDto>> LayoutList()
         {
             var datas = await ServiceFactory.GetLayoutService().GetLayouts();
 
             var result = datas.Select(x => new LayoutDto(x));
 
-            return JsonConvert.SerializeObject(result);
+            return result;
         }
 
         [HttpGet("ServiceInfoList")]
-        public async Task<string> GetServiceInfos([FromQuery] params string[] name)
+        public async Task<IEnumerable<ServiceInfo>> GetServiceInfos([FromQuery] params string[] name)
         {
-            return JsonConvert.SerializeObject(await _layoutService.GetServiceInfos(name));
+            return await _layoutService.GetServiceInfos(name);
         }
 
         [HttpPost("ServiceInfoList")]
-        public string UpdateServiceInfoList([FromBody] UpdateServiceInfoRequest request)
+        public IEnumerable<ServiceInfo> UpdateServiceInfoList([FromBody] UpdateServiceInfoRequest request)
         {
-            return JsonConvert.SerializeObject(_layoutService.UpdateServiceInfos(request.ReturnUpdateData, request.Datas));
+            return _layoutService.UpdateServiceInfos(request.ReturnUpdateData, request.Datas);
         }
 
         [HttpDelete("ServiceInfoList")]
@@ -196,7 +196,7 @@ namespace TestWebApi.Controllers
             }
         }
         [HttpGet("ServiceInfoListFor")]
-        public async Task<string> GetServiceInfosFor(string service, string function)
+        public async Task<IEnumerable<ServiceInfo>> GetServiceInfosFor(string service, string function)
         {
             var result = Array.Empty<ServiceInfo>();
             if (string.IsNullOrWhiteSpace(service) && string.IsNullOrWhiteSpace(function))
@@ -215,11 +215,11 @@ namespace TestWebApi.Controllers
             {
                 result = await _layoutService.GetServiceInfos(x => service.Trim() == x.Service);
             }
-            return JsonConvert.SerializeObject(result);
+            return result;
         }
 
         [HttpGet("Test1")]
-        public string GetTest1()
+        public IEnumerable<string> GetTest1()
         {
             var result = new List<string>();
 
@@ -228,11 +228,11 @@ namespace TestWebApi.Controllers
                 result.Add($"测试列表A-{i}");
             }
 
-            return JsonConvert.SerializeObject(result.ToArray());
+            return result;
         }
 
         [HttpGet("Test2")]
-        public string GetTest2()
+        public IEnumerable<string> GetTest2()
         {
             var result = new List<string>();
             for (int i = 1; i < 7; i++)
@@ -240,7 +240,7 @@ namespace TestWebApi.Controllers
                 result.Add($"测试列表B-{i}");
             }
 
-            return JsonConvert.SerializeObject(result.ToArray());
+            return result;
         }
     }
 }

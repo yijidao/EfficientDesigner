@@ -18,16 +18,16 @@ namespace TestWebApi.Controllers
 
         }
 
-        [HttpGet("Login")]
-        public string Login([FromBody] LoginRequest request)
-        {
-            if (request.Username.Trim() != "admin" || request.Password.Trim() != "admin")
-            {
-                return JsonConvert.SerializeObject(ResponseBase.CreateErrorResponse("账号或密码错误"));
-            }
-            var dic = new Dictionary<string, string> { { "userId", "001" } };
+        //[HttpGet("Login")]
+        //public ActionResult<> Login([FromBody] LoginRequest request)
+        //{
+        //    if (request.Username.Trim() != "admin" || request.Password.Trim() != "admin")
+        //    {
+        //        return JsonConvert.SerializeObject(ResponseBase.CreateErrorResponse("账号或密码错误"));
+        //    }
+        //    var dic = new Dictionary<string, string> { { "userId", "001" } };
             
-            return JsonConvert.SerializeObject(dic);
-        }
+        //    return JsonConvert.SerializeObject(dic);
+        //}
     }
 }
