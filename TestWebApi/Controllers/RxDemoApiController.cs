@@ -13,8 +13,14 @@ namespace TestWebApi.Controllers
     [Route("[controller]")]
     public class RxDemoApiController : ControllerBase
     {
+
+        public List<PostItem> PostItems { get; set; } = new List<PostItem>();
+
         public RxDemoApiController(ILogger<RxDemoApiController> logger)
         {
+            PostItems.Add(new PostItem("宋归", "好想做个普通人", 0, DateTime.UtcNow));
+            PostItems.Add(new PostItem("青羽", "教你如何长命百岁", 6, DateTime.UtcNow));
+            PostItems.Add(new PostItem("李莫白", "间谍指南", 3, DateTime.UtcNow));
 
         }
 
@@ -29,5 +35,8 @@ namespace TestWebApi.Controllers
 
             return dic;
         }
+        
+        [HttpGet("Post")]
+        public IEnumerable<PostItem> GetPosts() => PostItems;
     }
 }
