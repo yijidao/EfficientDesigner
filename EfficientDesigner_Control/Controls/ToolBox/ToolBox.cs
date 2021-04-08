@@ -30,7 +30,6 @@ namespace EfficientDesigner_Control.Controls
             Add<WebBrowser>();
             Add<LineChart>();
             Add<ColumnChart>();
-            Add<PostListView>();
         }
 
         public ToolBox()
@@ -115,15 +114,6 @@ namespace EfficientDesigner_Control.Controls
             {
                 throw new Exception($"{ControlType.Name} 无法转型为 {nameof(FrameworkElement)}");
             }
-            //var element = new ContentControl();
-
-            //if (ControlType == typeof(PostListView))
-            //{
-            //    new PostListView()
-            //    {
-
-            //    }
-            //}
 
             if (element is UserControl uc)
             {
