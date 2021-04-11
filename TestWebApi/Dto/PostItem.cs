@@ -15,17 +15,20 @@ namespace TestWebApi.Dto
 
         public DateTime UpdateTime { get; set; }
 
+        public string Content { get; set; }
+
         public PostItem()
         {
             
         }
 
-        public PostItem(string author, string title, int vote, DateTime updateTime)
+        public PostItem(string author, string title, int vote, DateTime updateTime, string content)
         {
             Author = author;
             Title = title;
             Vote = vote;
             UpdateTime = updateTime;
+            Content = content;
         }
     }
 }

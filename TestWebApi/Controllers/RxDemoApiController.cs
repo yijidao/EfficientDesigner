@@ -18,9 +18,9 @@ namespace TestWebApi.Controllers
 
         public RxDemoApiController(ILogger<RxDemoApiController> logger)
         {
-            PostItems.Add(new PostItem("宋归", "好想做个普通人", 0, DateTime.UtcNow));
-            PostItems.Add(new PostItem("青羽", "教你如何长命百岁", 6, DateTime.UtcNow));
-            PostItems.Add(new PostItem("李莫白", "间谍指南", 3, DateTime.UtcNow));
+            PostItems.Add(new PostItem("宋归", "好想做个普通人", 0, DateTime.UtcNow, "金国太子，宋国船夫！"));
+            PostItems.Add(new PostItem("青羽", "教你如何长命百岁", 6, DateTime.UtcNow, "主要靠宋归保佑"));
+            PostItems.Add(new PostItem("李莫白", "间谍指南", 3, DateTime.UtcNow, "颜值高，为国当渣男。"));
 
         }
 
@@ -37,6 +37,24 @@ namespace TestWebApi.Controllers
         }
         
         [HttpGet("Post")]
-        public IEnumerable<PostItem> GetPosts() => PostItems;
+        public IEnumerable<PostItem> GetPosts([FromQuery]string[] title)
+        {
+            if (title?.Length > 0)
+            {
+                return PostItems.Where(x => title.Contains(x.Title));
+            }
+            return PostItems;
+        }
+
+        [HttpGet("Post/{title}")]
+        public ActionResult<PostItem> GetPost(string title)
+        {
+            var post = PostItems.FirstOrDefault(x => x.Title.Contains(title));
+            if (post == null) return NotFound();
+            else
+            {
+                return post;
+            }
+        }
     }
 }
